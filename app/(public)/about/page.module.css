@@ -143,31 +143,6 @@
   margin-top: var(--space-8);
 }
 
-/* ---- Accreditation & campus (kept from previous page) ---- */
-.facts {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-8);
-  max-width: 32rem;
-  margin: 0 auto var(--space-24);
-}
-
-.facts div {
-  display: flex;
-  gap: var(--space-16);
-}
-
-.facts dt {
-  color: var(--liko-navy);
-  font-weight: 600;
-  width: 12rem;
-  flex-shrink: 0;
-}
-
-.facts dd {
-  margin: 0;
-}
-
 /* ---- Core values ---- */
 .valuesGrid {
   display: grid;
@@ -312,14 +287,5 @@
 
   .impactGrid {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  .facts dt {
-    width: auto;
-  }
-
-  .facts div {
-    flex-direction: column;
-    gap: var(--space-8);
   }
 }

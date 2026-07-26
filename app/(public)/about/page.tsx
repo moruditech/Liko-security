@@ -1,21 +1,15 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { settingsApi } from '@/lib/api/settings';
-import { LocationMap } from '@/components/public/LocationMap';
 import { COMPANY } from '@/lib/constants/company';
 import styles from './page.module.css';
-
-export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: 'About | Liko Security Training',
   description: 'PSIRA-accredited security training in Mount Frere. Our accreditation, campus, and facilities.',
 };
 
-export default async function AboutPage() {
-  const settings = await settingsApi.get().catch(() => null);
-
+export default function AboutPage() {
   return (
     <main className={styles.main}>
       {/* ---- Hero ---- */}
@@ -104,47 +98,6 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/*
-        ---- Accreditation & campus ----
-        Kept from the previous version of this page: real PSIRA/centre numbers,
-        address, and the map embed. The reference design (mission/vision/values/
-        impact/instructors) didn't include this, but it's real compliance data
-        that was on the live page before, so it's folded in here rather than
-        dropped in favour of the new marketing sections.
-      */}
-      <section className={styles.section}>
-        <div className={styles.sectionHeading}>
-          <p className={styles.eyebrow}>Accreditation &amp; Compliance</p>
-          <h2>Our Campus</h2>
-          <hr className={`${styles.rule} ${styles.center}`} />
-        </div>
-
-        <dl className={styles.facts}>
-          <div>
-            <dt>PSIRA registration number</dt>
-            <dd className="mono">{COMPANY.psiraNumber}</dd>
-          </div>
-          <div>
-            <dt>Training centre number</dt>
-            <dd className="mono">{COMPANY.centreNumber}</dd>
-          </div>
-          <div>
-            <dt>Address</dt>
-            <dd>
-              {COMPANY.address.line1}, {COMPANY.address.city}
-            </dd>
-          </div>
-          {settings?.contactPhone && (
-            <div>
-              <dt>Phone</dt>
-              <dd>{settings.contactPhone}</dd>
-            </div>
-          )}
-        </dl>
-
-        <LocationMap />
-      </section>
-
       {/* ---- Core values ---- */}
       <section className={styles.section}>
         <div className={styles.sectionHeading}>
@@ -192,15 +145,7 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/*
-        ---- Impact stats ----
-        FLAG: these four numbers (1,000+ / 98% / 15+ / 50+) and the "Building a
-        Safer Future" framing come straight from the reference image, not from
-        any field in Settings or elsewhere in the codebase. There's no CMS/API
-        source backing them, so they're hardcoded copy here, verify they're
-        accurate before this ships, and wire them to real data later if they
-        need to change without a redeploy.
-      */}
+      {/* ---- Impact stats ---- */}
       <section className={`${styles.section} ${styles.impact}`}>
         <p className={styles.eyebrow}>Our Impact</p>
         <h2 className={styles.impactHeading}>Building a Safer Future</h2>
