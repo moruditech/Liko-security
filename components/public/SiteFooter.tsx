@@ -87,7 +87,7 @@ export default function SiteFooter() {
               <i className="fa-solid fa-shield"></i>
             </div>
             <p>Safety is not<br />just our training.</p>
-            <p className={styles.cursive}>It's our promise.</p>
+            <p className={styles.cursive}>It&apos;s our promise.</p>
           </div>
         </div>
 
@@ -115,4 +115,5 @@ export default function SiteFooter() {
       </div>
     </footer>
   );
-}
+                                                                                              }
+                                        
