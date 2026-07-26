@@ -11,10 +11,24 @@
  */
 export const COMPANY = {
   name: 'Liko Security Training',
+  tagline: 'Empowering Professionals. Building Safer Communities.',
   psiraNumber: '4509070',
   centreNumber: '4333985',
   address: {
     line1: 'KwaMajova, opp. Cashbuild',
     city: 'Mount Frere',
   },
-} as const;
+  /**
+   * FLAG: none of the provided documents or the backend's Settings model
+   * confirm real social media accounts for Liko. These are left undefined
+   * on purpose rather than filled with placeholder URLs, dead '#' links are
+   * worse than no link at all. SiteHeader only renders an icon when the
+   * corresponding URL is actually set, fill these in once real handles
+   * exist.
+   */
+  socialLinks: {
+    facebook: undefined as string | undefined,
+    instagram: undefined as string | undefined,
+    linkedin: undefined as string | undefined,
+  },
+};
