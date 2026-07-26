@@ -11,6 +11,7 @@ import { FaqAccordion } from '@/components/public/FaqAccordion';
 import { TestimonialSlider } from '@/components/public/TestimonialSlider';
 import { WhatsAppFloatingButton } from '@/components/public/WhatsAppFloatingButton';
 import { COMPANY } from '@/lib/constants/company';
+import type { Settings } from '@/types/api';
 import styles from './page.module.css';
 
 // TAD §4: SSG + ISR, revalidate every 300s.
@@ -22,13 +23,21 @@ export const metadata: Metadata = {
     'PSIRA-accredited security training courses in Mount Frere. Apply online, calculate your course fees, and view upcoming intakes.',
 };
 
+const FALLBACK_SETTINGS: Settings = { bankAccounts: [], psiraFee: 0, whatsappNumber: '', contactPhone: '' };
+
 export default async function HomePage() {
+  // Each call falls back independently rather than failing the whole page,
+  // since this fetch runs at BUILD time (SSG). If the backend is briefly
+  // unreachable from the build environment, the build must not hard-fail,
+  // ISR's 300s revalidation window will pick up real data as soon as the
+  // backend responds again. A one-off build-time hiccup shouldn't mean an
+  // empty homepage until the next manual deploy.
   const [courses, testimonials, faqs, announcements, settings] = await Promise.all([
-    coursesApi.listPublic(),
-    testimonialsApi.listPublic(),
-    faqsApi.listPublic(),
-    announcementsApi.listPublic(),
-    settingsApi.get(),
+    coursesApi.listPublic().catch(() => []),
+    testimonialsApi.listPublic().catch(() => []),
+    faqsApi.listPublic().catch(() => []),
+    announcementsApi.listPublic().catch(() => []),
+    settingsApi.get().catch(() => FALLBACK_SETTINGS),
   ]);
 
   return (
