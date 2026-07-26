@@ -1,0 +1,31 @@
+.tabs {
+  display: flex;
+  gap: var(--space-8);
+  margin: var(--space-24) 0;
+}
+
+.tabs button {
+  background: var(--liko-paper);
+  border: 1px solid var(--liko-panel);
+  padding: var(--space-8) var(--space-24);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.active {
+  background: var(--liko-navy);
+  color: var(--liko-paper);
+  border-color: var(--liko-navy);
+}
+
+.newButton {
+  background: var(--liko-navy);
+  color: var(--liko-paper);
+  border: none;
+  padding: var(--space-8) var(--space-24);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+  margin-bottom: var(--space-16);
+}

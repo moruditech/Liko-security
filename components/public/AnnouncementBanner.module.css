@@ -1,0 +1,17 @@
+.banner {
+  composes: liko-banner-gradient from global;
+  color: var(--liko-paper);
+  padding: var(--space-16) var(--space-32);
+}
+
+.banner p {
+  margin: 0;
+}
+
+.banner p + p {
+  margin-top: var(--space-8);
+}
+
+.banner strong {
+  color: var(--liko-gold);
+}

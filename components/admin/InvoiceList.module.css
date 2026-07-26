@@ -1,0 +1,28 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  text-align: left;
+  padding: var(--space-8) var(--space-16);
+  font-size: var(--step-caption);
+  color: var(--liko-navy);
+}
+
+.table td {
+  padding: var(--space-8) var(--space-16);
+}
+
+.table td a {
+  color: var(--liko-navy);
+  margin-right: var(--space-16);
+}
+
+.table td button {
+  background: none;
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-sm);
+  padding: var(--space-8) var(--space-16);
+  cursor: pointer;
+}

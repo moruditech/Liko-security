@@ -1,0 +1,13 @@
+.box {
+  background: var(--liko-panel);
+  border-radius: var(--radius-md);
+  padding: var(--space-24);
+}
+
+.box h3 {
+  margin-top: 0;
+}
+
+.box p {
+  margin-bottom: 0;
+}

@@ -1,0 +1,28 @@
+.card {
+  background: var(--liko-paper);
+  border-radius: var(--radius-md);
+  padding: var(--space-24);
+}
+
+.facts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  margin-top: var(--space-16);
+}
+
+.facts div {
+  display: flex;
+  gap: var(--space-16);
+}
+
+.facts dt {
+  width: 10rem;
+  flex-shrink: 0;
+  font-weight: 600;
+  color: var(--liko-navy);
+}
+
+.facts dd {
+  margin: 0;
+}

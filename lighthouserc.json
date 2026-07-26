@@ -1,0 +1,37 @@
+{
+  "ci": {
+    "collect": {
+      "startServerCommand": "npm run start",
+      "url": [
+        "http://localhost:3000/",
+        "http://localhost:3000/courses",
+        "http://localhost:3000/apply",
+        "http://localhost:3000/gallery"
+      ],
+      "numberOfRuns": 3,
+      "settings": {
+        "preset": "desktop",
+        "throttlingMethod": "simulate",
+        "throttling": {
+          "rttMs": 300,
+          "throughputKbps": 400,
+          "cpuSlowdownMultiplier": 4,
+          "requestLatencyMs": 562.5,
+          "downloadThroughputKbps": 400,
+          "uploadThroughputKbps": 400
+        }
+      }
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": ["error", { "minScore": 0.8 }],
+        "first-contentful-paint": ["error", { "maxNumericValue": 3000 }],
+        "interactive": ["error", { "maxNumericValue": 5000 }],
+        "total-byte-weight": ["warn", { "maxNumericValue": 1500000 }]
+      }
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  }
+}

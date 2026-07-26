@@ -1,0 +1,22 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.form textarea {
+  padding: var(--space-8) var(--space-16);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+}
+
+.form button {
+  align-self: flex-start;
+  background: var(--liko-navy);
+  color: var(--liko-paper);
+  border: none;
+  padding: var(--space-8) var(--space-24);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}

@@ -1,0 +1,14 @@
+.button {
+  background: var(--liko-paper);
+  border: 1px solid var(--liko-navy);
+  color: var(--liko-navy);
+  padding: var(--space-8) var(--space-24);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

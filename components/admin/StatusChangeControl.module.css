@@ -1,0 +1,24 @@
+.controls {
+  display: flex;
+  gap: var(--space-16);
+}
+
+.advance {
+  background: var(--liko-navy);
+  color: var(--liko-paper);
+  border: none;
+  padding: var(--space-8) var(--space-24);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.reject {
+  background: none;
+  border: 1px solid var(--liko-error);
+  color: var(--liko-error);
+  padding: var(--space-8) var(--space-24);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+}

@@ -1,0 +1,46 @@
+.wrapper {
+  max-width: 36rem;
+  margin: 0 auto;
+  padding: var(--space-48) var(--space-32);
+  text-align: center;
+}
+
+.watermark {
+  opacity: 0.3;
+  margin-bottom: var(--space-16);
+}
+
+.reference {
+  font-size: var(--step-2);
+  color: var(--liko-navy);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.banking {
+  margin-top: var(--space-32);
+  text-align: left;
+  background: var(--liko-panel);
+  border-radius: var(--radius-md);
+  padding: var(--space-24);
+}
+
+.account {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  margin: var(--space-16) 0;
+}
+
+.account div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.account dt {
+  font-weight: 600;
+}
+
+.account dd {
+  margin: 0;
+}

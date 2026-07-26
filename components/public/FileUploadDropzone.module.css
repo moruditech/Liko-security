@@ -1,0 +1,29 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.field label {
+  font-weight: 600;
+}
+
+.dropzone {
+  border: 2px dashed var(--liko-panel);
+  border-radius: var(--radius-md);
+  padding: var(--space-32);
+  text-align: center;
+  cursor: pointer;
+  color: var(--liko-navy);
+}
+
+.dropzone:hover,
+.dropzone:focus-visible {
+  border-color: var(--liko-gold);
+}
+
+.error {
+  color: var(--liko-error);
+  font-weight: 600;
+  margin: 0;
+}

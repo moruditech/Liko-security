@@ -1,0 +1,108 @@
+/*
+  DESIGN.md is the single source of truth for every value below.
+  Never add a raw hex/px/font-name value in a component .module.css file, reference these custom properties instead. Enforced by .stylelintrc.json.
+*/
+
+:root {
+  /* ---- Color (DESIGN.md §3.2) ---- */
+  --liko-navy: #152a54;
+  --liko-navy-deep: #0c1b38;
+  --liko-gold: #c6992f;
+  --liko-paper: #ffffff;
+  --liko-panel: #eef1f7;
+  --liko-ink: #1a1a1a;
+
+  /*
+    Danger/error color, added post-launch-review. DESIGN.md §3.2's original
+    token table had no error/danger color at all, flagged repeatedly through
+    Phases 3-4 (toasts, form errors, and the rejected-application status
+    chip all fell back to reusing navy-deep + text labels as a workaround).
+    A muted brick red, kept low-saturation to match the navy/gold system's
+    restraint rather than introducing a jarring bright red, and clearly
+    outside the purple/indigo family the anti-pattern research flags.
+  */
+  --liko-error: #8c2f2f;
+
+  /* ---- Type (DESIGN.md §4.2, §4.4) ---- */
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Source Sans 3', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  /* Base 16px, ratio 1.333 (major third) */
+  --step-0: 1rem; /* 16px */
+  --step-1: 1.313rem; /* 21px */
+  --step-2: 1.75rem; /* 28px */
+  --step-3: 2.375rem; /* 38px */
+  --step-4: 3.188rem; /* 51px */
+  --step-caption: 0.75rem; /* 12px */
+
+  /* ---- Spacing (DESIGN.md §7), 8px base scale ---- */
+  --space-8: 0.5rem;
+  --space-16: 1rem;
+  --space-24: 1.5rem;
+  --space-32: 2rem;
+  --space-48: 3rem;
+  --space-64: 4rem;
+
+  /* ---- Radius (DESIGN.md §7), 8px ceiling, nothing above it ---- */
+  --radius-sm: 0.25rem; /* 4px, chips, inputs */
+  --radius-md: 0.5rem; /* 8px, cards */
+
+  /* ---- Motion (DESIGN.md §6), ease-out only, no bounce/elastic ---- */
+  --ease-standard: ease-out;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--liko-paper);
+  color: var(--liko-ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--liko-navy);
+}
+
+h1 {
+  font-size: var(--step-4);
+}
+
+h2 {
+  font-size: var(--step-3);
+}
+
+h3 {
+  font-size: var(--step-2);
+}
+
+code,
+.mono {
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+/*
+  DESIGN.md §3.4, the ONE permitted gradient in the entire system: a single-hue
+  navy-to-navy-deep transition, sourced from the flyer's contact/banking band.
+  Horizontal section bands ONLY. Never on buttons, cards, or text. Do not add
+  a second gradient utility class to this file without checking DESIGN.md §3.3
+  first, every other gradient use is an explicitly rejected AI-slop pattern.
+*/
+.liko-banner-gradient {
+  background: linear-gradient(90deg, var(--liko-navy) 0%, var(--liko-navy-deep) 100%);
+}

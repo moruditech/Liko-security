@@ -1,0 +1,44 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: var(--space-16);
+}
+
+.tile {
+  background: var(--liko-paper);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.tile img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-8) var(--space-16);
+  font-size: var(--step-caption);
+}
+
+.inactive {
+  font-weight: 700;
+  color: var(--liko-navy-deep);
+}
+
+.controls {
+  display: flex;
+  gap: var(--space-8);
+  padding: 0 var(--space-16) var(--space-16);
+}
+
+.controls button {
+  background: none;
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-sm);
+  padding: var(--space-8);
+  cursor: pointer;
+  flex: 1;
+}

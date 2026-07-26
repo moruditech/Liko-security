@@ -1,0 +1,15 @@
+.box {
+  padding: var(--space-24) 0;
+}
+
+.box h3 {
+  margin-top: 0;
+}
+
+.box ul {
+  padding-left: var(--space-24);
+}
+
+.box li {
+  margin-bottom: var(--space-8);
+}

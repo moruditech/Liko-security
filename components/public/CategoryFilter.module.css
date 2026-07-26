@@ -1,0 +1,21 @@
+.tabs {
+  display: flex;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+}
+
+.tabs button {
+  background: var(--liko-paper);
+  border: 1px solid var(--liko-panel);
+  color: var(--liko-ink);
+  padding: var(--space-8) var(--space-16);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.active {
+  background: var(--liko-navy);
+  color: var(--liko-paper);
+  border-color: var(--liko-navy);
+}

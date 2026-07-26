@@ -1,0 +1,47 @@
+.footer {
+  composes: liko-banner-gradient from global;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-32);
+  padding: var(--space-48) var(--space-32);
+  color: var(--liko-paper);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.column strong {
+  color: var(--liko-gold);
+  font-size: var(--step-caption);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.column a {
+  color: var(--liko-paper);
+  text-decoration: none;
+}
+
+.column a:hover,
+.column a:focus-visible {
+  color: var(--liko-gold);
+}
+
+.column p {
+  margin: 0;
+}
+
+@media (max-width: 48rem) {
+  .footer {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 30rem) {
+  .footer {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,9 @@
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.block p {
+  margin: 0;
+}

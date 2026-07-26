@@ -1,0 +1,12 @@
+.accreditation {
+  padding: var(--space-48) var(--space-32);
+  text-align: center;
+}
+
+.whyChoose {
+  padding: var(--space-48) var(--space-32);
+}
+
+.whyChoose ul {
+  margin-top: var(--space-16);
+}

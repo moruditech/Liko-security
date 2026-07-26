@@ -1,0 +1,60 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in srgb, var(--liko-navy-deep) 70%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+  padding: var(--space-24);
+}
+
+.dialog {
+  background: var(--liko-paper);
+  border-radius: var(--radius-md);
+  padding: var(--space-24);
+  max-width: 32rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.dialog label {
+  font-weight: 600;
+}
+
+.dialog input,
+.dialog select,
+.dialog textarea {
+  padding: var(--space-8) var(--space-16);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-16);
+}
+
+.actions button[type='submit'] {
+  background: var(--liko-navy);
+  color: var(--liko-paper);
+  border: none;
+  padding: var(--space-8) var(--space-24);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.cancel {
+  background: none;
+  border: 1px solid var(--liko-panel);
+  padding: var(--space-8) var(--space-24);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}

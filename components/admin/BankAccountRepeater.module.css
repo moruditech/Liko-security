@@ -1,0 +1,35 @@
+.repeater {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.row {
+  display: flex;
+  gap: var(--space-8);
+}
+
+.row input {
+  padding: var(--space-8) var(--space-16);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-sm);
+  flex: 1;
+}
+
+.row button {
+  background: none;
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-sm);
+  padding: var(--space-8) var(--space-16);
+  cursor: pointer;
+}
+
+.addButton {
+  align-self: flex-start;
+  background: var(--liko-navy);
+  color: var(--liko-paper);
+  border: none;
+  padding: var(--space-8) var(--space-24);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}

@@ -1,0 +1,25 @@
+.form {
+  display: flex;
+  gap: var(--space-16);
+  align-items: center;
+  background: var(--liko-paper);
+  padding: var(--space-16);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-24);
+  flex-wrap: wrap;
+}
+
+.form input {
+  padding: var(--space-8) var(--space-16);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-sm);
+}
+
+.form button {
+  background: var(--liko-navy);
+  color: var(--liko-paper);
+  border: none;
+  padding: var(--space-8) var(--space-24);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}

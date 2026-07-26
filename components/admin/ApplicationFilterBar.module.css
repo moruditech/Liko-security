@@ -1,0 +1,22 @@
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-16);
+  align-items: end;
+}
+
+.bar select,
+.bar input {
+  padding: var(--space-8) var(--space-16);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-sm);
+  font-size: var(--step-caption);
+}
+
+.bar label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  font-size: var(--step-caption);
+  font-weight: 600;
+}

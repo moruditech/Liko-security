@@ -1,0 +1,45 @@
+.viewport {
+  position: fixed;
+  bottom: var(--space-24);
+  right: var(--space-24);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  z-index: 1000;
+  max-width: 24rem;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-16);
+  padding: var(--space-16);
+  border-radius: var(--radius-md);
+  font-size: var(--step-0);
+  color: var(--liko-paper);
+  background: var(--liko-navy);
+}
+
+/*
+  Now uses the real --liko-error token added to app/globals.css, replacing
+  the earlier navy-deep + bold-text-prefix workaround from when no danger
+  color existed in DESIGN.md's palette.
+*/
+.error {
+  background: var(--liko-error);
+  border: 1px solid var(--liko-gold);
+}
+
+.success {
+  background: var(--liko-navy-deep);
+}
+
+.toast button {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: var(--step-1);
+  line-height: 1;
+  cursor: pointer;
+}

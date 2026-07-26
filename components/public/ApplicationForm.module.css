@@ -1,0 +1,52 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-32);
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: var(--space-48) var(--space-32);
+}
+
+.form section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.form h2 {
+  margin: 0;
+}
+
+.form label {
+  font-weight: 600;
+}
+
+.form input,
+.form select {
+  padding: var(--space-8) var(--space-16);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-sm);
+  font-size: var(--step-0);
+}
+
+.form button {
+  background: var(--liko-navy);
+  color: var(--liko-paper);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: var(--space-16);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.fieldError,
+.generalError {
+  color: var(--liko-error);
+  font-weight: 600;
+  margin: 0;
+}

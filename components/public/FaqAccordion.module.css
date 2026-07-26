@@ -1,0 +1,28 @@
+.section {
+  padding: var(--space-48) var(--space-32);
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  margin-top: var(--space-24);
+}
+
+.item {
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-md);
+  padding: var(--space-16);
+}
+
+.item summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--liko-navy);
+}
+
+.item p {
+  margin: var(--space-16) 0 0;
+}

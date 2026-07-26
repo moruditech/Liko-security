@@ -1,0 +1,66 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-24);
+  padding: var(--space-16) var(--space-32);
+  background: var(--liko-paper);
+  border-bottom: 1px solid var(--liko-panel);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  color: var(--liko-navy);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--step-1);
+}
+
+.nav {
+  display: flex;
+  gap: var(--space-24);
+}
+
+.nav a {
+  color: var(--liko-ink);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.nav a:hover,
+.nav a:focus-visible {
+  color: var(--liko-navy);
+}
+
+.cta {
+  background: var(--liko-gold);
+  color: var(--liko-navy-deep);
+  font-weight: 700;
+  padding: var(--space-8) var(--space-24);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: filter 150ms var(--ease-standard);
+}
+
+.cta:hover,
+.cta:focus-visible {
+  filter: brightness(0.92);
+}
+
+@media (max-width: 40rem) {
+  .header {
+    flex-wrap: wrap;
+    padding: var(--space-16);
+  }
+
+  .nav {
+    order: 3;
+    width: 100%;
+    justify-content: space-between;
+    gap: var(--space-16);
+  }
+}

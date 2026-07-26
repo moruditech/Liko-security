@@ -1,0 +1,30 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-16);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  background: var(--liko-paper);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-md);
+  padding: var(--space-16);
+  cursor: pointer;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-16);
+  font-weight: 700;
+  color: var(--liko-navy);
+}
+
+@media (max-width: 30rem) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

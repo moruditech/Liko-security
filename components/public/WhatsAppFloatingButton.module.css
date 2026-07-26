@@ -1,0 +1,12 @@
+.button {
+  position: fixed;
+  bottom: var(--space-24);
+  left: var(--space-24);
+  background: var(--liko-navy);
+  color: var(--liko-paper);
+  padding: var(--space-16) var(--space-24);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  font-weight: 700;
+  z-index: 100;
+}

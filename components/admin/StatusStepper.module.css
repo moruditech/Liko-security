@@ -1,0 +1,31 @@
+.stepper {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: var(--space-8);
+}
+
+.stepper li {
+  flex: 1;
+  text-align: center;
+  padding: var(--space-8);
+  background: var(--liko-panel);
+  color: var(--liko-ink);
+  text-transform: capitalize;
+  font-weight: 600;
+  font-size: var(--step-caption);
+  border-radius: var(--radius-sm);
+}
+
+.done {
+  background: var(--liko-navy);
+  color: var(--liko-paper);
+}
+
+.rejected {
+  padding: var(--space-16);
+  background: var(--liko-panel);
+  border-radius: var(--radius-sm);
+  text-align: center;
+}

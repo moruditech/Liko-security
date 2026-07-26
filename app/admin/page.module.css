@@ -1,0 +1,33 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-32);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-16);
+}
+
+.recent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-32);
+}
+
+.recent section {
+  background: var(--liko-paper);
+  border-radius: var(--radius-md);
+  padding: var(--space-24);
+}
+
+@media (max-width: 60rem) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .recent {
+    grid-template-columns: 1fr;
+  }
+}

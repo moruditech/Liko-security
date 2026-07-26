@@ -1,0 +1,27 @@
+.chip {
+  display: inline-block;
+  padding: 0.25rem var(--space-16);
+  border-radius: var(--radius-sm);
+  font-size: var(--step-caption);
+  font-weight: 700;
+}
+
+.navy {
+  background: var(--liko-navy);
+  color: var(--liko-paper);
+}
+
+.gold {
+  background: var(--liko-gold);
+  color: var(--liko-navy-deep);
+}
+
+.grey {
+  background: var(--liko-panel);
+  color: var(--liko-ink);
+}
+
+.red {
+  background: var(--liko-error);
+  color: var(--liko-paper);
+}
