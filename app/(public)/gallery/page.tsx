@@ -12,7 +12,8 @@ export const metadata: Metadata = {
 };
 
 export default async function GalleryPage() {
-  const items = await galleryApi.listPublic();
+  // Same reasoning as the home/courses pages: this runs at BUILD time (SSG).
+  const items = await galleryApi.listPublic().catch(() => []);
 
   return (
     <main className={styles.main}>
