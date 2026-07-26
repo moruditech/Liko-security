@@ -59,7 +59,7 @@ export default async function AboutPage() {
 
         <div className={styles.heroImageWrap}>
           <Image
-            src="/images/about/hero-officer.jpg"
+            src="/images/about/hero-officer.png"
             alt="Liko Security Training officer on duty"
             width={800}
             height={600}
@@ -266,7 +266,7 @@ export default async function AboutPage() {
         </div>
 
         <Image
-          src="/images/about/instructors-classroom.jpg"
+          src="/images/about/instructors-classroom.png"
           alt="Instructor teaching a class of security trainees"
           width={800}
           height={900}
