@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import styles from './SiteFooter.module.css';
 
-export default function SiteFooter() {
+export function SiteFooter() {
   return (
     <footer className={styles.siteFooter}>
       <div className={styles.footerTop}>
@@ -115,4 +115,5 @@ export default function SiteFooter() {
       </div>
     </footer>
   );
-}
+              }
+      
