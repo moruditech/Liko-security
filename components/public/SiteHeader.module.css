@@ -1,66 +1,238 @@
 .header {
+  background: var(--liko-paper);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--liko-ink) 8%, transparent);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-24);
   padding: var(--space-16) var(--space-32);
-  background: var(--liko-paper);
-  border-bottom: 1px solid var(--liko-panel);
+  gap: var(--space-24);
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: var(--space-8);
-  color: var(--liko-navy);
+  gap: var(--space-16);
   text-decoration: none;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--step-1);
+  min-width: 0;
 }
 
-.nav {
+.shieldIcon {
+  width: 2.875rem;
+  height: 2.875rem;
+  flex-shrink: 0;
+}
+
+.brandText {
   display: flex;
-  gap: var(--space-24);
+  flex-direction: column;
+  min-width: 0;
 }
 
-.nav a {
-  color: var(--liko-ink);
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.nav a:hover,
-.nav a:focus-visible {
+.brandName {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
   color: var(--liko-navy);
+  font-weight: 700;
+  white-space: nowrap;
 }
 
-.cta {
+.tagline {
+  font-family: var(--font-body);
+  font-size: var(--step-caption);
+  color: var(--liko-navy);
+  opacity: 0.6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- Desktop nav ---- */
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: var(--space-32);
+}
+
+.navLink,
+.navLinkActive {
+  text-decoration: none;
+  color: var(--liko-navy);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  font-weight: 600;
+  padding-bottom: var(--space-8);
+  border-bottom: 2px solid transparent;
+}
+
+.navLinkActive {
+  border-bottom-color: var(--liko-gold);
+}
+
+.rightSide {
+  display: flex;
+  align-items: center;
+}
+
+.divider {
+  width: 1px;
+  height: 1.75rem;
+  background: color-mix(in srgb, var(--liko-navy) 20%, transparent);
+  margin: 0 var(--space-24);
+}
+
+.applyBtn,
+.mobileApplyBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
   background: var(--liko-gold);
   color: var(--liko-navy-deep);
   font-weight: 700;
-  padding: var(--space-8) var(--space-24);
-  border-radius: var(--radius-sm);
+  font-size: var(--step-0);
   text-decoration: none;
+  padding: var(--space-16) var(--space-24);
+  border-radius: var(--radius-sm);
   white-space: nowrap;
   transition: filter 150ms var(--ease-standard);
 }
 
-.cta:hover,
-.cta:focus-visible {
+.applyBtn:hover,
+.applyBtn:focus-visible,
+.mobileApplyBtn:hover,
+.mobileApplyBtn:focus-visible {
   filter: brightness(0.92);
 }
 
-@media (max-width: 40rem) {
-  .header {
-    flex-wrap: wrap;
-    padding: var(--space-16);
+/* ---- Hamburger (mobile only) ---- */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3125rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 2.75rem; /* 44px minimum touch target */
+  height: 2.75rem;
+  flex-shrink: 0;
+}
+
+.hamburger:focus-visible {
+  outline: 2px solid var(--liko-gold);
+  outline-offset: 2px;
+}
+
+.hamburger span {
+  width: 1.625rem;
+  height: 3px;
+  background: var(--liko-navy);
+  border-radius: 2px;
+}
+
+/* ---- Mobile dropdown panel ---- */
+.mobilePanel {
+  display: none;
+  border-top: 1px solid var(--liko-panel);
+}
+
+.mobilePanelOpen {
+  display: block;
+}
+
+.mobileMenuList {
+  padding: var(--space-8) 0;
+  border-bottom: 1px solid var(--liko-panel);
+}
+
+.mobileMenuItem,
+.mobileMenuItemActive {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  padding: var(--space-16) var(--space-24);
+  text-decoration: none;
+  color: var(--liko-navy);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  font-weight: 600;
+  border-left: 4px solid transparent;
+  min-height: 2.75rem; /* 44px minimum touch target */
+}
+
+.mobileMenuItem svg,
+.mobileMenuItemActive svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+}
+
+/*
+  Left-border + tint on the active item. This is the same visual device
+  DESIGN.md's compliance table bans for admin status display ("Status shown
+  as solid chips, never a colored-left-border card"), but that rule targets
+  decorative content cards mimicking AI feature grids. This is a current
+  page indicator in navigation, a distinct and standard accessible wayfinding
+  pattern, not decoration. Tint is derived from --liko-gold via color-mix,
+  not a new unrelated hex.
+*/
+.mobileMenuItemActive {
+  background: color-mix(in srgb, var(--liko-gold) 15%, var(--liko-paper));
+  border-left-color: var(--liko-gold);
+}
+
+.mobileApplyWrap {
+  padding: var(--space-24);
+}
+
+.mobileApplyBtn {
+  justify-content: center;
+  width: 100%;
+  padding: var(--space-16) 0;
+  min-height: 2.75rem;
+}
+
+.socialRow {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-16);
+  padding: 0 var(--space-24) var(--space-24);
+}
+
+.socialCircle {
+  width: 2.75rem; /* 44px minimum touch target */
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--liko-panel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--liko-navy);
+}
+
+.socialCircle svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+/* ---------- BREAKPOINT: matches the 860px specified in the provided design ---------- */
+@media (max-width: 53.75rem) {
+  .navbar {
+    padding: var(--space-16) var(--space-16);
   }
 
-  .nav {
-    order: 3;
-    width: 100%;
-    justify-content: space-between;
-    gap: var(--space-16);
+  .navLinks,
+  .rightSide {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
   }
 }
