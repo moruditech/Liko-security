@@ -1,46 +1,40 @@
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
+import { Fraunces, Source_Sans_3, IBM_Plex_Mono } from 'next/font/google';
 import { AuthProvider } from '@/lib/auth/AuthProvider';
 import { ToastProvider } from '@/lib/context/ToastContext';
 import { ToastViewport } from '@/components/ui/ToastViewport';
 import './globals.css';
 
 /**
- * TAD §6: fonts are self-hosted via next/font/local, not next/font/google,  * no runtime request to Google Fonts, which matters for the 3G/budget-Android
- * audience research in Liko_Frontend_Design_Research-1.md §4.2.
- *
- * ACTION REQUIRED (cannot be done in this sandbox, no network access to
- * fetch font files): place the following files before `next build` will
- * succeed:
- *   public/fonts/fraunces/Fraunces-Regular.woff2   (weight 600)
- *   public/fonts/fraunces/Fraunces-Bold.woff2      (weight 700)
- *   public/fonts/source-sans/SourceSans3-Regular.woff2
- *   public/fonts/source-sans/SourceSans3-SemiBold.woff2
- *   public/fonts/ibm-plex-mono/IBMPlexMono-Medium.woff2
- * Source: Google Fonts (Fraunces, Source Sans 3, IBM Plex Mono are all
- * open-license and downloadable as static files) or fonts.google.com's
- * "download family" option, then self-host per next/font/local docs.
+ * TEMPORARY DEVIATION from TAD §6 (self-hosted next/font/local), agreed as
+ * a deliberate quick-unblock for the Netlify deploy: the actual .woff2 font
+ * files were never committed to the repo, which failed the build with
+ * "Module not found" for each font path. next/font/google fetches and
+ * self-hosts these same three families automatically at build time, no
+ * local files required, and still avoids a runtime request to Google Fonts
+ * (Next.js inlines the font files into the build output either way), so
+ * the 3G-performance rationale in Liko_Frontend_Design_Research-1.md §4.2
+ * is not meaningfully compromised. Revert to next/font/local (see git
+ * history for the prior version of this file) once the real .woff2 files
+ * are sourced and committed under public/fonts/, per the README.
  */
-const fraunces = localFont({
-  src: [
-    { path: '../public/fonts/fraunces/Fraunces-Regular.woff2', weight: '600', style: 'normal' },
-    { path: '../public/fonts/fraunces/Fraunces-Bold.woff2', weight: '700', style: 'normal' },
-  ],
+const fraunces = Fraunces({
+  weight: ['600', '700'],
+  subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
 });
 
-const sourceSans = localFont({
-  src: [
-    { path: '../public/fonts/source-sans/SourceSans3-Regular.woff2', weight: '400', style: 'normal' },
-    { path: '../public/fonts/source-sans/SourceSans3-SemiBold.woff2', weight: '600', style: 'normal' },
-  ],
+const sourceSans = Source_Sans_3({
+  weight: ['400', '600'],
+  subsets: ['latin'],
   variable: '--font-body',
   display: 'swap',
 });
 
-const plexMono = localFont({
-  src: [{ path: '../public/fonts/ibm-plex-mono/IBMPlexMono-Medium.woff2', weight: '500', style: 'normal' }],
+const plexMono = IBM_Plex_Mono({
+  weight: ['500'],
+  subsets: ['latin'],
   variable: '--font-mono',
   display: 'swap',
 });
