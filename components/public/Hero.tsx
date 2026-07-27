@@ -1,133 +1,190 @@
+import Link from 'next/link';
 import Image from 'next/image';
+import { FeeCalculator } from './FeeCalculator';
 import { COMPANY } from '@/lib/constants/company';
+import type { Course } from '@/types/api';
 import styles from './Hero.module.css';
 
-/**
- * No real photo exists yet: place a licensed photo at public/hero-photo.jpg
- * and flip HAS_HERO_PHOTO to true. Do not use unlicensed stock photography
- * here in production, consider a real photo of Liko's own campus/instructors
- * per Liko_Frontend_Design_Research-1.md's trust-signal guidance.
- */
-const HAS_HERO_PHOTO = false;
+interface HeroProps {
+  courses: Course[];
+  psiraFee: number;
+}
 
-export function Hero() {
+export function Hero({ courses, psiraFee }: HeroProps) {
   return (
-    <section className={styles.hero}>
-      <div className={styles.copy}>
-        <p className={styles.eyebrow}>Professional Security Training</p>
-        <h1>
-          Empowering Professionals.
-          <br />
-          <span className={styles.accent}>Building Safer Communities.</span>
-        </h1>
-        <div className={styles.underline} />
-        <p className={styles.lede}>
-          Accredited security training that equips you with the skills, knowledge, and confidence to protect what
-          matters most.
-        </p>
+    <>
+      <section className={styles.hero}>
+        <div className={styles.left}>
+          <p className={styles.eyebrow}>PSIRA-Accredited</p>
+          <h1>
+            PSIRA-accredited
+            <br />
+            security training
+            <br />
+            <span className={styles.accent}>in {COMPANY.address.city}</span>
+          </h1>
+          <p className={styles.lead}>
+            Professional security training that equips you with the skills, knowledge and confidence to protect
+            what matters most.
+          </p>
 
-        <div className={styles.actions}>
-          <a href="/courses" className={styles.btnPrimary}>
-            Explore Courses <span aria-hidden="true">&rarr;</span>
-          </a>
-          {COMPANY.heroVideoUrl && (
-            <a href={COMPANY.heroVideoUrl} target="_blank" rel="noopener noreferrer" className={styles.btnSecondary}>
-              <span aria-hidden="true">&#9658;</span> Watch Video
-            </a>
-          )}
-        </div>
-
-        <div className={styles.trustRow}>
-          <div className={styles.trustItem}>
-            <span className={styles.trustIcon}>
-              <ShieldCheckIcon />
-            </span>
-            <span>PSIRA Accredited</span>
-          </div>
-          <div className={styles.trustItem}>
-            <span className={styles.trustIcon}>
-              <PeopleIcon />
-            </span>
-            <span>Experienced Instructors</span>
-          </div>
-          <div className={styles.trustItem}>
-            <span className={styles.trustIcon}>
-              <ClipboardIcon />
-            </span>
-            <span>Practical Learning</span>
-          </div>
-          <div className={styles.trustItem}>
-            <span className={styles.trustIcon}>
-              <BriefcaseIcon />
-            </span>
-            <span>Career Focused</span>
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.visual}>
-        <svg className={styles.shieldWatermark} viewBox="0 0 200 230" fill="none" aria-hidden="true">
-          <path
-            d="M100 8L188 45V110C188 165 150 205 100 222C50 205 12 165 12 110V45L100 8Z"
-            stroke="var(--liko-gold)"
-            strokeWidth="6"
-            fill="none"
-            opacity="0.35"
-          />
-        </svg>
-
-        <div className={styles.photoFrame}>
-          {HAS_HERO_PHOTO ? (
-            <Image src="/hero-photo.jpg" alt="Liko Security Training guard on duty" fill style={{ objectFit: 'cover' }} priority />
-          ) : (
-            <div className={styles.photoPlaceholder}>
-              Photo placeholder
-              <br />
-              add a licensed image at
-              <br />
-              <code>public/hero-photo.jpg</code>
+          <dl className={styles.facts}>
+            <div>
+              <span className={styles.factIcon}>
+                <ShieldCheckIcon />
+              </span>
+              <dt>PSIRA No.</dt>
+              <dd className="mono">{COMPANY.psiraNumber}</dd>
             </div>
-          )}
+            <div>
+              <span className={styles.factIcon}>
+                <BuildingIcon />
+              </span>
+              <dt>Centre No.</dt>
+              <dd className="mono">{COMPANY.centreNumber}</dd>
+            </div>
+            <div>
+              <span className={styles.factIcon}>
+                <PinIcon />
+              </span>
+              <dt>Address</dt>
+              <dd>
+                {COMPANY.address.line1}, {COMPANY.address.city}
+              </dd>
+            </div>
+          </dl>
+
+          <div className={styles.buttonRow}>
+            <Link href="/courses" className={styles.btnPrimary}>
+              Explore Courses
+              <ArrowIcon />
+            </Link>
+            {/* Anchors to the existing "Why choose Liko" section further down app/(public)/page.tsx */}
+            <Link href="#why-choose" className={styles.btnOutline}>
+              <ShieldCheckIcon />
+              Why Choose Liko
+            </Link>
+          </div>
+        </div>
+
+        <FeeCalculator courses={courses} psiraFee={psiraFee} />
+
+        <div className={styles.imageCol}>
+          {/* Replace public/images/home/hero-officer.jpg with a real photo */}
+          <Image
+            src="/images/home/hero-officer.jpg"
+            alt="Liko Security Training officer on duty"
+            width={700}
+            height={860}
+            className={styles.heroImage}
+            priority
+          />
+        </div>
+      </section>
+
+      {/*
+        FLAG: static copy straight from the reference image, same caveat as
+        the About/Contact pages, no CMS field backs these four blurbs.
+      */}
+      <div className={styles.trustBand}>
+        <div className={styles.trustItem}>
+          <span className={styles.trustIcon}>
+            <ShieldCheckIcon />
+          </span>
+          <div>
+            <strong>PSIRA Accredited</strong>
+            <p>Approved and accredited training provider.</p>
+          </div>
+        </div>
+        <div className={styles.trustItem}>
+          <span className={styles.trustIcon}>
+            <CapIcon />
+          </span>
+          <div>
+            <strong>Experienced Instructors</strong>
+            <p>Industry professionals with real-world experience.</p>
+          </div>
+        </div>
+        <div className={styles.trustItem}>
+          <span className={styles.trustIcon}>
+            <BookIcon />
+          </span>
+          <div>
+            <strong>Practical Learning</strong>
+            <p>Hands-on training that builds real skills.</p>
+          </div>
+        </div>
+        <div className={styles.trustItem}>
+          <span className={styles.trustIcon}>
+            <PersonIcon />
+          </span>
+          <div>
+            <strong>Career Focused</strong>
+            <p>Training that opens doors to opportunities.</p>
+          </div>
         </div>
       </div>
-    </section>
+    </>
   );
 }
 
 function ShieldCheckIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-      <path d="M12 2l7 3v6c0 5-3 9.2-7 10-4-.8-7-5-7-10V5z" />
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--liko-navy)" strokeWidth="1.8" aria-hidden="true">
+      <path d="M12 2l8 3v6c0 5.2-3.4 9.6-8 11-4.6-1.4-8-5.8-8-11V5z" />
       <path d="M9 12l2 2 4-4" />
     </svg>
   );
 }
 
-function PeopleIcon() {
+function BuildingIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-      <circle cx="9" cy="8" r="3" />
-      <path d="M2 20c0-3.3 3-6 7-6s7 2.7 7 6" />
-      <circle cx="17" cy="9" r="2.3" />
-      <path d="M22 20c0-2.5-1.8-4.6-4.3-5.4" />
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--liko-navy)" strokeWidth="1.8" aria-hidden="true">
+      <rect x="4" y="3" width="16" height="18" rx="1" />
+      <path d="M8 7h1M15 7h1M8 11h1M15 11h1M8 15h1M15 15h1" />
     </svg>
   );
 }
 
-function ClipboardIcon() {
+function PinIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-      <rect x="3" y="4" width="18" height="14" rx="2" />
-      <path d="M7 9h6M7 13h10" />
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--liko-navy)" strokeWidth="1.8" aria-hidden="true">
+      <path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z" />
+      <circle cx="12" cy="10" r="2.4" />
     </svg>
   );
 }
 
-function BriefcaseIcon() {
+function CapIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-      <rect x="3" y="7" width="18" height="13" rx="2" />
-      <path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2" />
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--liko-navy)" strokeWidth="1.8" aria-hidden="true">
+      <path d="M12 3L2 8l10 5 10-5-10-5zM6 10.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-5.5" />
+    </svg>
+  );
+}
+
+function BookIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--liko-navy)" strokeWidth="1.8" aria-hidden="true">
+      <path d="M4 19V6a2 2 0 012-2h5v16H6a2 2 0 01-2-2z" />
+      <path d="M20 19V6a2 2 0 00-2-2h-5v16h5a2 2 0 002-2z" />
+    </svg>
+  );
+}
+
+function PersonIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--liko-navy)" strokeWidth="1.8" aria-hidden="true">
+      <circle cx="12" cy="8" r="4" />
+      <path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5" />
+    </svg>
+  );
+}
+
+function ArrowIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <path d="M5 12h14M13 6l6 6-6 6" />
     </svg>
   );
 }
