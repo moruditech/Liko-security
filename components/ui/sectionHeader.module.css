@@ -1,0 +1,33 @@
+.header {
+  text-align: center;
+  max-width: 40rem;
+  margin: 0 auto var(--space-48);
+}
+
+.eyebrow {
+  color: var(--liko-gold);
+  font-weight: 700;
+  font-size: var(--step-caption);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.header h2 {
+  font-size: clamp(1.75rem, 4vw, 2.375rem);
+  margin: var(--space-8) 0 0;
+}
+
+.underline {
+  width: 3.5rem;
+  height: 4px;
+  background: var(--liko-gold);
+  border-radius: 2px;
+  margin: var(--space-16) auto;
+}
+
+.subtitle {
+  opacity: 0.75;
+  font-size: 1rem;
+  margin: 0;
+}
