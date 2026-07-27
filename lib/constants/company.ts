@@ -11,6 +11,7 @@
  */
 export const COMPANY = {
   name: 'Liko Security Training',
+  email: 'info@likosecurity.co.za',
   tagline: 'Empowering Professionals. Building Safer Communities.',
   psiraNumber: '4509070',
   centreNumber: '4333985',
