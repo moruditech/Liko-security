@@ -19,6 +19,10 @@ export const COMPANY = {
     line1: 'KwaMajova, opp. Cashbuild',
     city: 'Mount Frere',
   },
+  officeHours: [
+    { days: "Mon - Fri", hours: "08:00 - 17:00" }, // Replace with actual hours
+    { days: "Sat - Sun", hours: "Closed" },
+  ],
 
   /**
    * FLAG: none of the provided documents or the backend confirm these
