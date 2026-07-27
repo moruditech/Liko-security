@@ -5,14 +5,17 @@ import { faqsApi } from '@/lib/api/faqs';
 import { announcementsApi } from '@/lib/api/announcements';
 import { settingsApi } from '@/lib/api/settings';
 import { Hero } from '@/components/public/Hero';
-import { CoursePreviewGrid } from '@/components/public/CoursePreviewGrid';
 import { AnnouncementBanner } from '@/components/public/AnnouncementBanner';
+import { AccreditationBadges } from '@/components/public/AccreditationBadges';
+import { CoursePreviewGrid } from '@/components/public/CoursePreviewGrid';
+import { ImpactStats } from '@/components/public/ImpactStats';
+import { WhyChooseGrid } from '@/components/public/WhyChooseGrid';
 import { FaqAccordion } from '@/components/public/FaqAccordion';
 import { TestimonialSlider } from '@/components/public/TestimonialSlider';
+import { BottomCta } from '@/components/public/BottomCta';
 import { WhatsAppFloatingButton } from '@/components/public/WhatsAppFloatingButton';
 import { COMPANY } from '@/lib/constants/company';
 import type { Settings } from '@/types/api';
-import styles from './page.module.css';
 
 // TAD §4: SSG + ISR, revalidate every 300s.
 export const revalidate = 300;
@@ -30,15 +33,14 @@ export default async function HomePage() {
   // since this fetch runs at BUILD time (SSG). If the backend is briefly
   // unreachable from the build environment, the build must not hard-fail,
   // ISR's 300s revalidation window will pick up real data as soon as the
-  // backend responds again. A one-off build-time hiccup shouldn't mean an
-  // empty homepage until the next manual deploy.
-  const [courses, testimonials, faqs, announcements, settings] = await Promise.all([
+  // backend responds again.
+  const [courses, testimonials, faqs, announcements] = await Promise.all([
     coursesApi.listPublic().catch(() => []),
     testimonialsApi.listPublic().catch(() => []),
     faqsApi.listPublic().catch(() => []),
     announcementsApi.listPublic().catch(() => []),
-    settingsApi.get().catch(() => FALLBACK_SETTINGS),
   ]);
+  const settings = await settingsApi.get().catch(() => FALLBACK_SETTINGS);
 
   return (
     <main>
@@ -65,30 +67,15 @@ export default async function HomePage() {
         }}
       />
 
-      <Hero courses={courses} psiraFee={settings.psiraFee} />
+      <Hero />
       <AnnouncementBanner announcements={announcements} />
-
-      <section className={styles.accreditation}>
-        <h2>Accredited &amp; recognised</h2>
-        <p>
-          Registered with PSIRA (No. {COMPANY.psiraNumber}) and based at Centre No. {COMPANY.centreNumber} in{' '}
-          {COMPANY.address.city}.
-        </p>
-      </section>
-
+      <AccreditationBadges />
       <CoursePreviewGrid courses={courses} />
-
-      <section className={styles.whyChoose}>
-        <h2>Why choose Liko</h2>
-        <ul>
-          <li>PSIRA-accredited courses at every grade</li>
-          <li>Local campus in Mount Frere, no travel to a distant city required</li>
-          <li>Clear, upfront course and registration fees</li>
-        </ul>
-      </section>
-
+      <ImpactStats />
+      <WhyChooseGrid />
       <FaqAccordion faqs={faqs} />
       <TestimonialSlider testimonials={testimonials} />
+      <BottomCta />
       <WhatsAppFloatingButton whatsappNumber={settings.whatsappNumber} />
     </main>
   );
