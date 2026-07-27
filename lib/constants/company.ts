@@ -18,17 +18,13 @@ export const COMPANY = {
     line1: 'KwaMajova, opp. Cashbuild',
     city: 'Mount Frere',
   },
-  /**
-   * FLAG: none of the provided documents or the backend's Settings model
-   * confirm real social media accounts for Liko. These are left undefined
-   * on purpose rather than filled with placeholder URLs, dead '#' links are
-   * worse than no link at all. SiteHeader only renders an icon when the
-   * corresponding URL is actually set, fill these in once real handles
-   * exist.
-   */
-  socialLinks: {
-    facebook: undefined as string | undefined,
-    instagram: undefined as string | undefined,
-    linkedin: undefined as string | undefined,
-  },
-};
+  // FLAG: from the Contact page reference image only, same as PSIRA/centre
+  // numbers above, not backed by a Settings field or any other doc. contactPhone
+  // already has a real source (Settings.contactPhone) so it isn't duplicated here,
+  // verify email and hours before shipping.
+  email: 'info@likosecurity.co.za',
+  officeHours: [
+    { days: 'Mon – Fri', hours: '08:00 – 17:00' },
+    { days: 'Sat', hours: '08:00 – 13:00' },
+  ],
+} as const;
