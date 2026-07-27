@@ -72,7 +72,7 @@ export function Hero({ courses, psiraFee }: HeroProps) {
         <div className={styles.imageCol}>
           {/* Replace public/images/home/hero-officer.jpg with a real photo */}
           <Image
-            src="/images/home/hero-officer.jpg"
+            src="/images/home/hero-image.png"
             alt="Liko Security Training officer on duty"
             width={700}
             height={860}
