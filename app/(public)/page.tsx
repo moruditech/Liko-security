@@ -25,13 +25,7 @@ export const metadata: Metadata = {
   description:
     'PSIRA-accredited security training courses in Mount Frere. Apply online, calculate your course fees, and view upcoming intakes.',
 };
-const [courses, testimonials, faqs, announcements, settings] = await Promise.all([
-    coursesApi.listPublic().catch(() => []),
-    testimonialsApi.listPublic().catch(() => []),
-    faqsApi.listPublic().catch(() => []),
-    announcementsApi.listPublic().catch(() => []),
-    settingsApi.get().catch(() => FALLBACK_SETTINGS),
-  ]);
+
 const FALLBACK_SETTINGS: Settings = { bankAccounts: [], psiraFee: 0, whatsappNumber: '', contactPhone: '' };
 
 export default async function HomePage() {
@@ -40,8 +34,13 @@ export default async function HomePage() {
   // unreachable from the build environment, the build must not hard-fail,
   // ISR's 300s revalidation window will pick up real data as soon as the
   // backend responds again.
-
-  const settings = await settingsApi.get().catch(() => FALLBACK_SETTINGS);
+  const [courses, testimonials, faqs, announcements, settings] = await Promise.all([
+    coursesApi.listPublic().catch(() => []),
+    testimonialsApi.listPublic().catch(() => []),
+    faqsApi.listPublic().catch(() => []),
+    announcementsApi.listPublic().catch(() => []),
+    settingsApi.get().catch(() => FALLBACK_SETTINGS),
+  ]);
 
   return (
     <main>
