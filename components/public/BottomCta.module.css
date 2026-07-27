@@ -1,0 +1,68 @@
+.band {
+  background: color-mix(in srgb, var(--liko-gold) 12%, var(--liko-paper));
+  padding: var(--space-32);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-24);
+  flex-wrap: wrap;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-24);
+}
+
+.phoneIcon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--liko-gold) 20%, var(--liko-paper));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.phoneIcon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--liko-gold);
+}
+
+.left h2 {
+  font-family: var(--font-display);
+  color: var(--liko-navy);
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.left p {
+  margin: var(--space-8) 0 0;
+  opacity: 0.75;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  background: var(--liko-gold);
+  color: var(--liko-navy-deep);
+  font-weight: 700;
+  text-decoration: none;
+  padding: var(--space-16) var(--space-32);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+@media (max-width: 30rem) {
+  .band {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .left {
+    flex-direction: column;
+  }
+}
