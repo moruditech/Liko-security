@@ -50,18 +50,44 @@ export function InquiryForm() {
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <label htmlFor="contactName">Name</label>
-      <input id="contactName" required value={name} onChange={(e) => setName(e.target.value)} />
+      <input
+        id="contactName"
+        required
+        placeholder="Your name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
       {fieldErrors.name && <p className={styles.error}>{fieldErrors.name}</p>}
 
       <label htmlFor="contactEmail">Email</label>
-      <input id="contactEmail" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+      <input
+        id="contactEmail"
+        type="email"
+        required
+        placeholder="Your email address"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
       {fieldErrors.email && <p className={styles.error}>{fieldErrors.email}</p>}
 
       <label htmlFor="contactPhone">Phone (optional)</label>
-      <input id="contactPhone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
+      <input
+        id="contactPhone"
+        type="tel"
+        placeholder="Your phone number"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+      />
 
       <label htmlFor="contactMessage">Message</label>
-      <textarea id="contactMessage" required rows={5} value={message} onChange={(e) => setMessage(e.target.value)} />
+      <textarea
+        id="contactMessage"
+        required
+        rows={5}
+        placeholder="Type your message here..."
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      />
       {fieldErrors.message && <p className={styles.error}>{fieldErrors.message}</p>}
 
       {generalError && (
@@ -71,8 +97,17 @@ export function InquiryForm() {
       )}
 
       <button type="submit" disabled={submitting}>
-        {submitting ? 'Sending...' : 'Send message'}
+        {submitting ? 'Sending...' : 'Send Message'}
+        <ArrowIcon />
       </button>
     </form>
+  );
+}
+
+function ArrowIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <path d="M5 12h14M13 6l6 6-6 6" />
+    </svg>
   );
 }

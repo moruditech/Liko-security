@@ -17,7 +17,16 @@
   font-family: var(--font-body);
 }
 
+.form textarea {
+  min-height: 6.5rem;
+  resize: vertical;
+}
+
 .form button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
   background: var(--liko-navy);
   color: var(--liko-paper);
   border: none;
@@ -25,7 +34,7 @@
   padding: var(--space-16);
   font-weight: 700;
   cursor: pointer;
-  align-self: flex-start;
+  width: 100%;
 }
 
 .error {

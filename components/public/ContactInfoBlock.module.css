@@ -1,9 +1,56 @@
-.block {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-8);
+.list {
+  background: var(--liko-paper);
+  border-radius: var(--radius-md);
 }
 
-.block p {
-  margin: 0;
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  padding: var(--space-16) var(--space-8);
+  border-bottom: 1px solid var(--liko-panel);
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.icon {
+  width: 2.625rem;
+  height: 2.625rem;
+  border-radius: 50%;
+  background: var(--liko-panel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.item strong {
+  display: block;
+  color: var(--liko-navy);
+  font-size: var(--step-0);
+}
+
+.item span {
+  font-size: var(--step-caption);
+  color: var(--liko-ink);
+}
+
+.hoursRow {
+  display: block;
+}
+
+.chevron {
+  margin-left: auto;
+  color: var(--liko-ink);
+  opacity: 0.5;
+  font-size: var(--step-2);
+  display: none;
+}
+
+@media (max-width: 48rem) {
+  .chevron {
+    display: block;
+  }
 }
