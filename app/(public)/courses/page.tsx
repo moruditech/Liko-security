@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description: 'PSIRA-accredited security grade courses, fees, and upcoming intakes in Mount Frere.',
 };
 
-const FALLBACK_SETTINGS: Settings = { bankAccounts: [], psiraFee: 0, whatsappNumber: '', contactPhone: '' };
+const FALLBACK_SETTINGS: Settings = { bankAccounts: [], psiraRegistrationFee: 0, whatsappNumber: '', contactPhone: '' };
 
 export default async function CoursesPage() {
   // Same reasoning as the home page: this runs at BUILD time (SSG), so a
@@ -54,7 +54,7 @@ export default async function CoursesPage() {
 
       <CourseTable courses={courses} intakes={intakes} />
 
-      <RegistrationFeeExplainer psiraFee={settings.psiraFee} />
+      <RegistrationFeeExplainer psiraFee={settings.psiraRegistrationFee} />
 
       <PrerequisitesChecklist />
 
