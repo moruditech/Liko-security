@@ -1,3 +1,4 @@
+/* ── Desktop table ── */
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -17,4 +18,97 @@
 
 .altRow {
   background: var(--liko-panel);
+}
+
+/* Hide cards on desktop */
+.cardList {
+  display: none;
+}
+
+/* ── Mobile cards ── */
+@media (max-width: 640px) {
+  .table {
+    display: none;
+  }
+
+  .cardList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  .card {
+    border: 1px solid #e2e6ed;
+    border-radius: var(--radius-md);
+    padding: var(--space-16);
+    background: #ffffff;
+  }
+
+  .cardHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--space-16);
+    margin-bottom: var(--space-16);
+  }
+
+  .gradeBadge {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--liko-navy);
+    color: var(--liko-gold);
+    font-size: 1.25rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .cardTitle {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--liko-navy);
+    line-height: 1.3;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid #e2e6ed;
+    margin: 0 0 var(--space-16) 0;
+  }
+
+  .cardMeta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-8);
+  }
+
+  .metaItem {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .metaIcon {
+    width: 18px;
+    height: 18px;
+    color: var(--liko-navy);
+    opacity: 0.6;
+  }
+
+  .metaLabel {
+    font-size: 0.7rem;
+    color: #6b7280;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .metaValue {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--liko-navy);
+  }
 }
