@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     'PSIRA-accredited security training courses in Mount Frere. Apply online, calculate your course fees, and view upcoming intakes.',
 };
 
-const FALLBACK_SETTINGS: Settings = { bankAccounts: [], psiraFee: 0, whatsappNumber: '', contactPhone: '' };
+const FALLBACK_SETTINGS: Settings = { bankAccounts: [], psiraRegistrationFee: 0, whatsappNumber: '', contactPhone: '' };
 
 export default async function HomePage() {
   // Each call falls back independently rather than failing the whole page,
@@ -67,7 +67,7 @@ export default async function HomePage() {
         }}
       />
 
-      <Hero courses={courses} psiraFee={settings.psiraFee} />
+      <Hero courses={courses} psiraFee={settings.psiraRegistrationFee} />
       <AnnouncementBanner announcements={announcements} />
       <AccreditationBadges />
       <CoursePreviewGrid courses={courses} />
