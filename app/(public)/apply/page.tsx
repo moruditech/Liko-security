@@ -24,7 +24,7 @@ export default async function ApplyPage() {
   return (
     <main>
       <h1 className={styles.heading}>Apply now</h1>
-      <ApplicationForm courses={courses} intakes={intakes} psiraFee={settings.psiraFee} />
+      <ApplicationForm courses={courses} intakes={intakes} psiraFee={settings.psiraRegistrationFee} />
     </main>
   );
 }
