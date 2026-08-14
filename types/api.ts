@@ -151,7 +151,7 @@ export interface BankAccount {
 
 export interface Settings {
   bankAccounts: BankAccount[];
-  psiraFee: number;
+  psiraRegistrationFee: number;
   whatsappNumber: string;
   contactPhone: string;
 }
