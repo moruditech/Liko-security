@@ -32,8 +32,8 @@ export function SettingsForm({ settings, onSave }: SettingsFormProps) {
         type="number"
         min={0}
         required
-        value={form.psiraFee}
-        onChange={(e) => setForm({ ...form, psiraFee: Number(e.target.value) })}
+        value={form.psiraRegistrationFee}
+        onChange={(e) => setForm({ ...form, psiraRegistrationFee: Number(e.target.value) })}
       />
 
       <label htmlFor="whatsappNumber">WhatsApp number</label>
