@@ -4,6 +4,29 @@
   gap: var(--space-24);
 }
 
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  align-self: flex-start;
+  color: var(--liko-navy);
+  opacity: 0.75;
+  font-weight: 600;
+  font-size: var(--step-caption);
+  text-decoration: none;
+}
+
+.backLink svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.backLink:hover,
+.backLink:focus-visible {
+  opacity: 1;
+  text-decoration: underline;
+}
+
 .loading {
   color: var(--liko-ink);
   opacity: 0.6;

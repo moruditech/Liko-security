@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import Link from 'next/link';
 import { applicationsApi } from '@/lib/api/applications';
 import { invoicesApi } from '@/lib/api/invoices';
 import { ApplicantProfileCard } from '@/components/admin/ApplicantProfileCard';
@@ -68,6 +69,11 @@ export default function ApplicationDetailPage() {
 
   return (
     <div className={styles.page}>
+      <Link href="/admin/applications" className={styles.backLink}>
+        <BackIcon />
+        Back to Applications
+      </Link>
+
       <div className={styles.header}>
         <div className={styles.headerLeft}>
           <div className={styles.headerTop}>
@@ -114,10 +120,19 @@ export default function ApplicationDetailPage() {
 
       <EmailComposerModal
         applicationId={application.id}
+        recipientName={`${application.firstName} ${application.lastName}`}
         open={emailModalOpen}
         onClose={() => setEmailModalOpen(false)}
       />
     </div>
+  );
+}
+
+function BackIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <path d="M15 18l-6-6 6-6" />
+    </svg>
   );
 }
 
