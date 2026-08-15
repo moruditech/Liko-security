@@ -23,6 +23,15 @@
   */
   --liko-error: #8c2f2f;
 
+  /*
+    Soft gold tint, added for the homepage hero's "PSIRA-ACCREDITED" eyebrow
+    badge (approved hero redesign reference). DESIGN.md §3.2's original
+    six-color table has no light/tint variant of gold, same gap the error
+    color hit above — extending the token set rather than hardcoding a
+    one-off hex value in Hero.module.css.
+  */
+  --liko-gold-tint: #faf1de;
+
   /* ---- Type (DESIGN.md §4.2, §4.4) ---- */
   --font-display: 'Fraunces', serif;
   --font-body: 'Source Sans 3', sans-serif;
