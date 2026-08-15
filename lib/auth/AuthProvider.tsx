@@ -149,7 +149,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [clearSession, router]);
 
   const hasPermission = useCallback(
-    (permission: Permission) => user?.permissions.includes(permission) ?? false,
+    (permission: Permission) => user?.permissions?.includes(permission) ?? false,
     [user]
   );
 
