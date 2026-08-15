@@ -9,8 +9,8 @@ export function StatusHistoryTimeline({ history }: { history: Application['statu
       {history.map((entry, i) => (
         <li key={i}>
           <span className={styles.status}>{entry.status.replace('_', ' ')}</span>
-          <span>{entry.changedBy.name}</span>
-          <span>{new Date(entry.changedAt).toLocaleString('en-ZA')}</span>
+          <span>{entry.changedBy ? entry.changedBy.name : 'System'}</span>
+          <span>{new Date(entry.date).toLocaleString('en-ZA')}</span>
         </li>
       ))}
     </ol>

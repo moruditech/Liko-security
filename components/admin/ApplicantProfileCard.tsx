@@ -4,7 +4,7 @@ import styles from './ApplicantProfileCard.module.css';
 export function ApplicantProfileCard({ application }: { application: Application }) {
   return (
     <div className={styles.card}>
-      <h2>{application.fullName}</h2>
+      <h2>{application.firstName} {application.lastName}</h2>
       <dl className={styles.facts}>
         <div>
           <dt>{application.idType === 'sa_id' ? 'SA ID number' : 'Passport number'}</dt>
@@ -27,9 +27,9 @@ export function ApplicantProfileCard({ application }: { application: Application
         <div>
           <dt>Address</dt>
           <dd>
-            {application.address.line1}
-            {application.address.line2 ? `, ${application.address.line2}` : ''}, {application.address.city},{' '}
-            {application.address.province} {application.address.postalCode}
+            {[application.address.street, application.address.suburb, application.address.city, application.address.province, application.address.postalCode]
+              .filter(Boolean)
+              .join(', ')}
           </dd>
         </div>
         <div>

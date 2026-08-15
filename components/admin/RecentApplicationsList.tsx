@@ -12,7 +12,7 @@ export function RecentApplicationsList({ applications }: { applications: Applica
         <li key={app.id}>
           <Link href={`/admin/applications/${app.id}`}>
             <span className="mono">{app.referenceCode}</span>
-            <span>{app.fullName}</span>
+            <span>{app.firstName} {app.lastName}</span>
             <StatusChip status={app.status} kind="application" />
           </Link>
         </li>
