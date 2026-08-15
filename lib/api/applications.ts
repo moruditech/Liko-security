@@ -2,7 +2,8 @@ import { fetcher } from '@/lib/fetcher';
 import type { Application, ApplicationAddress, ApplicationStatus, ApplicationSubmitResponse, Paginated } from '@/types/api';
 
 export interface ApplicationSubmitInput {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   idType: 'sa_id' | 'passport';
   idNumber: string;
   phone: string;
@@ -22,7 +23,8 @@ export const applicationsApi = {
   // not as native objects/arrays, confirmed by reading the controller.
   submit: (input: ApplicationSubmitInput) => {
     const form = new FormData();
-    form.append('fullName', input.fullName);
+    form.append('firstName', input.firstName);
+    form.append('lastName', input.lastName);
     form.append('idType', input.idType);
     form.append('idNumber', input.idNumber);
     form.append('phone', input.phone);
