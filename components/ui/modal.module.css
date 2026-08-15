@@ -10,30 +10,92 @@
 }
 
 .dialog {
+  position: relative;
   background: var(--liko-paper);
-  border-radius: var(--radius-md);
-  padding: var(--space-24);
+  border-radius: var(--radius-lg); /* see ConfirmDialog.module.css's flag re: DESIGN.md §7's 8px ceiling */
+  padding: var(--space-32);
   max-width: 32rem;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: var(--space-16);
+  gap: var(--space-24);
   max-height: 90vh;
   overflow-y: auto;
 }
 
+.dialog h2 {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  color: var(--liko-navy);
+  margin: 0;
+  padding-right: var(--space-32); /* keeps long titles from running under the close button */
+}
+
+.closeButton {
+  position: absolute;
+  top: var(--space-24);
+  right: var(--space-24);
+  background: none;
+  border: none;
+  color: var(--liko-ink);
+  opacity: 0.5;
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.closeButton svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.closeButton:hover,
+.closeButton:focus-visible {
+  opacity: 1;
+}
+
 .dialog label {
   font-weight: 600;
+  font-size: var(--step-caption);
+  color: var(--liko-ink);
 }
 
 .dialog input,
 .dialog select,
 .dialog textarea {
-  padding: var(--space-8) var(--space-16);
+  padding: var(--space-16);
   border: 1px solid var(--liko-panel);
   border-radius: var(--radius-sm);
   font-family: var(--font-body);
   font-size: var(--step-0);
+  width: 100%;
+}
+
+.dialog input:focus-visible,
+.dialog select:focus-visible,
+.dialog textarea:focus-visible {
+  outline: 2px solid var(--liko-gold);
+  outline-offset: 1px;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.hint {
+  font-size: var(--step-caption);
+  opacity: 0.6;
+  margin: 0;
+}
+
+.divider {
+  height: 1px;
+  background: var(--liko-panel);
+  margin: 0 calc(-1 * var(--space-32));
 }
 
 .actions {
@@ -46,15 +108,28 @@
   background: var(--liko-navy);
   color: var(--liko-paper);
   border: none;
-  padding: var(--space-8) var(--space-24);
+  padding: var(--space-16) var(--space-24);
   border-radius: var(--radius-sm);
   cursor: pointer;
+  font-weight: 600;
+}
+
+.actions button[type='submit']:hover,
+.actions button[type='submit']:focus-visible {
+  background: var(--liko-navy-deep);
+}
+
+.actions button[type='submit']:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .cancel {
-  background: none;
+  background: var(--liko-paper);
   border: 1px solid var(--liko-panel);
-  padding: var(--space-8) var(--space-24);
+  color: var(--liko-ink);
+  padding: var(--space-16) var(--space-24);
   border-radius: var(--radius-sm);
   cursor: pointer;
+  font-weight: 600;
 }

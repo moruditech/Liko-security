@@ -10,47 +10,130 @@
 }
 
 .dialog {
+  position: relative;
   background: var(--liko-paper);
-  border-radius: var(--radius-md);
-  padding: var(--space-24);
-  max-width: 24rem;
+  /*
+    FLAG: DESIGN.md §7 sets an 8px radius ceiling system-wide. This modal
+    system uses --radius-lg (defined in app/globals.css), a deliberate,
+    scoped exception matching the explicit visual reference provided for
+    this redesign. Flagged, not silent, whoever owns DESIGN.md should
+    confirm this exception is acceptable or have it reverted to
+    --radius-md.
+  */
+  border-radius: var(--radius-lg);
+  max-width: 26rem;
   width: 100%;
 }
 
-.dialog h2 {
-  margin-top: 0;
+.closeButton {
+  position: absolute;
+  top: var(--space-16);
+  right: var(--space-16);
+  background: none;
+  border: none;
+  color: var(--liko-ink);
+  opacity: 0.5;
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+}
+
+.closeButton svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.closeButton:hover,
+.closeButton:focus-visible {
+  opacity: 1;
+}
+
+.content {
+  display: flex;
+  gap: var(--space-16);
+  padding: var(--space-32);
+}
+
+.iconCircleError,
+.iconCircleNavy {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.iconCircleError {
+  background: color-mix(in srgb, var(--liko-error) 12%, var(--liko-paper));
+  color: var(--liko-error);
+}
+
+.iconCircleNavy {
+  background: color-mix(in srgb, var(--liko-navy) 12%, var(--liko-paper));
+  color: var(--liko-navy);
+}
+
+.iconCircleError svg,
+.iconCircleNavy svg {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.content h2 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--liko-navy);
+  margin: 0 0 var(--space-8);
+}
+
+.content p {
+  margin: 0;
+  opacity: 0.75;
+  font-size: var(--step-caption);
+  line-height: 1.5;
+}
+
+.divider {
+  height: 1px;
+  background: var(--liko-panel);
 }
 
 .actions {
   display: flex;
   justify-content: flex-end;
   gap: var(--space-16);
-  margin-top: var(--space-24);
+  padding: var(--space-24) var(--space-32);
 }
 
 .cancel {
-  background: none;
+  background: var(--liko-paper);
   border: 1px solid var(--liko-panel);
   color: var(--liko-ink);
-  padding: var(--space-8) var(--space-16);
+  padding: var(--space-8) var(--space-24);
   border-radius: var(--radius-sm);
   cursor: pointer;
+  font-weight: 600;
 }
 
 .confirm {
   background: var(--liko-navy);
   color: var(--liko-paper);
   border: none;
-  padding: var(--space-8) var(--space-16);
+  padding: var(--space-8) var(--space-24);
   border-radius: var(--radius-sm);
   cursor: pointer;
+  font-weight: 600;
 }
 
 .destructive {
   background: var(--liko-error);
   color: var(--liko-paper);
   border: none;
-  padding: var(--space-8) var(--space-16);
+  padding: var(--space-8) var(--space-24);
   border-radius: var(--radius-sm);
   cursor: pointer;
+  font-weight: 600;
 }

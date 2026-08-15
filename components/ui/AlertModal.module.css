@@ -1,0 +1,158 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in srgb, var(--liko-navy-deep) 70%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+  padding: var(--space-24);
+}
+
+.dialog {
+  position: relative;
+  background: var(--liko-paper);
+  border-radius: var(--radius-lg); /* see ConfirmDialog.module.css's flag re: DESIGN.md §7's 8px ceiling */
+  padding: var(--space-32);
+  max-width: 24rem;
+  width: 100%;
+  text-align: center;
+}
+
+.closeButton {
+  position: absolute;
+  top: var(--space-16);
+  right: var(--space-16);
+  background: none;
+  border: none;
+  color: var(--liko-ink);
+  opacity: 0.5;
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+}
+
+.closeButton svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.closeButton:hover,
+.closeButton:focus-visible {
+  opacity: 1;
+}
+
+.dialog h2 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--liko-navy);
+  margin: var(--space-24) 0 var(--space-8);
+}
+
+.dialog p {
+  margin: 0 0 var(--space-24);
+  opacity: 0.75;
+  font-size: var(--step-caption);
+  line-height: 1.5;
+}
+
+/* ---- Icon circles, one per variant ---- */
+.iconCircle_success,
+.iconCircle_warning,
+.iconCircle_error,
+.iconCircle_info {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconCircle_success svg,
+.iconCircle_warning svg,
+.iconCircle_error svg,
+.iconCircle_info svg {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.iconCircle_success {
+  background: color-mix(in srgb, var(--liko-success) 15%, var(--liko-paper));
+  color: var(--liko-success);
+}
+
+.iconCircle_warning {
+  background: color-mix(in srgb, var(--liko-gold) 20%, var(--liko-paper));
+  color: var(--liko-gold);
+}
+
+.iconCircle_error {
+  background: color-mix(in srgb, var(--liko-error) 12%, var(--liko-paper));
+  color: var(--liko-error);
+}
+
+.iconCircle_info {
+  background: color-mix(in srgb, var(--liko-navy) 12%, var(--liko-paper));
+  color: var(--liko-navy);
+}
+
+/* ---- Actions ---- */
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-16);
+}
+
+.stayButton {
+  background: var(--liko-paper);
+  border: 1px solid var(--liko-panel);
+  color: var(--liko-ink);
+  padding: var(--space-16) var(--space-32);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+  flex: 1;
+}
+
+.actionButton_success,
+.actionButton_info {
+  background: var(--liko-navy);
+  color: var(--liko-paper);
+  border: none;
+  padding: var(--space-16) var(--space-32);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+  flex: 1;
+}
+
+.actionButton_success:hover,
+.actionButton_info:hover,
+.actionButton_success:focus-visible,
+.actionButton_info:focus-visible {
+  background: var(--liko-navy-deep);
+}
+
+.actionButton_warning {
+  background: var(--liko-gold);
+  color: var(--liko-navy-deep);
+  border: none;
+  padding: var(--space-16) var(--space-32);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 700;
+  flex: 1;
+}
+
+.actionButton_error {
+  background: var(--liko-error);
+  color: var(--liko-paper);
+  border: none;
+  padding: var(--space-16) var(--space-32);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+  flex: 1;
+}
