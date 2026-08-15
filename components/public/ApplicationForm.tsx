@@ -19,14 +19,15 @@ interface ApplicationFormProps {
 }
 
 interface FormState {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   idType: 'sa_id' | 'passport';
   idNumber: string;
   phone: string;
   whatsapp: string;
   email: string;
-  addressLine1: string;
-  addressLine2: string;
+  street: string;
+  suburb: string;
   city: string;
   province: string;
   postalCode: string;
@@ -36,14 +37,15 @@ interface FormState {
 }
 
 const INITIAL_STATE: FormState = {
-  fullName: '',
+  firstName: '',
+  lastName: '',
   idType: 'sa_id',
   idNumber: '',
   phone: '',
   whatsapp: '',
   email: '',
-  addressLine1: '',
-  addressLine2: '',
+  street: '',
+  suburb: '',
   city: '',
   province: '',
   postalCode: '',
@@ -83,15 +85,16 @@ export function ApplicationForm({ courses, intakes, psiraFee }: ApplicationFormP
     setSubmitting(true);
     try {
       const result = await applicationsApi.submit({
-        fullName: form.fullName,
+        firstName: form.firstName,
+        lastName: form.lastName,
         idType: form.idType,
         idNumber: form.idNumber,
         phone: form.phone,
         whatsapp: form.whatsapp || undefined,
         email: form.email,
         address: {
-          line1: form.addressLine1,
-          line2: form.addressLine2 || undefined,
+          street: form.street,
+          suburb: form.suburb,
           city: form.city,
           province: form.province,
           postalCode: form.postalCode,
@@ -137,9 +140,13 @@ export function ApplicationForm({ courses, intakes, psiraFee }: ApplicationFormP
       <section>
         <h2>Personal details</h2>
 
-        <label htmlFor="fullName">Full name</label>
-        <input id="fullName" required value={form.fullName} onChange={(e) => update('fullName', e.target.value)} />
-        {fieldErrors.fullName && <p className={styles.fieldError}>{fieldErrors.fullName}</p>}
+        <label htmlFor="firstName">First name</label>
+        <input id="firstName" required value={form.firstName} onChange={(e) => update('firstName', e.target.value)} />
+        {fieldErrors.firstName && <p className={styles.fieldError}>{fieldErrors.firstName}</p>}
+
+        <label htmlFor="lastName">Last name</label>
+        <input id="lastName" required value={form.lastName} onChange={(e) => update('lastName', e.target.value)} />
+        {fieldErrors.lastName && <p className={styles.fieldError}>{fieldErrors.lastName}</p>}
 
         <IdNumberField
           idType={form.idType}
@@ -160,18 +167,18 @@ export function ApplicationForm({ courses, intakes, psiraFee }: ApplicationFormP
         <input id="email" type="email" required value={form.email} onChange={(e) => update('email', e.target.value)} />
         {fieldErrors.email && <p className={styles.fieldError}>{fieldErrors.email}</p>}
 
-        <label htmlFor="addressLine1">Address</label>
+        <label htmlFor="street">Address</label>
         <input
-          id="addressLine1"
+          id="street"
           required
           placeholder="Street address"
-          value={form.addressLine1}
-          onChange={(e) => update('addressLine1', e.target.value)}
+          value={form.street}
+          onChange={(e) => update('street', e.target.value)}
         />
         <input
-          placeholder="Apartment, suite, etc. (optional)"
-          value={form.addressLine2}
-          onChange={(e) => update('addressLine2', e.target.value)}
+          placeholder="Suburb (optional)"
+          value={form.suburb}
+          onChange={(e) => update('suburb', e.target.value)}
         />
         <input placeholder="City" required value={form.city} onChange={(e) => update('city', e.target.value)} />
         <input
