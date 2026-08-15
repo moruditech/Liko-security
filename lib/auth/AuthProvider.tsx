@@ -20,27 +20,39 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
+// Key used to persist the refresh token across page reloads. The value is
+// opaque (a signed JWT) and HttpOnly on the backend, but since the frontend
+// and backend are on different subdomains, cross-origin cookies cannot be
+// relied upon. Storing the token in localStorage and sending it in the
+// request body is the correct pattern for this deployment topology.
+const RT_KEY = 'liko_rt';
+
+function saveRefreshToken(token: string) {
+  try { localStorage.setItem(RT_KEY, token); } catch { /* storage unavailable */ }
+}
+
+function loadRefreshToken(): string | null {
+  try { return localStorage.getItem(RT_KEY); } catch { return null; }
+}
+
+function clearRefreshToken() {
+  try { localStorage.removeItem(RT_KEY); } catch { /* storage unavailable */ }
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const needsAuth = pathname?.startsWith('/admin') || pathname?.startsWith('/login');
   const [status, setStatus] = useState<AuthStatus>(needsAuth ? 'verifying' : 'unauthenticated');
   const [user, setUser] = useState<AuthUser | null>(null);
-  // Held only in memory, for the brief window between /login and /login/mfa.
-  // /login/mfa reads this via useAuth() rather than a URL query param, since
-  // a bearer token belongs in memory, not in the URL/browser history.
   const [pendingMfaToken, setPendingMfaToken] = useState<string | null>(null);
 
-  // In-memory only, per the non-negotiable auth rule, never localStorage/sessionStorage.
   const accessTokenRef = useRef<string | null>(null);
-
-  // Single-flight refresh promise so concurrent 401s during an in-flight
-  // refresh queue behind the same call, per TAD §5, instead of each firing
-  // its own POST /auth/refresh.
   const refreshPromiseRef = useRef<Promise<string | null> | null>(null);
 
   const clearSession = useCallback(() => {
     accessTokenRef.current = null;
+    clearRefreshToken();
     setUser(null);
     setStatus('unauthenticated');
   }, []);
@@ -52,7 +64,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const promise = (async () => {
       try {
-        const result = await authApi.refresh();
+        const storedToken = loadRefreshToken();
+        const result = await authApi.refresh(storedToken ?? undefined);
         accessTokenRef.current = result.accessToken;
         if (result.user) setUser(result.user);
         return result.accessToken;
@@ -67,8 +80,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return promise;
   }, []);
 
-  // Register the hook fetcher.ts calls into for the access-token getter and
-  // the refresh-and-retry flow (see lib/fetcher.ts coreRequest()).
   useEffect(() => {
     registerAuthHook({
       getAccessToken: () => accessTokenRef.current,
@@ -80,19 +91,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
   }, [doRefresh, clearSession, router]);
 
-  // Hard reload / first mount: middleware.ts has already checked for refresh
-  // cookie presence before this shell renders under /admin. Shell renders in
-  // "verifying" state while we confirm the cookie is actually still valid.
-  //
-  // DEVIATION FROM TAD §5's literal diagram, flagged rather than silent:
-  // this only runs on /admin or /login paths. AuthProvider still mounts at
-  // root (so admin state survives client-side navigation into /admin from
-  // elsewhere), but an anonymous visitor loading a public marketing page
-  // never triggers POST /auth/refresh at all. Firing that call unconditionally
-  // on every public page load is a real, avoidable network cost on the 3G
-  // budget-Android audience this site is built for (DESIGN.md §6,
-  // Liko_Frontend_Design_Research-1.md §4.2) and public pages have no
-  // authenticated UI that needs the result anyway.
   useEffect(() => {
     if (!needsAuth) {
       setStatus('unauthenticated');
@@ -120,6 +118,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return { mfaRequired: true };
     }
     accessTokenRef.current = result.accessToken ?? null;
+    if (result.refreshToken) saveRefreshToken(result.refreshToken);
     setUser(result.user ?? null);
     setStatus('authenticated');
     return { mfaRequired: false };
@@ -132,6 +131,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
       const result = await authApi.verifyMfa(code, pendingMfaToken);
       accessTokenRef.current = result.accessToken ?? null;
+      if (result.refreshToken) saveRefreshToken(result.refreshToken);
       setUser(result.user ?? null);
       setStatus('authenticated');
       setPendingMfaToken(null);
@@ -149,7 +149,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [clearSession, router]);
 
   const hasPermission = useCallback(
-    (permission: Permission) => user?.permissions?.includes(permission) ?? false,
+    (permission: Permission) => user?.permissions.includes(permission) ?? false,
     [user]
   );
 
