@@ -1,22 +1,82 @@
 .bar {
+  background: var(--liko-paper);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-md);
+  padding: var(--space-16);
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-16);
   align-items: end;
+  gap: var(--space-16);
 }
 
-.bar select,
-.bar input {
-  padding: var(--space-8) var(--space-16);
-  border: 1px solid var(--liko-panel);
-  border-radius: var(--radius-sm);
-  font-size: var(--step-caption);
-}
-
-.bar label {
+.field {
   display: flex;
   flex-direction: column;
   gap: var(--space-8);
+}
+
+.field label {
   font-size: var(--step-caption);
   font-weight: 600;
+  color: var(--liko-ink);
+  opacity: 0.65;
+  white-space: nowrap;
+}
+
+.field input {
+  padding: var(--space-8) var(--space-16);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--step-caption);
+  color: var(--liko-ink);
+}
+
+.field select {
+  padding: var(--space-8) var(--space-32) var(--space-8) var(--space-16);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--step-caption);
+  color: var(--liko-ink);
+  background: var(--liko-paper);
+  appearance: none;
+  cursor: pointer;
+}
+
+.selectWrap {
+  position: relative;
+}
+
+.selectWrap svg {
+  position: absolute;
+  top: 50%;
+  right: var(--space-8);
+  transform: translateY(-50%);
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--liko-ink);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.field input:focus-visible,
+.field select:focus-visible {
+  outline: 2px solid var(--liko-gold);
+  outline-offset: 1px;
+}
+
+.clear {
+  background: none;
+  border: none;
+  color: var(--liko-navy);
+  font-weight: 600;
+  font-size: var(--step-caption);
+  cursor: pointer;
+  padding: var(--space-8) 0;
+}
+
+.clear:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }

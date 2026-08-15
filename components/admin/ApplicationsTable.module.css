@@ -1,3 +1,18 @@
+.card {
+  background: var(--liko-paper);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.empty {
+  padding: var(--space-32);
+  text-align: center;
+  color: var(--liko-ink);
+  opacity: 0.6;
+  margin: 0;
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -9,17 +24,50 @@
   padding: var(--space-16);
   background: var(--liko-navy);
   color: var(--liko-paper);
+  font-size: var(--step-caption);
+  font-weight: 600;
 }
 
 .table td {
   padding: var(--space-16);
+  border-bottom: 1px solid var(--liko-panel);
+  font-size: var(--step-0);
+  color: var(--liko-ink);
 }
 
-.table a {
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background: color-mix(in srgb, var(--liko-panel) 60%, var(--liko-paper));
+}
+
+.refLink {
   color: var(--liko-navy);
   font-weight: 700;
+  text-decoration: none;
 }
 
-.altRow {
-  background: var(--liko-panel);
+.refLink:hover,
+.refLink:focus-visible {
+  text-decoration: underline;
+}
+
+.nameLink {
+  color: var(--liko-ink);
+  text-decoration: none;
+}
+
+.nameLink:hover,
+.nameLink:focus-visible {
+  color: var(--liko-navy);
+  text-decoration: underline;
+}
+
+@media (max-width: 48rem) {
+  .table {
+    display: block;
+    overflow-x: auto;
+  }
 }

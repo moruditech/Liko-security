@@ -6,10 +6,27 @@
   composes: dialog from '../ui/modal.module.css';
 }
 
-.actions {
-  composes: actions from '../ui/modal.module.css';
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
-.cancel {
-  composes: cancel from '../ui/modal.module.css';
+.subtitle {
+  margin: 0;
+  font-size: var(--step-caption);
+  color: var(--liko-ink);
+  opacity: 0.65;
+  font-weight: 500;
+}
+
+.dialog button[type='submit'] {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.dialog button[type='submit'] svg {
+  width: 0.875rem;
+  height: 0.875rem;
 }
