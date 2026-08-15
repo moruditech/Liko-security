@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import type { Announcement } from '@/types/api';
+import modalStyles from '../ui/modal.module.css';
 import styles from './AnnouncementEditForm.module.css';
 
 interface AnnouncementEditFormProps {
@@ -46,33 +47,45 @@ export function AnnouncementEditForm({ announcement, open, onSave, onClose }: An
   return (
     <div className={styles.overlay} role="dialog" aria-modal="true" onClick={onClose}>
       <form className={styles.dialog} onClick={(e) => e.stopPropagation()} onSubmit={handleSubmit}>
+        <button type="button" className={modalStyles.closeButton} onClick={onClose} aria-label="Close">
+          <CloseIcon />
+        </button>
+
         <h2>{announcement ? 'Edit announcement' : 'New announcement'}</h2>
 
-        <label htmlFor="annTitle">Title</label>
-        <input id="annTitle" required value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
+        <div className={modalStyles.fieldGroup}>
+          <label htmlFor="annTitle">Title</label>
+          <input id="annTitle" required value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
+        </div>
 
-        <label htmlFor="annBody">Body</label>
-        <textarea id="annBody" required rows={4} value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })} />
+        <div className={modalStyles.fieldGroup}>
+          <label htmlFor="annBody">Body</label>
+          <textarea id="annBody" required rows={4} value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })} />
+        </div>
 
-        <label htmlFor="annPublishAt">Publish at</label>
-        <input
-          id="annPublishAt"
-          type="datetime-local"
-          required
-          value={form.publishAt}
-          onChange={(e) => setForm({ ...form, publishAt: e.target.value })}
-        />
+        <div className={modalStyles.fieldGroup}>
+          <label htmlFor="annPublishAt">Publish at</label>
+          <input
+            id="annPublishAt"
+            type="datetime-local"
+            required
+            value={form.publishAt}
+            onChange={(e) => setForm({ ...form, publishAt: e.target.value })}
+          />
+        </div>
 
-        <label htmlFor="annExpiresAt">Expires at (optional)</label>
-        <input
-          id="annExpiresAt"
-          type="datetime-local"
-          value={form.expiresAt ?? ''}
-          onChange={(e) => setForm({ ...form, expiresAt: e.target.value || undefined })}
-        />
+        <div className={modalStyles.fieldGroup}>
+          <label htmlFor="annExpiresAt">Expires at (optional)</label>
+          <input
+            id="annExpiresAt"
+            type="datetime-local"
+            value={form.expiresAt ?? ''}
+            onChange={(e) => setForm({ ...form, expiresAt: e.target.value || undefined })}
+          />
+        </div>
 
-        <div className={styles.actions}>
-          <button type="button" onClick={onClose} className={styles.cancel}>
+        <div className={modalStyles.actions}>
+          <button type="button" onClick={onClose} className={modalStyles.cancel}>
             Cancel
           </button>
           <button type="submit" disabled={saving}>
@@ -81,5 +94,13 @@ export function AnnouncementEditForm({ announcement, open, onSave, onClose }: An
         </div>
       </form>
     </div>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
   );
 }

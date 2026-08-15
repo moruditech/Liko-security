@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import type { Faq } from '@/types/api';
+import modalStyles from '../ui/modal.module.css';
 import styles from './FaqEditForm.module.css';
 
 interface FaqEditFormProps {
@@ -37,16 +38,24 @@ export function FaqEditForm({ faq, open, onSave, onClose }: FaqEditFormProps) {
   return (
     <div className={styles.overlay} role="dialog" aria-modal="true" onClick={onClose}>
       <form className={styles.dialog} onClick={(e) => e.stopPropagation()} onSubmit={handleSubmit}>
+        <button type="button" className={modalStyles.closeButton} onClick={onClose} aria-label="Close">
+          <CloseIcon />
+        </button>
+
         <h2>{faq ? 'Edit FAQ' : 'New FAQ'}</h2>
 
-        <label htmlFor="faqQuestion">Question</label>
-        <input id="faqQuestion" required value={question} onChange={(e) => setQuestion(e.target.value)} />
+        <div className={modalStyles.fieldGroup}>
+          <label htmlFor="faqQuestion">Question</label>
+          <input id="faqQuestion" required value={question} onChange={(e) => setQuestion(e.target.value)} />
+        </div>
 
-        <label htmlFor="faqAnswer">Answer</label>
-        <textarea id="faqAnswer" required rows={4} value={answer} onChange={(e) => setAnswer(e.target.value)} />
+        <div className={modalStyles.fieldGroup}>
+          <label htmlFor="faqAnswer">Answer</label>
+          <textarea id="faqAnswer" required rows={4} value={answer} onChange={(e) => setAnswer(e.target.value)} />
+        </div>
 
-        <div className={styles.actions}>
-          <button type="button" onClick={onClose} className={styles.cancel}>
+        <div className={modalStyles.actions}>
+          <button type="button" onClick={onClose} className={modalStyles.cancel}>
             Cancel
           </button>
           <button type="submit" disabled={saving}>
@@ -55,5 +64,13 @@ export function FaqEditForm({ faq, open, onSave, onClose }: FaqEditFormProps) {
         </div>
       </form>
     </div>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
   );
 }
