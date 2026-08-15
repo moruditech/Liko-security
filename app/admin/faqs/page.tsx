@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { faqsApi } from '@/lib/api/faqs';
+import { FaqsStatsRow } from '@/components/admin/FaqsStatsRow';
 import { FaqManagementList } from '@/components/admin/FaqManagementList';
 import { FaqEditForm } from '@/components/admin/FaqEditForm';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
@@ -9,6 +10,7 @@ import { useToast } from '@/lib/context/ToastContext';
 import { ApiClientError, ApiNetworkError } from '@/lib/fetcher';
 import type { Faq } from '@/types/api';
 import pageStyles from '../courses/page.module.css';
+import styles from './page.module.css';
 
 export default function FaqsAdminPage() {
   const { showToast } = useToast();
@@ -82,27 +84,37 @@ export default function FaqsAdminPage() {
 
   return (
     <div>
-      <h1>FAQs</h1>
-      <button
-        type="button"
-        className={pageStyles.newButton}
-        onClick={() => {
-          setEditing(null);
-          setModalOpen(true);
-        }}
-      >
-        New FAQ
-      </button>
-      <FaqManagementList
-        faqs={faqs}
-        onMove={handleMove}
-        onEdit={(faq) => {
-          setEditing(faq);
-          setModalOpen(true);
-        }}
-        onToggleActive={handleToggleActive}
-        onDelete={setDeleting}
-      />
+      <div className={styles.headerRow}>
+        <div>
+          <h1>FAQs</h1>
+          <p className={styles.subtitle}>Manage frequently asked questions shown on the public site.</p>
+        </div>
+        <button
+          type="button"
+          className={pageStyles.newButton}
+          onClick={() => {
+            setEditing(null);
+            setModalOpen(true);
+          }}
+        >
+          <PlusIcon /> New FAQ
+        </button>
+      </div>
+
+      <FaqsStatsRow faqs={faqs} />
+
+      <div className={styles.listRow}>
+        <FaqManagementList
+          faqs={faqs}
+          onMove={handleMove}
+          onEdit={(faq) => {
+            setEditing(faq);
+            setModalOpen(true);
+          }}
+          onToggleActive={handleToggleActive}
+          onDelete={setDeleting}
+        />
+      </div>
 
       <FaqEditForm faq={editing} open={modalOpen} onSave={handleSave} onClose={() => setModalOpen(false)} />
 
@@ -115,5 +127,13 @@ export default function FaqsAdminPage() {
         onCancel={() => setDeleting(null)}
       />
     </div>
+  );
+}
+
+function PlusIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <path d="M12 5v14M5 12h14" />
+    </svg>
   );
 }
