@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { galleryApi } from '@/lib/api/gallery';
+import { GalleryStatsRow } from '@/components/admin/GalleryStatsRow';
 import { MediaUploadForm } from '@/components/admin/MediaUploadForm';
 import { GalleryManagementGrid } from '@/components/admin/GalleryManagementGrid';
 import { GalleryEditModal } from '@/components/admin/GalleryEditModal';
@@ -9,6 +10,7 @@ import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { useToast } from '@/lib/context/ToastContext';
 import { ApiClientError, ApiNetworkError } from '@/lib/fetcher';
 import type { GalleryItem } from '@/types/api';
+import styles from './page.module.css';
 
 export default function GalleryAdminPage() {
   const { showToast } = useToast();
@@ -78,8 +80,17 @@ export default function GalleryAdminPage() {
 
   return (
     <div>
-      <h1>Gallery</h1>
-      <MediaUploadForm onUpload={handleUpload} />
+      <div className={styles.header}>
+        <h1>Gallery</h1>
+        <p className={styles.subtitle}>Manage photos shown on the public site.</p>
+      </div>
+
+      <GalleryStatsRow items={items} />
+
+      <div className={styles.uploadRow}>
+        <MediaUploadForm onUpload={handleUpload} />
+      </div>
+
       <GalleryManagementGrid
         items={items}
         onMove={handleMove}
