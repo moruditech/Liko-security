@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth/AuthProvider';
 import { PermissionGate } from '@/components/admin/PermissionGate';
@@ -38,36 +39,42 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <aside className={styles.sidebar}>
         <nav className={styles.nav}>
           {/* Dashboard: any authenticated session, per TAD §12.1 */}
-          <a href="/admin">Dashboard</a>
+          {/* next/link, not a plain <a>: a plain anchor forces a full page
+              reload, which remounts AuthProvider from scratch and throws away
+              the in-memory access token, forcing a fresh POST /auth/refresh
+              (relying on a cross-domain cookie) on every single nav click.
+              Link keeps this a client-side transition within the same React
+              tree, so the already-authenticated in-memory session persists. */}
+          <Link href="/admin">Dashboard</Link>
 
           <PermissionGate permission="applications:read">
-            <a href="/admin/applications">Applications</a>
+            <Link href="/admin/applications">Applications</Link>
           </PermissionGate>
           <PermissionGate permission="courses:manage">
-            <a href="/admin/courses">Courses &amp; Intakes</a>
+            <Link href="/admin/courses">Courses &amp; Intakes</Link>
           </PermissionGate>
           <PermissionGate permission="gallery:manage">
-            <a href="/admin/gallery">Gallery</a>
+            <Link href="/admin/gallery">Gallery</Link>
           </PermissionGate>
           <PermissionGate permission="testimonials:manage">
-            <a href="/admin/testimonials">Testimonials</a>
+            <Link href="/admin/testimonials">Testimonials</Link>
           </PermissionGate>
           <PermissionGate permission="faqs:manage">
-            <a href="/admin/faqs">FAQs</a>
+            <Link href="/admin/faqs">FAQs</Link>
           </PermissionGate>
           <PermissionGate permission="inquiries:manage">
-            <a href="/admin/inquiries">Inquiries</a>
+            <Link href="/admin/inquiries">Inquiries</Link>
           </PermissionGate>
           <PermissionGate permission="content:manage">
-            <a href="/admin/announcements">Announcements</a>
+            <Link href="/admin/announcements">Announcements</Link>
           </PermissionGate>
           {/* Settings, audit logs, users, roles all gate on users:manage (Super Admin), per TAD §12.10-12.13 */}
           <PermissionGate permission="users:manage">
             <>
-              <a href="/admin/settings">Settings</a>
-              <a href="/admin/audit-logs">Audit Logs</a>
-              <a href="/admin/users">Users</a>
-              <a href="/admin/roles">Roles</a>
+              <Link href="/admin/settings">Settings</Link>
+              <Link href="/admin/audit-logs">Audit Logs</Link>
+              <Link href="/admin/users">Users</Link>
+              <Link href="/admin/roles">Roles</Link>
             </>
           </PermissionGate>
         </nav>
