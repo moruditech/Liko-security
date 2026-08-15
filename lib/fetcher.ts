@@ -56,6 +56,13 @@ export function registerAuthHook(hook: AuthHook) {
 }
 
 async function parseEnvelope<T>(res: Response): Promise<ApiSuccessEnvelope<T> | ApiErrorEnvelope> {
+  // 204 No Content is a deliberate empty body on a successful response (every
+  // DELETE endpoint, and logout), not a malformed one — res.json() throws on
+  // an empty body, which the catch below would otherwise misreport as
+  // ApiNetworkError even though the request succeeded.
+  if (res.status === 204) {
+    return { success: true, data: undefined as T, message: '' };
+  }
   try {
     return await res.json();
   } catch {
