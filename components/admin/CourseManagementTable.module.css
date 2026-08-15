@@ -1,3 +1,18 @@
+.card {
+  background: var(--liko-paper);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.empty {
+  padding: var(--space-32);
+  text-align: center;
+  color: var(--liko-ink);
+  opacity: 0.6;
+}
+
+/* ---- Desktop/tablet table ---- */
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -9,17 +24,282 @@
   padding: var(--space-16);
   background: var(--liko-navy);
   color: var(--liko-paper);
+  font-size: var(--step-caption);
+  font-weight: 600;
+}
+
+.actionsHeader {
+  text-align: right;
 }
 
 .table td {
   padding: var(--space-16);
   border-bottom: 1px solid var(--liko-panel);
+  font-size: var(--step-0);
+  color: var(--liko-ink);
 }
 
-.table button {
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.titleCell {
+  font-weight: 600;
+  color: var(--liko-navy);
+}
+
+/* ---- Grade badge, cycles through existing brand tokens ---- */
+.gradeBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: var(--step-caption);
+}
+
+.grade_navy {
+  background: color-mix(in srgb, var(--liko-navy) 15%, var(--liko-paper));
+  color: var(--liko-navy);
+}
+
+.grade_success {
+  background: color-mix(in srgb, var(--liko-success) 15%, var(--liko-paper));
+  color: var(--liko-success);
+}
+
+.grade_gold {
+  background: color-mix(in srgb, var(--liko-gold) 22%, var(--liko-paper));
+  color: color-mix(in srgb, var(--liko-gold) 70%, var(--liko-navy-deep));
+}
+
+.grade_mixed {
+  background: color-mix(in srgb, color-mix(in srgb, var(--liko-navy) 60%, var(--liko-gold) 40%) 18%, var(--liko-paper));
+  color: color-mix(in srgb, var(--liko-navy) 60%, var(--liko-gold) 40%);
+}
+
+/* ---- Active/inactive pill ---- */
+.pillYes,
+.pillNo {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-8) var(--space-16);
+  border-radius: var(--radius-sm);
+  font-size: var(--step-caption);
+  font-weight: 600;
+}
+
+.pillYes {
+  background: color-mix(in srgb, var(--liko-success) 15%, var(--liko-paper));
+  color: var(--liko-success);
+}
+
+.pillNo {
+  background: color-mix(in srgb, var(--liko-error) 12%, var(--liko-paper));
+  color: var(--liko-error);
+}
+
+/* ---- Row actions: edit pencil + kebab menu ---- */
+.actionsCell {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--space-8);
+  position: relative;
+}
+
+.iconButton {
   background: none;
   border: 1px solid var(--liko-panel);
   border-radius: var(--radius-sm);
-  padding: var(--space-8) var(--space-16);
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--liko-ink);
   cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.iconButton svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.iconButton:hover,
+.iconButton:focus-visible {
+  background: var(--liko-panel);
+}
+
+.menuWrap {
+  position: relative;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + var(--space-8));
+  right: 0;
+  background: var(--liko-paper);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 0.5rem 1.5rem color-mix(in srgb, var(--liko-navy-deep) 15%, transparent);
+  min-width: 9rem;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-8);
+  gap: var(--space-8);
+}
+
+.menu button {
+  background: none;
+  border: none;
+  text-align: left;
+  padding: var(--space-8) var(--space-8);
+  border-radius: var(--radius-sm);
+  font-size: var(--step-caption);
+  font-weight: 500;
+  color: var(--liko-ink);
+  cursor: pointer;
+}
+
+.menu button:hover,
+.menu button:focus-visible {
+  background: var(--liko-panel);
+}
+
+/* ---- Mobile card list, hidden until the table collapses ---- */
+.cardList {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rowCard {
+  padding: var(--space-16);
+  border-bottom: 1px solid var(--liko-panel);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.rowCard:last-child {
+  border-bottom: none;
+}
+
+.rowCardTop {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.rowCardTitle {
+  flex: 1;
+  font-weight: 600;
+  color: var(--liko-navy);
+  font-size: var(--step-0);
+}
+
+.rowCardMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-8);
+  font-size: var(--step-caption);
+  color: var(--liko-ink);
+  opacity: 0.75;
+}
+
+.rowCardMeta .pillYes,
+.rowCardMeta .pillNo {
+  padding: 0.125rem var(--space-8);
+}
+
+/* ---- Footer / pagination ---- */
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-16);
+  padding: var(--space-16);
+  border-top: 1px solid var(--liko-panel);
+}
+
+.footerText {
+  font-size: var(--step-caption);
+  color: var(--liko-ink);
+  opacity: 0.65;
+  margin: 0;
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.pager button {
+  background: var(--liko-paper);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-sm);
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--step-caption);
+  font-weight: 600;
+  color: var(--liko-ink);
+  cursor: pointer;
+}
+
+.pager button svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.pager button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pager .pageActive {
+  background: var(--liko-navy);
+  border-color: var(--liko-navy);
+  color: var(--liko-paper);
+}
+
+.ellipsis {
+  color: var(--liko-ink);
+  opacity: 0.5;
+  padding: 0 var(--space-8);
+}
+
+.viewAll {
+  background: none;
+  border: none;
+  color: var(--liko-navy);
+  font-weight: 600;
+  font-size: var(--step-caption);
+  cursor: pointer;
+}
+
+@media (max-width: 48rem) {
+  .table {
+    display: none;
+  }
+
+  .cardList {
+    display: block;
+  }
+
+  .pager {
+    display: none;
+  }
 }

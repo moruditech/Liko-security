@@ -1,5 +1,5 @@
 import type { Role } from '@/types/api';
-import styles from './CourseManagementTable.module.css';
+import styles from './RoleManagementTable.module.css';
 
 interface RoleManagementTableProps {
   roles: Role[];

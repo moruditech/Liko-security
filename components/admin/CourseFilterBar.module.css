@@ -1,0 +1,151 @@
+.bar {
+  background: var(--liko-paper);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-md);
+  padding: var(--space-16);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-16);
+  margin-bottom: var(--space-24);
+}
+
+.searchWrap {
+  position: relative;
+  flex: 1 1 14rem;
+  min-width: 12rem;
+}
+
+.searchWrap svg {
+  position: absolute;
+  top: 50%;
+  left: var(--space-16);
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  color: var(--liko-ink);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.searchWrap input {
+  width: 100%;
+  padding: var(--space-8) var(--space-16) var(--space-8) var(--space-48);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  color: var(--liko-ink);
+}
+
+.searchWrap input:focus-visible {
+  outline: 2px solid var(--liko-gold);
+  outline-offset: 1px;
+}
+
+.toggle {
+  display: none;
+  align-items: center;
+  gap: var(--space-8);
+  background: var(--liko-paper);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-sm);
+  padding: var(--space-8) var(--space-16);
+  font-weight: 600;
+  font-size: var(--step-caption);
+  color: var(--liko-ink);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.toggle svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.extra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-16);
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.field label {
+  font-size: var(--step-caption);
+  font-weight: 600;
+  color: var(--liko-ink);
+  opacity: 0.65;
+  white-space: nowrap;
+}
+
+.field select {
+  padding: var(--space-8) var(--space-32) var(--space-8) var(--space-16);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  color: var(--liko-ink);
+  background: var(--liko-paper);
+  appearance: none;
+  cursor: pointer;
+}
+
+.selectWrap {
+  position: relative;
+}
+
+.selectWrap svg {
+  position: absolute;
+  top: 50%;
+  right: var(--space-8);
+  transform: translateY(-50%);
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--liko-ink);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.field select:focus-visible {
+  outline: 2px solid var(--liko-gold);
+  outline-offset: 1px;
+}
+
+.clear {
+  background: none;
+  border: none;
+  color: var(--liko-navy);
+  font-weight: 600;
+  font-size: var(--step-caption);
+  cursor: pointer;
+  padding: var(--space-8) 0;
+}
+
+.clear:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Below this breakpoint, Status/Grade/Clear collapse behind the Filters toggle */
+@media (max-width: 48rem) {
+  .toggle {
+    display: inline-flex;
+  }
+
+  .extra {
+    display: none;
+    width: 100%;
+    padding-top: var(--space-16);
+    border-top: 1px solid var(--liko-panel);
+  }
+
+  .extra.open {
+    display: flex;
+  }
+}

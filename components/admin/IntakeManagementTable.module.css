@@ -1,0 +1,25 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--liko-paper);
+}
+
+.table th {
+  text-align: left;
+  padding: var(--space-16);
+  background: var(--liko-navy);
+  color: var(--liko-paper);
+}
+
+.table td {
+  padding: var(--space-16);
+  border-bottom: 1px solid var(--liko-panel);
+}
+
+.table button {
+  background: none;
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-sm);
+  padding: var(--space-8) var(--space-16);
+  cursor: pointer;
+}

@@ -1,5 +1,5 @@
 import type { StaffUser } from '@/types/api';
-import styles from './CourseManagementTable.module.css';
+import styles from './UserManagementTable.module.css';
 
 interface UserManagementTableProps {
   users: StaffUser[];

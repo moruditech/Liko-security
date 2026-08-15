@@ -1,5 +1,5 @@
 import type { Announcement } from '@/types/api';
-import styles from './CourseManagementTable.module.css';
+import styles from './AnnouncementList.module.css';
 
 function computeState(announcement: Announcement): 'scheduled' | 'live' | 'expired' {
   const now = Date.now();

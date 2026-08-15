@@ -1,5 +1,5 @@
 import type { Testimonial } from '@/types/api';
-import styles from './CourseManagementTable.module.css';
+import styles from './TestimonialManagementList.module.css';
 
 interface TestimonialManagementListProps {
   testimonials: Testimonial[];

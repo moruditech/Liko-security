@@ -1,5 +1,5 @@
 import type { Faq } from '@/types/api';
-import styles from './CourseManagementTable.module.css';
+import styles from './FaqManagementList.module.css';
 
 interface FaqManagementListProps {
   faqs: Faq[];

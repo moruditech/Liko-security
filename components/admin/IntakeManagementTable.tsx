@@ -1,5 +1,5 @@
 import type { Course, Intake } from '@/types/api';
-import styles from './CourseManagementTable.module.css';
+import styles from './IntakeManagementTable.module.css';
 
 interface IntakeManagementTableProps {
   intakes: Intake[];
