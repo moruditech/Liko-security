@@ -2,19 +2,58 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
 }
 
-.timeline li {
+.entry {
   display: flex;
-  justify-content: space-between;
   gap: var(--space-16);
-  padding: var(--space-8) 0;
-  border-bottom: 1px solid var(--liko-panel);
-  font-size: var(--step-caption);
+  position: relative;
+  padding-bottom: var(--space-24);
+}
+
+.entry:last-child {
+  padding-bottom: 0;
+}
+
+/* Connector line running through the dot, hidden on the last entry */
+.entry:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 0.28125rem;
+  top: 1rem;
+  bottom: 0;
+  width: 2px;
+  background: var(--liko-panel);
+}
+
+.dot {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background: var(--liko-navy);
+  margin-top: 0.375rem;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
 }
 
 .status {
-  font-weight: 700;
-  color: var(--liko-navy);
+  font-weight: 600;
   text-transform: capitalize;
+  color: var(--liko-navy);
+}
+
+.meta {
+  font-size: var(--step-caption);
+  color: var(--liko-ink);
+  opacity: 0.6;
 }

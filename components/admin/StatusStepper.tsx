@@ -6,7 +6,8 @@ export function StatusStepper({ status }: { status: ApplicationStatus }) {
   if (status === 'rejected') {
     return (
       <div className={styles.rejected}>
-        <strong>Rejected</strong>
+        <span className={styles.rejectedDot} />
+        <strong>Application rejected</strong>
       </div>
     );
   }
@@ -16,8 +17,9 @@ export function StatusStepper({ status }: { status: ApplicationStatus }) {
   return (
     <ol className={styles.stepper}>
       {APPLICATION_STATUS_ORDER.map((step, i) => (
-        <li key={step} className={i <= currentIndex ? styles.done : undefined}>
-          {step.replace('_', ' ')}
+        <li key={step} className={i <= currentIndex ? styles.done : i === currentIndex + 1 ? styles.next : undefined}>
+          <span className={styles.dot} />
+          <span className={styles.stepLabel}>{step.replace('_', ' ')}</span>
         </li>
       ))}
     </ol>

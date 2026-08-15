@@ -1,3 +1,10 @@
+.empty {
+  padding: var(--space-16) 0;
+  color: var(--liko-ink);
+  opacity: 0.6;
+  margin: 0;
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -5,24 +12,72 @@
 
 .table th {
   text-align: left;
-  padding: var(--space-8) var(--space-16);
+  padding: var(--space-8) 0;
   font-size: var(--step-caption);
-  color: var(--liko-navy);
+  font-weight: 600;
+  color: var(--liko-ink);
+  opacity: 0.55;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid var(--liko-panel);
+}
+
+.actionsHeader {
+  text-align: right;
 }
 
 .table td {
-  padding: var(--space-8) var(--space-16);
+  padding: var(--space-16) 0;
+  border-bottom: 1px solid var(--liko-panel);
+  font-size: var(--step-0);
+  color: var(--liko-ink);
 }
 
-.table td a {
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.typeCell {
+  font-weight: 600;
   color: var(--liko-navy);
-  margin-right: var(--space-16);
 }
 
-.table td button {
+.actionsCell {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--space-16);
+}
+
+.link {
+  color: var(--liko-navy);
+  font-weight: 600;
+  font-size: var(--step-caption);
+  text-decoration: none;
+}
+
+.link:hover,
+.link:focus-visible {
+  text-decoration: underline;
+}
+
+.resendButton {
   background: none;
   border: 1px solid var(--liko-panel);
   border-radius: var(--radius-sm);
   padding: var(--space-8) var(--space-16);
+  font-size: var(--step-caption);
+  font-weight: 600;
+  color: var(--liko-ink);
   cursor: pointer;
+}
+
+.resendButton:hover:not(:disabled),
+.resendButton:focus-visible {
+  background: var(--liko-panel);
+}
+
+.resendButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

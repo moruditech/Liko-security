@@ -1,6 +1,9 @@
 .controls {
   display: flex;
   gap: var(--space-16);
+  flex-wrap: wrap;
+  padding-top: var(--space-24);
+  border-top: 1px solid var(--liko-panel);
 }
 
 .advance {
@@ -13,6 +16,11 @@
   font-weight: 600;
 }
 
+.advance:hover,
+.advance:focus-visible {
+  background: var(--liko-navy-deep);
+}
+
 .reject {
   background: none;
   border: 1px solid var(--liko-error);
@@ -21,4 +29,9 @@
   border-radius: var(--radius-sm);
   cursor: pointer;
   font-weight: 600;
+}
+
+.reject:hover,
+.reject:focus-visible {
+  background: color-mix(in srgb, var(--liko-error) 8%, var(--liko-paper));
 }

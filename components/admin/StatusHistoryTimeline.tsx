@@ -7,10 +7,14 @@ export function StatusHistoryTimeline({ history }: { history: Application['statu
   return (
     <ol className={styles.timeline}>
       {history.map((entry, i) => (
-        <li key={i}>
-          <span className={styles.status}>{entry.status.replace('_', ' ')}</span>
-          <span>{entry.changedBy ? entry.changedBy.name : 'System'}</span>
-          <span>{new Date(entry.date).toLocaleString('en-ZA')}</span>
+        <li key={i} className={styles.entry}>
+          <span className={styles.dot} />
+          <div className={styles.content}>
+            <span className={styles.status}>{entry.status.replace('_', ' ')}</span>
+            <span className={styles.meta}>
+              {entry.changedBy ? entry.changedBy.name : 'System'} · {new Date(entry.date).toLocaleString('en-ZA')}
+            </span>
+          </div>
         </li>
       ))}
     </ol>

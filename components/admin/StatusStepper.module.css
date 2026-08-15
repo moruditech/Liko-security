@@ -3,29 +3,94 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: var(--space-8);
 }
 
 .stepper li {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+  position: relative;
   text-align: center;
-  padding: var(--space-8);
-  background: var(--liko-panel);
-  color: var(--liko-ink);
-  text-transform: capitalize;
-  font-weight: 600;
-  font-size: var(--step-caption);
-  border-radius: var(--radius-sm);
 }
 
-.done {
+/* Connector line drawn through the dot's vertical center, behind it */
+.stepper li:not(:first-child)::before {
+  content: '';
+  position: absolute;
+  top: 0.4375rem;
+  right: 50%;
+  width: 100%;
+  height: 2px;
+  background: var(--liko-panel);
+  z-index: 0;
+}
+
+.stepper li.done:not(:first-child)::before {
   background: var(--liko-navy);
-  color: var(--liko-paper);
+}
+
+.dot {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: var(--liko-panel);
+  border: 2px solid var(--liko-panel);
+  position: relative;
+  z-index: 1;
+}
+
+.stepLabel {
+  font-size: var(--step-caption);
+  font-weight: 600;
+  text-transform: capitalize;
+  color: var(--liko-ink);
+  opacity: 0.55;
+}
+
+.done .dot {
+  background: var(--liko-navy);
+  border-color: var(--liko-navy);
+}
+
+.done .stepLabel {
+  color: var(--liko-navy);
+  opacity: 1;
+}
+
+.next .dot {
+  background: var(--liko-paper);
+  border-color: var(--liko-gold);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--liko-gold) 25%, transparent);
+}
+
+.next .stepLabel {
+  color: var(--liko-navy);
+  opacity: 0.85;
 }
 
 .rejected {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
   padding: var(--space-16);
-  background: var(--liko-panel);
-  border-radius: var(--radius-sm);
-  text-align: center;
+  background: color-mix(in srgb, var(--liko-error) 8%, var(--liko-paper));
+  border: 1px solid color-mix(in srgb, var(--liko-error) 25%, var(--liko-panel));
+  border-radius: var(--radius-md);
+  color: var(--liko-error);
+}
+
+.rejectedDot {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background: var(--liko-error);
+}
+
+@media (max-width: 36rem) {
+  .stepLabel {
+    font-size: 0.6875rem;
+  }
 }

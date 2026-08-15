@@ -28,7 +28,17 @@ export function DocumentViewerButton({ applicationId }: { applicationId: string 
 
   return (
     <button type="button" className={styles.button} onClick={handleClick} disabled={loading}>
+      <DocumentIcon />
       {loading ? 'Loading...' : 'View ID document'}
     </button>
+  );
+}
+
+function DocumentIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <path d="M7 2h7l5 5v15H7V2z" />
+      <path d="M14 2v5h5M9 13h6M9 17h6" />
+    </svg>
   );
 }

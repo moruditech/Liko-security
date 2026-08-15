@@ -13,7 +13,7 @@ export function InvoiceList({ invoices }: { invoices: Invoice[] }) {
   const [resendingId, setResendingId] = useState<string | null>(null);
 
   if (invoices.length === 0) {
-    return <p>No invoices issued yet.</p>;
+    return <p className={styles.empty}>No invoices issued yet.</p>;
   }
 
   async function handleResend(invoiceId: string) {
@@ -37,22 +37,23 @@ export function InvoiceList({ invoices }: { invoices: Invoice[] }) {
           <th>Type</th>
           <th>Amount</th>
           <th>Issued</th>
-          <th />
+          <th className={styles.actionsHeader} />
         </tr>
       </thead>
       <tbody>
         {invoices.map((invoice) => (
           <tr key={invoice.id}>
-            <td>{invoice.type === 'proforma' ? 'Proforma' : 'Official'}</td>
+            <td className={styles.typeCell}>{invoice.type === 'proforma' ? 'Proforma' : 'Official'}</td>
             <td className="mono">R{invoice.amount.toLocaleString('en-ZA')}</td>
             <td>{new Date(invoice.issuedAt).toLocaleDateString('en-ZA')}</td>
-            <td>
-              <a href={invoice.pdfUrl} target="_blank" rel="noopener noreferrer">
+            <td className={styles.actionsCell}>
+              <a href={invoice.pdfUrl} target="_blank" rel="noopener noreferrer" className={styles.link}>
                 View PDF
               </a>
               <PermissionGate permission="invoices:issue">
                 <button
                   type="button"
+                  className={styles.resendButton}
                   onClick={() => handleResend(invoice.id)}
                   disabled={resendingId === invoice.id}
                 >
