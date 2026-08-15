@@ -12,52 +12,9 @@
   min-height: 100vh;
 }
 
-.sidebar {
-  width: 15rem;
-  flex-shrink: 0;
-  background: var(--liko-navy);
-  color: var(--liko-paper);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: var(--space-24) var(--space-16);
-}
-
-.nav {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-16);
-}
-
-.nav a {
-  color: var(--liko-paper);
-  text-decoration: none;
-  font-size: var(--step-0);
-}
-
-.nav a:hover {
-  color: var(--liko-gold);
-}
-
-.userBlock {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-8);
-  border-top: 1px solid var(--liko-navy-deep);
-  padding-top: var(--space-16);
-}
-
-.userBlock button {
-  background: none;
-  border: 1px solid var(--liko-gold);
-  color: var(--liko-gold);
-  border-radius: var(--radius-sm);
-  padding: var(--space-8);
-  cursor: pointer;
-}
-
 .content {
   flex: 1;
+  min-width: 0;
   padding: var(--space-32);
   background: var(--liko-panel);
 }
