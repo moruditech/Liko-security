@@ -47,6 +47,7 @@ export type Permission =
 
 // ---- Auth ----
 export interface LoginResponse {
+  refreshToken?: string;
   accessToken?: string;
   user?: AuthUser;
   mfaRequired?: boolean;
@@ -62,28 +63,23 @@ export interface AuthUser {
 }
 
 // ---- Applications (application.model.js) ----
-// address sub-fields other than street are stored plaintext with `default: null`
-// on the model, so they come back as `null`, not `undefined`, until set.
 export interface ApplicationAddress {
-  street: string | null;
-  suburb: string | null;
-  city: string | null;
-  province: string | null;
-  postalCode: string | null;
+  line1: string;
+  line2?: string;
+  city: string;
+  province: string;
+  postalCode: string;
 }
 
-// coursesSelected/preferredIntake are populated via appDoc.toObject() in
-// application.service.js (toDecryptedJSON), which does NOT apply Course's
-// toJSON id-transform — populated refs come back with a raw Mongo `_id`, not `id`.
 export interface PopulatedCourseRef {
-  _id: string;
+  id: string;
   grade: string;
   title: string;
   fee: number;
 }
 
 export interface PopulatedIntakeRef {
-  _id: string;
+  id: string;
   title: string;
   startDate: string;
 }
@@ -91,8 +87,7 @@ export interface PopulatedIntakeRef {
 export interface Application {
   id: string;
   referenceCode: string;
-  firstName: string;
-  lastName: string;
+  fullName: string;
   idType: IdType;
   idNumber: string; // decrypted on read, per application.service.js
   phone: string;
@@ -107,12 +102,7 @@ export interface Application {
   // .populate('preferredIntake', 'title startDate')).
   preferredIntake: PopulatedIntakeRef;
   status: ApplicationStatus;
-  // totalAmount is server-computed (courses' fees + PSIRA registration fee) and
-  // never derivable client-side from coursesSelected alone — always use this field.
-  totalAmount: number;
-  // changedBy is null for the initial "new" entry created at submission (system
-  // action, no actor) — application.model.js: `default: null // null = system`.
-  statusHistory: { status: ApplicationStatus; date: string; changedBy: { _id: string; name: string } | null }[];
+  statusHistory: { status: ApplicationStatus; changedAt: string; changedBy: { id: string; name: string } }[];
   consentGiven: true;
   consentGivenAt: string;
   documentUrl?: string; // signed URL, fetched fresh via GET /applications/:id/document
