@@ -24,6 +24,15 @@
   --liko-error: #8c2f2f;
 
   /*
+    Referenced by components/ui/AlertModal.module.css's `.iconCircle_success`
+    (var(--liko-success)) but never defined here, so that variant was
+    silently rendering with no icon color. Same class of gap as
+    --liko-error above: a muted, low-saturation green matching the
+    navy/gold system's restraint rather than a bright/saturated green.
+  */
+  --liko-success: #2f6e46;
+
+  /*
     Soft gold tint, added for the homepage hero's "PSIRA-ACCREDITED" eyebrow
     badge (approved hero redesign reference). DESIGN.md §3.2's original
     six-color table has no light/tint variant of gold, same gap the error
