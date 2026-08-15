@@ -15,7 +15,10 @@ export function Hero({ courses, psiraFee }: HeroProps) {
     <>
       <section className={styles.hero}>
         <div className={styles.left}>
-          <p className={styles.eyebrow}>PSIRA-Accredited</p>
+          <p className={styles.eyebrow}>
+            <BadgeIcon />
+            PSIRA-Accredited
+          </p>
           <h1>
             PSIRA-accredited
             <br />
@@ -28,31 +31,37 @@ export function Hero({ courses, psiraFee }: HeroProps) {
             what matters most.
           </p>
 
-          <dl className={styles.facts}>
-            <div>
+          <div className={styles.factsRow}>
+            <div className={styles.factItem}>
               <span className={styles.factIcon}>
                 <ShieldCheckIcon />
               </span>
-              <dt>PSIRA No.</dt>
-              <dd className="mono">{COMPANY.psiraNumber}</dd>
+              <div>
+                <p className={styles.factLabel}>PSIRA No.</p>
+                <p className={`${styles.factValue} mono`}>{COMPANY.psiraNumber}</p>
+              </div>
             </div>
-            <div>
+            <div className={styles.factItem}>
               <span className={styles.factIcon}>
                 <BuildingIcon />
               </span>
-              <dt>Centre No.</dt>
-              <dd className="mono">{COMPANY.centreNumber}</dd>
+              <div>
+                <p className={styles.factLabel}>Centre No.</p>
+                <p className={`${styles.factValue} mono`}>{COMPANY.centreNumber}</p>
+              </div>
             </div>
-            <div>
+            <div className={styles.factItem}>
               <span className={styles.factIcon}>
                 <PinIcon />
               </span>
-              <dt>Address</dt>
-              <dd>
-                {COMPANY.address.line1}, {COMPANY.address.city}
-              </dd>
+              <div>
+                <p className={styles.factLabel}>Address</p>
+                <p className={styles.factValue}>
+                  {COMPANY.address.line1}, {COMPANY.address.city}
+                </p>
+              </div>
             </div>
-          </dl>
+          </div>
 
           <div className={styles.buttonRow}>
             <Link href="/courses" className={styles.btnPrimary}>
@@ -61,26 +70,44 @@ export function Hero({ courses, psiraFee }: HeroProps) {
             </Link>
             {/* Anchors to the existing "Why choose Liko" section further down app/(public)/page.tsx */}
             <Link href="#why-choose" className={styles.btnOutline}>
-              <ShieldCheckIcon />
+              <PlayIcon />
               Why Choose Liko
             </Link>
           </div>
         </div>
 
-        <FeeCalculator courses={courses} psiraFee={psiraFee} />
-
         <div className={styles.imageCol}>
-          {/* Replace public/images/home/hero-officer.jpg with a real photo */}
-          <Image
-            src="/images/home/hero-image.png"
-            alt="Liko Security Training officer on duty"
-            width={700}
-            height={860}
-            className={styles.heroImage}
-            priority
-          />
+          <div className={styles.imageWrap}>
+            <span className={styles.imageBacker} aria-hidden="true" />
+            {/* Replace public/images/home/hero-officer.jpg with a real photo */}
+            <Image
+              src="/images/home/hero-image.png"
+              alt="Liko Security Training officer on duty"
+              width={700}
+              height={860}
+              className={styles.heroImage}
+              priority
+            />
+            <span className={styles.dotPattern} aria-hidden="true">
+              <DotPattern />
+            </span>
+            <div className={styles.imageBadge} aria-hidden="true">
+              <ShieldMark />
+              <span>
+                Liko
+                <br />
+                Security
+                <br />
+                Training
+              </span>
+            </div>
+          </div>
         </div>
       </section>
+
+      <div className={styles.calculatorWrap}>
+        <FeeCalculator courses={courses} psiraFee={psiraFee} />
+      </div>
 
       {/*
         FLAG: static copy straight from the reference image, same caveat as
@@ -125,6 +152,51 @@ export function Hero({ courses, psiraFee }: HeroProps) {
         </div>
       </div>
     </>
+  );
+}
+
+function BadgeIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--liko-gold)" strokeWidth="1.8" aria-hidden="true">
+      <circle cx="12" cy="9" r="6" />
+      <path d="M8.5 14.2L7 22l5-2.6 5 2.6-1.5-7.8" />
+    </svg>
+  );
+}
+
+function PlayIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--liko-navy)" strokeWidth="1.8" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M10 8.5l6 3.5-6 3.5v-7z" fill="var(--liko-navy)" stroke="none" />
+    </svg>
+  );
+}
+
+/**
+ * Small watermark-style badge overlaid on the hero photo (approved hero
+ * redesign reference). Own compact shield mark rather than importing
+ * SiteHeader's, since that one isn't exported and is tuned for a navy/gold
+ * fill against a paper background, not legibility over a variable photo.
+ */
+function ShieldMark() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 2L4 5v6c0 5.25 3.4 9.7 8 11 4.6-1.3 8-5.75 8-11V5l-8-3z" stroke="var(--liko-paper)" strokeWidth="1.5" />
+      <path d="M9 12l2 2 4-4" stroke="var(--liko-paper)" strokeWidth="1.5" />
+    </svg>
+  );
+}
+
+/** Decorative dot grid tiled behind the hero photo's lower corner. */
+function DotPattern() {
+  return (
+    <svg width="96" height="96" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+      <pattern id="hero-dot-pattern" width="12" height="12" patternUnits="userSpaceOnUse">
+        <circle cx="2" cy="2" r="1.5" fill="var(--liko-gold)" fillOpacity="0.35" />
+      </pattern>
+      <rect width="96" height="96" fill="url(#hero-dot-pattern)" />
+    </svg>
   );
 }
 
