@@ -13,3 +13,17 @@
 .cancel {
   composes: cancel from '../ui/modal.module.css';
 }
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-weight: 600;
+  font-size: var(--step-caption);
+  color: var(--liko-ink);
+  cursor: pointer;
+}
+
+.checkboxRow input {
+  width: auto;
+}

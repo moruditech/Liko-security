@@ -27,32 +27,56 @@ export function ReorderableGrid({ items, onMove, onEdit, onDelete }: Reorderable
     <div className={styles.grid}>
       {sorted.map((item, i) => (
         <div key={item.id} className={styles.tile}>
-          <Image src={item.imageUrl} alt={item.caption ?? ''} width={200} height={150} style={{ objectFit: 'cover' }} />
-          <div className={styles.meta}>
-            <span>{item.category}</span>
-            {!item.active && <span className={styles.inactive}>Inactive</span>}
+          <div className={styles.imageWrap}>
+            <Image src={item.imageUrl} alt={item.caption ?? ''} fill sizes="(max-width: 768px) 50vw, 220px" style={{ objectFit: 'cover' }} />
+            <span className={`${styles.statusPill} ${item.active ? styles.active : styles.inactive}`}>
+              {item.active ? 'Active' : 'Inactive'}
+            </span>
           </div>
+
+          <div className={styles.meta}>
+            <span className={styles.category}>{item.category}</span>
+            {item.caption && <span className={styles.caption}>{item.caption}</span>}
+          </div>
+
           <div className={styles.controls}>
-            <button type="button" onClick={() => onMove(item, 'up')} disabled={i === 0} aria-label="Move up">
-              ↑
+            <button type="button" className={styles.iconButton} onClick={() => onMove(item, 'up')} disabled={i === 0} aria-label="Move up">
+              <ArrowUpIcon />
             </button>
             <button
               type="button"
+              className={styles.iconButton}
               onClick={() => onMove(item, 'down')}
               disabled={i === sorted.length - 1}
               aria-label="Move down"
             >
-              ↓
+              <ArrowDownIcon />
             </button>
-            <button type="button" onClick={() => onEdit(item)}>
+            <button type="button" className={styles.textButton} onClick={() => onEdit(item)}>
               Edit
             </button>
-            <button type="button" onClick={() => onDelete(item)}>
+            <button type="button" className={styles.deleteButton} onClick={() => onDelete(item)}>
               Delete
             </button>
           </div>
         </div>
       ))}
     </div>
+  );
+}
+
+function ArrowUpIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <path d="M12 19V5M5 12l7-7 7 7" />
+    </svg>
+  );
+}
+
+function ArrowDownIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <path d="M12 5v14M19 12l-7 7-7-7" />
+    </svg>
   );
 }

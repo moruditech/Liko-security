@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import type { GalleryItem } from '@/types/api';
+import modalStyles from '../ui/modal.module.css';
 import styles from './GalleryEditModal.module.css';
 
 interface GalleryEditModalProps {
@@ -48,29 +49,39 @@ export function GalleryEditModal({ item, open, onSave, onClose }: GalleryEditMod
   return (
     <div className={styles.overlay} role="dialog" aria-modal="true" onClick={onClose}>
       <form className={styles.dialog} onClick={(e) => e.stopPropagation()} onSubmit={handleSubmit}>
+        <button type="button" className={modalStyles.closeButton} onClick={onClose} aria-label="Close">
+          <CloseIcon />
+        </button>
+
         <h2>Edit gallery item</h2>
 
-        <label htmlFor="galleryCategory">Category</label>
-        <input id="galleryCategory" required value={category} onChange={(e) => setCategory(e.target.value)} />
+        <div className={modalStyles.fieldGroup}>
+          <label htmlFor="galleryCategory">Category</label>
+          <input id="galleryCategory" required value={category} onChange={(e) => setCategory(e.target.value)} />
+        </div>
 
-        <label htmlFor="galleryCaption">Caption</label>
-        <input id="galleryCaption" value={caption} onChange={(e) => setCaption(e.target.value)} />
+        <div className={modalStyles.fieldGroup}>
+          <label htmlFor="galleryCaption">Caption</label>
+          <input id="galleryCaption" value={caption} onChange={(e) => setCaption(e.target.value)} />
+        </div>
 
-        <label>
+        <label className={styles.checkboxRow}>
           <input type="checkbox" checked={active} onChange={(e) => setActive(e.target.checked)} />
-          Active
+          Active on the public site
         </label>
 
-        <label htmlFor="galleryMedia">Replace image (optional)</label>
-        <input
-          id="galleryMedia"
-          type="file"
-          accept="image/jpeg,image/png"
-          onChange={(e) => setReplacementFile(e.target.files?.[0] ?? null)}
-        />
+        <div className={modalStyles.fieldGroup}>
+          <label htmlFor="galleryMedia">Replace image (optional)</label>
+          <input
+            id="galleryMedia"
+            type="file"
+            accept="image/jpeg,image/png"
+            onChange={(e) => setReplacementFile(e.target.files?.[0] ?? null)}
+          />
+        </div>
 
-        <div className={styles.actions}>
-          <button type="button" onClick={onClose} className={styles.cancel}>
+        <div className={modalStyles.actions}>
+          <button type="button" onClick={onClose} className={modalStyles.cancel}>
             Cancel
           </button>
           <button type="submit" disabled={saving}>
@@ -79,5 +90,13 @@ export function GalleryEditModal({ item, open, onSave, onClose }: GalleryEditMod
         </div>
       </form>
     </div>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
   );
 }

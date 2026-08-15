@@ -20,8 +20,14 @@ export function GalleryManagementGrid({ items, onMove, onEdit, onDelete }: Galle
 
   return (
     <div className={styles.wrapper}>
-      <CategoryFilter categories={categories} active={activeCategory} onChange={setActiveCategory} />
-      <ReorderableGrid items={filtered} onMove={onMove} onEdit={onEdit} onDelete={onDelete} />
+      <div className={styles.filterBar}>
+        <CategoryFilter categories={categories} active={activeCategory} onChange={setActiveCategory} />
+      </div>
+      {filtered.length === 0 ? (
+        <p className={styles.empty}>No gallery items in this category yet.</p>
+      ) : (
+        <ReorderableGrid items={filtered} onMove={onMove} onEdit={onEdit} onDelete={onDelete} />
+      )}
     </div>
   );
 }
