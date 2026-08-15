@@ -14,7 +14,20 @@ export function Hero({ courses, psiraFee }: HeroProps) {
   return (
     <>
       <section className={styles.hero}>
-        <div className={styles.left}>
+        {/* Mobile-only background scrim + badge (components/public/Hero.module.css's max-width: 64rem block). Hidden on desktop, which uses the badge inside .imageWrap instead. */}
+        <span className={styles.heroScrim} aria-hidden="true" />
+        <div className={styles.mobileImageBadge} aria-hidden="true">
+          <ShieldMark />
+          <span>
+            Liko
+            <br />
+            Security
+            <br />
+            Training
+          </span>
+        </div>
+
+        <div className={`${styles.left} ${styles.heroContent}`}>
           <p className={styles.eyebrow}>
             <BadgeIcon />
             PSIRA-Accredited
@@ -76,6 +89,7 @@ export function Hero({ courses, psiraFee }: HeroProps) {
           </div>
         </div>
 
+        {/* Desktop-only image column; hidden below 64rem in favor of .hero's own background-image. */}
         <div className={styles.imageCol}>
           <div className={styles.imageWrap}>
             <span className={styles.imageBacker} aria-hidden="true" />
@@ -105,6 +119,7 @@ export function Hero({ courses, psiraFee }: HeroProps) {
         </div>
       </section>
 
+      {/* Desktop-only fee calculator; hidden below 64rem per the mobile hero redesign. */}
       <div className={styles.calculatorWrap}>
         <FeeCalculator courses={courses} psiraFee={psiraFee} />
       </div>
@@ -112,6 +127,7 @@ export function Hero({ courses, psiraFee }: HeroProps) {
       {/*
         FLAG: static copy straight from the reference image, same caveat as
         the About/Contact pages, no CMS field backs these four blurbs.
+        Desktop-only; hidden below 64rem per the mobile hero redesign.
       */}
       <div className={styles.trustBand}>
         <div className={styles.trustItem}>

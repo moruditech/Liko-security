@@ -180,6 +180,11 @@
   line-height: 1.3;
 }
 
+/* Mobile-only counterpart of .imageBadge, shown in the max-width: 64rem block below; hidden on desktop by default since desktop uses .imageBadge inside .imageWrap instead. */
+.mobileImageBadge {
+  display: none;
+}
+
 .calculatorWrap {
   max-width: 90rem;
   margin: var(--space-48) auto 0;
@@ -228,44 +233,115 @@
   margin: 0;
 }
 
+/*
+  ---- Mobile hero (< 64rem) ----
+  Approved as a static HTML mockup and confirmed by real-browser
+  measurement (Chromium, 375x812) before being ported here: headline
+  through CTAs ends inside the 812px fold. Full writeup of what was
+  tried and rejected before this (photo as a shrunk inline <img> beside
+  the text, then as a separate top image band) is in the chat history,
+  not repeated here — this is the version that measured correctly.
+
+  Desktop's grid/.imageWrap/.heroImage/.factsRow/.calculatorWrap/
+  .trustBand rules above are untouched; this block overrides layout
+  and hides the desktop-only sections rather than duplicating markup,
+  since page.tsx still needs Hero to receive courses/psiraFee for the
+  desktop calculator.
+*/
 @media (max-width: 64rem) {
   .hero {
-    grid-template-columns: 1fr;
-    gap: var(--space-32);
-  }
-
-  .imageCol {
-    justify-content: center;
-    order: -1;
-  }
-
-  .imageWrap {
-    max-width: 22rem;
-  }
-}
-
-@media (max-width: 48rem) {
-  .hero {
-    padding: var(--space-32) var(--space-16) 0;
-  }
-
-  .calculatorWrap {
-    padding: 0 var(--space-16);
-  }
-
-  .factsRow {
+    position: relative;
+    display: flex;
     flex-direction: column;
+    justify-content: flex-end;
+    min-height: 26rem;
+    padding: var(--space-24) var(--space-16);
+    background-image: url('/images/home/hero-image.png');
+    background-size: cover;
+    background-position: top center;
+    gap: 0;
+    max-width: none;
+    margin: 0;
   }
 
-  .factItem + .factItem {
-    border-left: 0;
-    border-top: 1px solid var(--liko-panel);
+  /*
+    Flat navy-deep scrim, not a gradient — DESIGN.md §3.3's one-gradient
+    rule (reserved for the navy/navy-deep horizontal band used elsewhere)
+    leaves no room for a photo-darkening gradient here, so this is a
+    solid translucent layer, same opacity approach as .imageBadge already
+    used, not a new visual language.
+  */
+  .heroScrim {
+    position: absolute;
+    inset: 0;
+    background: var(--liko-navy-deep);
+    opacity: 0.72;
   }
 
+  .heroContent {
+    position: relative;
+    z-index: 1;
+  }
+
+  .mobileImageBadge {
+    position: absolute;
+    top: var(--space-16);
+    right: var(--space-16);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    background: var(--liko-navy-deep);
+    opacity: 0.9;
+    padding: var(--space-8) var(--space-16);
+    border-radius: var(--radius-sm);
+  }
+
+  .mobileImageBadge svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  .mobileImageBadge span {
+    color: var(--liko-paper);
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+
+  .hero .eyebrow {
+    background: rgb(250 241 222 / 92%);
+  }
+
+  .hero h1 {
+    font-size: var(--step-3); /* overrides globals.css's flat --step-4 (51px), which at mobile widths alone ran the heading to ~900px tall */
+    color: var(--liko-paper);
+  }
+
+  .hero .lead {
+    color: var(--liko-paper);
+    max-width: none;
+  }
+
+  .hero .btnOutline {
+    background: rgb(255 255 255 / 8%);
+    color: var(--liko-paper);
+    border-color: var(--liko-gold);
+  }
+
+  /* Desktop-only image column and badge markup, hidden below 64rem in favor of the background-image treatment above. */
+  .imageCol {
+    display: none;
+  }
+
+  /* Desktop-only sections, hidden per the mobile redesign. */
+  .factsRow,
+  .calculatorWrap,
   .trustBand {
-    grid-template-columns: repeat(2, 1fr);
-    margin-top: var(--space-32);
-    padding: var(--space-24);
+    display: none;
   }
 }
 
@@ -278,9 +354,5 @@
   .btnOutline {
     justify-content: center;
     width: 100%;
-  }
-
-  .trustBand {
-    grid-template-columns: 1fr;
   }
 }
