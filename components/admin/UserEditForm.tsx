@@ -21,7 +21,7 @@ export function UserEditForm({ user, roles, open, onSave, onClose }: UserEditFor
   useEffect(() => {
     setName(user?.name ?? '');
     setEmail(user?.email ?? '');
-    setRole(user?.role ?? roles[0]?.name ?? '');
+    setRole(user?.role.id ?? roles[0]?.id ?? '');
   }, [user, open, roles]);
 
   if (!open) return null;
@@ -51,7 +51,7 @@ export function UserEditForm({ user, roles, open, onSave, onClose }: UserEditFor
         <label htmlFor="userRole">Role</label>
         <select id="userRole" required value={role} onChange={(e) => setRole(e.target.value)}>
           {roles.map((r) => (
-            <option key={r.id} value={r.name}>
+            <option key={r.id} value={r.id}>
               {r.name}
             </option>
           ))}

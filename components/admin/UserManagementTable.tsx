@@ -24,7 +24,7 @@ export function UserManagementTable({ users, onEdit, onDeactivate }: UserManagem
           <tr key={user.id}>
             <td>{user.name}</td>
             <td>{user.email}</td>
-            <td>{user.role}</td>
+            <td>{user.role.name}</td>
             <td>{user.active ? 'Yes' : 'No'}</td>
             <td>
               <button type="button" onClick={() => onEdit(user)}>
