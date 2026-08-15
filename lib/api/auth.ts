@@ -5,8 +5,6 @@ export const authApi = {
   login: (email: string, password: string) =>
     fetcher.post<LoginResponse>('/auth/login', { email, password }, { skipAuthRetry: true }),
 
-  // mfaToken is sent as the Bearer token, not in the body, matches
-  // requireMfaPendingSession in mfaSession.middleware.js.
   verifyMfa: (code: string, mfaToken: string) =>
     fetcher.post<LoginResponse>(
       '/auth/mfa/verify',
@@ -14,9 +12,16 @@ export const authApi = {
       { skipAuthRetry: true, headers: { Authorization: `Bearer ${mfaToken}` } }
     ),
 
-  refresh: () => fetcher.post<{ accessToken: string; user: LoginResponse['user'] }>('/auth/refresh', undefined, {
-    skipAuthRetry: true,
-  }),
+  // refreshToken is passed in the body so the session survives page reloads
+  // without relying on cross-origin cookies (frontend and backend are on
+  // different Render subdomains). The backend accepts it via
+  // req.body.refreshToken as its primary source, falling back to the cookie.
+  refresh: (refreshToken?: string) =>
+    fetcher.post<{ accessToken: string; user: LoginResponse['user'] }>(
+      '/auth/refresh',
+      refreshToken ? { refreshToken } : undefined,
+      { skipAuthRetry: true }
+    ),
 
   logout: () => fetcher.post<void>('/auth/logout', undefined, { skipAuthRetry: true }),
 
