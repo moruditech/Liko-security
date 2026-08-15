@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import type { Role, StaffUser } from '@/types/api';
-import styles from './CourseEditModal.module.css';
+import styles from './UserEditForm.module.css';
 
 interface UserEditFormProps {
   user: StaffUser | null;

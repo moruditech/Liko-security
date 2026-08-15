@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import type { Course, Intake } from '@/types/api';
-import styles from './CourseEditModal.module.css';
+import styles from './IntakeEditModal.module.css';
 
 interface IntakeEditModalProps {
   intake: Intake | null;

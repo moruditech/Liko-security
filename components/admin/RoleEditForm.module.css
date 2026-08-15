@@ -1,0 +1,15 @@
+.overlay {
+  composes: overlay from '../ui/modal.module.css';
+}
+
+.dialog {
+  composes: dialog from '../ui/modal.module.css';
+}
+
+.actions {
+  composes: actions from '../ui/modal.module.css';
+}
+
+.cancel {
+  composes: cancel from '../ui/modal.module.css';
+}

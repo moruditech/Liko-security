@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import type { Faq } from '@/types/api';
-import styles from './CourseEditModal.module.css';
+import styles from './FaqEditForm.module.css';
 
 interface FaqEditFormProps {
   faq: Faq | null;

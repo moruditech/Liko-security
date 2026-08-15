@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import type { Testimonial } from '@/types/api';
-import styles from './CourseEditModal.module.css';
+import styles from './TestimonialEditForm.module.css';
 
 interface TestimonialEditFormProps {
   testimonial: Testimonial | null;

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import type { Announcement } from '@/types/api';
-import styles from './CourseEditModal.module.css';
+import styles from './AnnouncementEditForm.module.css';
 
 interface AnnouncementEditFormProps {
   announcement: Announcement | null;

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import type { GalleryItem } from '@/types/api';
-import styles from './CourseEditModal.module.css';
+import styles from './GalleryEditModal.module.css';
 
 interface GalleryEditModalProps {
   item: GalleryItem | null;

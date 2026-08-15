@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { PermissionCheckboxGrid } from './PermissionCheckboxGrid';
 import type { Permission, Role } from '@/types/api';
-import styles from './CourseEditModal.module.css';
+import styles from './RoleEditForm.module.css';
 
 interface RoleEditFormProps {
   role: Role | null; // null means "create new"
