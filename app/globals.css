@@ -57,6 +57,16 @@
   --radius-sm: 0.25rem; /* 4px, chips, inputs */
   --radius-md: 0.5rem; /* 8px, cards */
 
+  /*
+    Referenced by components/ui/modal.module.css, ConfirmDialog.module.css
+    and AlertModal.module.css as "defined in app/globals.css" (see their
+    flag comments re: DESIGN.md §7's 8px ceiling), but the definition was
+    missing here — every dialog using it was silently falling back to 0
+    border-radius (square corners) instead of the intended exception.
+    Adding the value those comments already assumed existed.
+  */
+  --radius-lg: 1rem; /* 16px, deliberate modal-dialog exception */
+
   /* ---- Motion (DESIGN.md §6), ease-out only, no bounce/elastic ---- */
   --ease-standard: ease-out;
 }
