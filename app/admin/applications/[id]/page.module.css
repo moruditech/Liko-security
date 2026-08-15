@@ -4,10 +4,51 @@
   gap: var(--space-24);
 }
 
+.loading {
+  color: var(--liko-ink);
+  opacity: 0.6;
+}
+
 .header {
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-16);
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  min-width: 0;
+}
+
+.headerTop {
+  display: flex;
   align-items: center;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+}
+
+.reference {
+  margin: 0;
+  font-size: var(--step-2);
+  color: var(--liko-navy);
+}
+
+.applicantName {
+  margin: 0;
+  font-size: var(--step-1);
+  color: var(--liko-ink);
+  opacity: 0.75;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  flex-wrap: wrap;
 }
 
 .emailButton {
@@ -20,10 +61,26 @@
   font-weight: 600;
 }
 
+.emailButton:hover,
+.emailButton:focus-visible {
+  background: var(--liko-navy-deep);
+}
+
+.progressCard {
+  background: var(--liko-paper);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-md);
+  padding: var(--space-24);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1.5fr 1fr;
   gap: var(--space-24);
+  align-items: start;
 }
 
 .side {
@@ -32,14 +89,14 @@
   gap: var(--space-24);
 }
 
-.side section {
-  background: var(--liko-paper);
-  border-radius: var(--radius-md);
-  padding: var(--space-24);
-}
-
 @media (max-width: 60rem) {
   .grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 36rem) {
+  .progressCard {
+    padding: var(--space-16);
   }
 }
