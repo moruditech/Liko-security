@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { testimonialsApi } from '@/lib/api/testimonials';
+import { TestimonialsStatsRow } from '@/components/admin/TestimonialsStatsRow';
 import { TestimonialManagementList } from '@/components/admin/TestimonialManagementList';
 import { TestimonialEditForm } from '@/components/admin/TestimonialEditForm';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
@@ -9,6 +10,7 @@ import { useToast } from '@/lib/context/ToastContext';
 import { ApiClientError, ApiNetworkError } from '@/lib/fetcher';
 import type { Testimonial } from '@/types/api';
 import pageStyles from '../courses/page.module.css';
+import styles from './page.module.css';
 
 export default function TestimonialsAdminPage() {
   const { showToast } = useToast();
@@ -61,25 +63,35 @@ export default function TestimonialsAdminPage() {
 
   return (
     <div>
-      <h1>Testimonials</h1>
-      <button
-        type="button"
-        className={pageStyles.newButton}
-        onClick={() => {
-          setEditing(null);
-          setModalOpen(true);
-        }}
-      >
-        New testimonial
-      </button>
-      <TestimonialManagementList
-        testimonials={testimonials}
-        onEdit={(t) => {
-          setEditing(t);
-          setModalOpen(true);
-        }}
-        onDelete={setDeleting}
-      />
+      <div className={styles.headerRow}>
+        <div>
+          <h1>Testimonials</h1>
+          <p className={styles.subtitle}>Manage learner testimonials shown on the public site.</p>
+        </div>
+        <button
+          type="button"
+          className={pageStyles.newButton}
+          onClick={() => {
+            setEditing(null);
+            setModalOpen(true);
+          }}
+        >
+          <PlusIcon /> New testimonial
+        </button>
+      </div>
+
+      <TestimonialsStatsRow testimonials={testimonials} />
+
+      <div className={styles.listRow}>
+        <TestimonialManagementList
+          testimonials={testimonials}
+          onEdit={(t) => {
+            setEditing(t);
+            setModalOpen(true);
+          }}
+          onDelete={setDeleting}
+        />
+      </div>
 
       <TestimonialEditForm testimonial={editing} open={modalOpen} onSave={handleSave} onClose={() => setModalOpen(false)} />
 
@@ -92,5 +104,13 @@ export default function TestimonialsAdminPage() {
         onCancel={() => setDeleting(null)}
       />
     </div>
+  );
+}
+
+function PlusIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <path d="M12 5v14M5 12h14" />
+    </svg>
   );
 }
