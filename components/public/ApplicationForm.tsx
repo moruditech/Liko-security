@@ -131,12 +131,18 @@ export function ApplicationForm({ courses, intakes, psiraFee }: ApplicationFormP
     }
   }
 
-  if (referenceCode) {
-    return <ApplicationSuccessScreen referenceCode={referenceCode} />;
-  }
-
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <>
+      {/* Success modal — shown immediately on successful submission without
+          waiting for emails. The form stays mounted behind the backdrop. */}
+      {referenceCode && (
+        <ApplicationSuccessScreen
+          referenceCode={referenceCode}
+          onClose={() => setReferenceCode(null)}
+        />
+      )}
+
+      <form className={styles.form} onSubmit={handleSubmit}>
       <section>
         <h2>Personal details</h2>
 
@@ -246,5 +252,6 @@ export function ApplicationForm({ courses, intakes, psiraFee }: ApplicationFormP
         {submitting ? 'Submitting...' : 'Submit application'}
       </button>
     </form>
+    </>
   );
 }
