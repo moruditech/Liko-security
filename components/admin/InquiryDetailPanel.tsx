@@ -27,8 +27,10 @@ export function InquiryDetailPanel({ inquiry, onReply }: InquiryDetailPanelProps
           <h3>Replies</h3>
           {inquiry.replies.map((reply, i) => (
             <div key={i} className={styles.reply}>
-              <p>{reply.body}</p>
-              <span>{new Date(reply.repliedAt).toLocaleString('en-ZA')}</span>
+              <p>{reply.message}</p>
+              <span>
+                {reply.sentBy.name ?? 'Staff'} — {new Date(reply.date).toLocaleString('en-ZA')}
+              </span>
             </div>
           ))}
         </div>
