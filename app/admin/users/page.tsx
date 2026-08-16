@@ -10,6 +10,8 @@ import { useToast } from '@/lib/context/ToastContext';
 import { ApiClientError, ApiNetworkError } from '@/lib/fetcher';
 import type { Role, StaffUser } from '@/types/api';
 import pageStyles from '../courses/page.module.css';
+import styles from './page.module.css';
+import { UsersStatsRow } from '@/components/admin/UsersStatsRow';
 
 export default function UsersAdminPage() {
   const { showToast } = useToast();
@@ -66,18 +68,28 @@ export default function UsersAdminPage() {
 
   return (
     <div>
-      <h1>Users</h1>
-      <button
-        type="button"
-        className={pageStyles.newButton}
-        onClick={() => {
-          setEditing(null);
-          setModalOpen(true);
-        }}
-      >
-        New staff member
-      </button>
-      <UserManagementTable users={users} onEdit={(u) => { setEditing(u); setModalOpen(true); }} onDeactivate={setDeactivating} />
+      <div className={styles.headerRow}>
+        <div>
+          <h1>Users</h1>
+          <p className={styles.subtitle}>Manage staff accounts and their assigned roles.</p>
+        </div>
+        <button
+          type="button"
+          className={pageStyles.newButton}
+          onClick={() => {
+            setEditing(null);
+            setModalOpen(true);
+          }}
+        >
+          <PlusIcon /> New staff member
+        </button>
+      </div>
+
+      <UsersStatsRow users={users} />
+
+      <div className={styles.listRow}>
+        <UserManagementTable users={users} onEdit={(u) => { setEditing(u); setModalOpen(true); }} onDeactivate={setDeactivating} />
+      </div>
 
       <UserEditForm user={editing} roles={roles} open={modalOpen} onSave={handleSave} onClose={() => setModalOpen(false)} />
 
@@ -90,5 +102,13 @@ export default function UsersAdminPage() {
         onCancel={() => setDeactivating(null)}
       />
     </div>
+  );
+}
+
+function PlusIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <path d="M12 5v14M5 12h14" />
+    </svg>
   );
 }
