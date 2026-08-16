@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import Link from 'next/link';
 import { inquiriesApi } from '@/lib/api/inquiries';
 import { InquiryDetailPanel } from '@/components/admin/InquiryDetailPanel';
 import { useToast } from '@/lib/context/ToastContext';
 import { ApiClientError, ApiNetworkError } from '@/lib/fetcher';
 import type { Inquiry } from '@/types/api';
+import styles from './page.module.css';
 
 export default function InquiryDetailPage() {
   const params = useParams<{ id: string }>();
@@ -37,7 +39,22 @@ export default function InquiryDetailPage() {
     }
   }
 
-  if (!inquiry) return <p>Loading...</p>;
+  return (
+    <div className={styles.page}>
+      <Link href="/admin/inquiries" className={styles.backLink}>
+        <BackIcon />
+        Back to Inquiries
+      </Link>
 
-  return <InquiryDetailPanel inquiry={inquiry} onReply={handleReply} />;
+      {inquiry ? <InquiryDetailPanel inquiry={inquiry} onReply={handleReply} /> : <p className={styles.loading}>Loading...</p>}
+    </div>
+  );
+}
+
+function BackIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <path d="M15 18l-6-6 6-6" />
+    </svg>
+  );
 }
