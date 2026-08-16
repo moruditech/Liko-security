@@ -211,7 +211,12 @@ export interface Inquiry {
   phone?: string;
   message: string;
   status: 'open' | 'replied';
-  replies: { body: string; repliedAt: string; repliedBy: string }[];
+  // inquiry.service.js's toDecryptedJSON keeps the model's own field names
+  // here (message, date) rather than renaming, unlike some other DTOs in
+  // this file — sentBy is required on every reply (no system-generated
+  // case), normalized to {id, name} the same way statusHistory.changedBy
+  // and audit log actor are, so this never carries a bare ObjectId either.
+  replies: { message: string; sentBy: { id: string; name: string | null }; date: string }[];
   createdAt: string;
 }
 
