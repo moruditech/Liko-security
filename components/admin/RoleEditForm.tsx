@@ -54,7 +54,7 @@ export function RoleEditForm({ role, open, onSave, onClose }: RoleEditFormProps)
             onChange={(e) => setName(e.target.value)}
             disabled={role !== null} // renaming an existing role isn't a route TAD/backend exposes; only permissions are editable
           />
-          {role !== null && <p className={modalStyles.hint}>Role names can't be changed after creation.</p>}
+          {role !== null && <p className={modalStyles.hint}>Role names can&apos;t be changed after creation.</p>}
         </div>
 
         <div className={modalStyles.fieldGroup}>
