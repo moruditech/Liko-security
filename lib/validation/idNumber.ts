@@ -36,7 +36,7 @@ export function validateSaId(value: string): { valid: boolean; message?: string 
     return { valid: false, message: 'SA ID number contains an invalid date of birth.' };
   }
   if (!luhnCheck(value)) {
-    return { valid: false, message: 'SA ID number failed the checksum check.' };
+    return { valid: false, message: 'Please enter a valid South African ID number.' };
   }
   return { valid: true };
 }
