@@ -6,6 +6,7 @@ import { SettingsForm } from '@/components/admin/SettingsForm';
 import { useToast } from '@/lib/context/ToastContext';
 import { ApiClientError, ApiNetworkError } from '@/lib/fetcher';
 import type { Settings } from '@/types/api';
+import styles from './page.module.css';
 
 export default function SettingsAdminPage() {
   const { showToast } = useToast();
@@ -33,8 +34,12 @@ export default function SettingsAdminPage() {
 
   return (
     <div>
-      <h1>Settings</h1>
-      {settings ? <SettingsForm settings={settings} onSave={handleSave} /> : <p>Loading...</p>}
+      <div className={styles.header}>
+        <h1>Settings</h1>
+        <p className={styles.subtitle}>Configure site-wide settings used across applications and invoices.</p>
+      </div>
+
+      {settings ? <SettingsForm settings={settings} onSave={handleSave} /> : <p className={styles.loading}>Loading...</p>}
     </div>
   );
 }
