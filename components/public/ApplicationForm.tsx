@@ -105,6 +105,8 @@ export function ApplicationForm({ courses, intakes, psiraFee }: ApplicationFormP
         idDocument,
       });
       setReferenceCode(result.referenceCode);
+      setForm(INITIAL_STATE);
+      setIdDocument(null);
     } catch (err) {
       if (err instanceof ApiNetworkError) {
         setNetworkError(err.message);
@@ -133,14 +135,10 @@ export function ApplicationForm({ courses, intakes, psiraFee }: ApplicationFormP
 
   return (
     <>
-      {/* Success modal — shown immediately on successful submission without
-          waiting for emails. The form stays mounted behind the backdrop. */}
-      {referenceCode && (
-        <ApplicationSuccessScreen
-          referenceCode={referenceCode}
-          onClose={() => setReferenceCode(null)}
-        />
-      )}
+      {/* Success overlay — shown immediately on successful submission without
+          waiting for emails. The form behind it has already been reset, so
+          closing the overlay leaves a blank form ready for a new submission. */}
+      {referenceCode && <ApplicationSuccessScreen referenceCode={referenceCode} onClose={() => setReferenceCode(null)} />}
 
       <form className={styles.form} onSubmit={handleSubmit}>
       <section>
@@ -216,7 +214,6 @@ export function ApplicationForm({ courses, intakes, psiraFee }: ApplicationFormP
         <h2>Intake</h2>
         <IntakeSelector
           intakes={intakes}
-          courses={courses}
           value={form.preferredIntake}
           onChange={(v) => update('preferredIntake', v)}
         />

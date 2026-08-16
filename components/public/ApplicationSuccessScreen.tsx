@@ -1,8 +1,7 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { settingsApi } from '@/lib/api/settings';
-import { useState } from 'react';
 import type { BankAccount } from '@/types/api';
 import styles from './ApplicationSuccessScreen.module.css';
 
@@ -12,17 +11,19 @@ interface ApplicationSuccessScreenProps {
 }
 
 /**
- * Modal popup shown immediately after a successful application submission.
- * Banking details are fetched fresh from GET /settings rather than reusing
- * the page's SSR snapshot — bank details could change between page load and
- * a long form-fill session.
+ * TAD §11.5: POST /applications only returns {referenceCode, applicationId}
+ * (confirmed in application.controller.js), no total amount, no applicant
+ * data. Banking details come from a separate GET /settings call, fetched
+ * fresh here rather than reusing the page's initial SSR settings fetch,
+ * since bank details could theoretically change between page load and a
+ * long-running form fill.
  *
- * Closes on backdrop click or Escape key. Focus is trapped inside the modal
- * for accessibility.
+ * Rendered as an overlay on top of the (reset) form rather than replacing
+ * it, so closing it leaves a blank form ready for a second submission
+ * instead of a dead end.
  */
 export function ApplicationSuccessScreen({ referenceCode, onClose }: ApplicationSuccessScreenProps) {
   const [bankAccounts, setBankAccounts] = useState<BankAccount[] | null>(null);
-  const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     settingsApi
@@ -31,75 +32,62 @@ export function ApplicationSuccessScreen({ referenceCode, onClose }: Application
       .catch(() => setBankAccounts([]));
   }, []);
 
-  // Close on Escape key
-  useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') onClose();
-    }
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
-
-  // Prevent background scroll while modal is open
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = ''; };
-  }, []);
-
-  // Focus the modal on mount
-  useEffect(() => {
-    modalRef.current?.focus();
-  }, []);
-
-  function handleBackdropClick(e: React.MouseEvent<HTMLDivElement>) {
-    if (e.target === e.currentTarget) onClose();
-  }
-
   return (
-    <div className={styles.backdrop} onClick={handleBackdropClick} role="dialog" aria-modal="true" aria-labelledby="success-title">
-      <div className={styles.modal} ref={modalRef} tabIndex={-1}>
-
-        <button className={styles.closeBtn} onClick={onClose} aria-label="Close">&#x2715;</button>
+    <div className={styles.overlay} role="dialog" aria-modal="true" onClick={onClose}>
+      <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}>
+        <button type="button" className={styles.closeButton} onClick={onClose} aria-label="Close">
+          <CloseIcon />
+        </button>
 
         <ShieldWatermark />
+      <h1>Application received</h1>
+      <p>Your reference code is:</p>
+      <p className={`${styles.reference} mono`}>{referenceCode}</p>
+      <p>Keep this code. You&apos;ll need it for any follow-up with our office.</p>
 
-        <h2 id="success-title" className={styles.title}>Application received!</h2>
-
-        <p className={styles.intro}>
-          Your application has been successfully submitted. Check your email — we have sent you a confirmation and your invoice.
-        </p>
-
-        <div className={styles.referenceBox}>
-          <p className={styles.referenceLabel}>Your reference number</p>
-          <p className={`${styles.referenceCode} mono`}>{referenceCode}</p>
-          <p className={styles.referenceHint}>Quote this in any correspondence with our office.</p>
+      {bankAccounts && bankAccounts.length > 0 && (
+        <div className={styles.banking}>
+          <h2>Payment details</h2>
+          {bankAccounts.map((account) => (
+            <dl key={account.accountNumber} className={styles.account}>
+              <div>
+                <dt>Bank</dt>
+                <dd>{account.bankName}</dd>
+              </div>
+              <div>
+                <dt>Account name</dt>
+                <dd>{account.accountName}</dd>
+              </div>
+              <div>
+                <dt>Account number</dt>
+                <dd className="mono">{account.accountNumber}</dd>
+              </div>
+              <div>
+                <dt>Branch code</dt>
+                <dd className="mono">{account.branchCode}</dd>
+              </div>
+            </dl>
+          ))}
+          <p>Use your reference code above as the payment reference.</p>
         </div>
-
-        {bankAccounts && bankAccounts.length > 0 && (
-          <div className={styles.banking}>
-            <h3 className={styles.bankingTitle}>Payment details</h3>
-            <p className={styles.bankingIntro}>Use EFT to pay — use your reference number above.</p>
-            {bankAccounts.map((account) => (
-              <dl key={account.accountNumber} className={styles.account}>
-                <div><dt>Bank</dt><dd>{account.bankName}</dd></div>
-                {account.accountName && <div><dt>Account name</dt><dd>{account.accountName}</dd></div>}
-                <div><dt>Account number</dt><dd className="mono">{account.accountNumber}</dd></div>
-                <div><dt>Branch code</dt><dd className="mono">{account.branchCode}</dd></div>
-              </dl>
-            ))}
-          </div>
-        )}
-
-        <button className={styles.doneBtn} onClick={onClose}>Done</button>
-
+      )}
       </div>
     </div>
   );
 }
 
+function CloseIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  );
+}
+
+// DESIGN.md §9: the shield mark reused as a watermark on the confirmation screen.
 function ShieldWatermark() {
   return (
-    <svg width="56" height="64" viewBox="0 0 28 32" fill="none" aria-hidden="true" className={styles.shield}>
+    <svg width="80" height="92" viewBox="0 0 28 32" fill="none" aria-hidden="true" className={styles.watermark}>
       <path
         d="M14 1 L26 6 V15 C26 23 20 28 14 31 C8 28 2 23 2 15 V6 Z"
         stroke="var(--liko-navy)"
