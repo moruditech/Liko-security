@@ -8,7 +8,30 @@
   display: flex;
   align-items: center;
   gap: var(--space-8);
-  font-family: var(--font-mono);
+  padding: var(--space-8) var(--space-16);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
   font-size: var(--step-caption);
   font-weight: 400;
+}
+
+.item input {
+  width: auto;
+  flex-shrink: 0;
+}
+
+.item:hover {
+  background: color-mix(in srgb, var(--liko-panel) 60%, var(--liko-paper));
+}
+
+.item.checked {
+  background: color-mix(in srgb, var(--liko-navy) 8%, var(--liko-paper));
+  border-color: var(--liko-navy);
+}
+
+@media (max-width: 30rem) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }

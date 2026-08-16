@@ -26,12 +26,15 @@ export function PermissionCheckboxGrid({ selected, onChange }: PermissionCheckbo
 
   return (
     <div className={styles.grid}>
-      {ALL_PERMISSIONS.map((permission) => (
-        <label key={permission} className={styles.item}>
-          <input type="checkbox" checked={selected.includes(permission)} onChange={() => toggle(permission)} />
-          {permission}
-        </label>
-      ))}
+      {ALL_PERMISSIONS.map((permission) => {
+        const checked = selected.includes(permission);
+        return (
+          <label key={permission} className={`${styles.item} ${checked ? styles.checked : ''}`}>
+            <input type="checkbox" checked={checked} onChange={() => toggle(permission)} />
+            <span className="mono">{permission}</span>
+          </label>
+        );
+      })}
     </div>
   );
 }

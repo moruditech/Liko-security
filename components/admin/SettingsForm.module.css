@@ -1,26 +1,41 @@
 .form {
   display: flex;
   flex-direction: column;
+  gap: var(--space-24);
+  max-width: 48rem;
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
   gap: var(--space-16);
-  max-width: 40rem;
-  background: var(--liko-paper);
-  padding: var(--space-24);
-  border-radius: var(--radius-md);
 }
 
-.form label {
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.field label {
+  font-size: var(--step-caption);
   font-weight: 600;
+  color: var(--liko-ink);
+  opacity: 0.65;
 }
 
-.form input {
+.field input {
   padding: var(--space-8) var(--space-16);
   border: 1px solid var(--liko-panel);
   border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  color: var(--liko-ink);
 }
 
-.form h2 {
-  margin-top: var(--space-16);
-  font-size: var(--step-1);
+.field input:focus-visible {
+  outline: 2px solid var(--liko-gold);
+  outline-offset: 1px;
 }
 
 .save {
@@ -32,7 +47,11 @@
   border-radius: var(--radius-sm);
   cursor: pointer;
   font-weight: 700;
-  margin-top: var(--space-16);
+}
+
+.save:hover:not(:disabled),
+.save:focus-visible {
+  background: var(--liko-navy-deep);
 }
 
 .save:disabled {

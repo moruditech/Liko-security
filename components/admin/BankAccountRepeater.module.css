@@ -4,32 +4,108 @@
   gap: var(--space-16);
 }
 
+.empty {
+  color: var(--liko-ink);
+  opacity: 0.6;
+  margin: 0;
+  font-size: var(--step-caption);
+}
+
 .row {
   display: flex;
+  align-items: end;
   gap: var(--space-8);
+  padding-bottom: var(--space-16);
+  border-bottom: 1px solid var(--liko-panel);
 }
 
-.row input {
-  padding: var(--space-8) var(--space-16);
-  border: 1px solid var(--liko-panel);
-  border-radius: var(--radius-sm);
+.row:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
   flex: 1;
+  min-width: 0;
 }
 
-.row button {
-  background: none;
+.field label {
+  font-size: var(--step-caption);
+  font-weight: 600;
+  color: var(--liko-ink);
+  opacity: 0.65;
+}
+
+.field input {
+  padding: var(--space-8) var(--space-16);
   border: 1px solid var(--liko-panel);
   border-radius: var(--radius-sm);
-  padding: var(--space-8) var(--space-16);
+  font-family: var(--font-body);
+  font-size: var(--step-caption);
+  width: 100%;
+}
+
+.field input:focus-visible {
+  outline: 2px solid var(--liko-gold);
+  outline-offset: 1px;
+}
+
+.removeButton {
+  background: none;
+  border: 1px solid color-mix(in srgb, var(--liko-error) 40%, var(--liko-panel));
+  color: var(--liko-error);
+  border-radius: var(--radius-sm);
+  padding: var(--space-8);
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.removeButton svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.removeButton:hover,
+.removeButton:focus-visible {
+  background: color-mix(in srgb, var(--liko-error) 8%, var(--liko-paper));
 }
 
 .addButton {
   align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
   background: var(--liko-navy);
   color: var(--liko-paper);
   border: none;
   padding: var(--space-8) var(--space-24);
   border-radius: var(--radius-sm);
   cursor: pointer;
+  font-weight: 600;
+}
+
+.addButton svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.addButton:hover,
+.addButton:focus-visible {
+  background: var(--liko-navy-deep);
+}
+
+@media (max-width: 48rem) {
+  .row {
+    flex-wrap: wrap;
+  }
+
+  .field {
+    flex: 1 1 45%;
+  }
 }
