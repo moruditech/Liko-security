@@ -11,7 +11,7 @@ interface CourseEditModalProps {
   onClose: () => void;
 }
 
-const EMPTY: Omit<Course, 'id'> = { grade: '', title: '', duration: '', fee: 0, active: true };
+const EMPTY: Omit<Course, 'id'> = { grade: '', title: '', duration: '', fee: 0, isActive: true };
 
 // PSIRA's standard training grades, lowest to highest (see the same set in
 // components/public/CoursePreviewGrid.tsx's GRADE_CONTENT map). The API
@@ -29,10 +29,21 @@ const DURATION_OPTIONS = ['1 Day', '3 Days', '1 Week', '2 Weeks', '1 Month', '3 
 
 export function CourseEditModal({ course, open, onSave, onClose }: CourseEditModalProps) {
   const [form, setForm] = useState<Omit<Course, 'id'>>(EMPTY);
+  // Fee is tracked as its own string so a new course's field starts genuinely
+  // empty instead of pre-filled with "0" (which the person then has to
+  // manually clear before typing a real amount). Kept in sync with
+  // form.fee, which stays the real number the rest of the form/submit uses.
+  const [feeInput, setFeeInput] = useState('');
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    setForm(course ? { grade: course.grade, title: course.title, duration: course.duration, fee: course.fee, active: course.active } : EMPTY);
+    if (course) {
+      setForm({ grade: course.grade, title: course.title, duration: course.duration, fee: course.fee, isActive: course.isActive });
+      setFeeInput(String(course.fee));
+    } else {
+      setForm(EMPTY);
+      setFeeInput('');
+    }
   }, [course, open]);
 
   if (!open) return null;
@@ -126,8 +137,11 @@ export function CourseEditModal({ course, open, onSave, onClose }: CourseEditMod
               type="number"
               min={0}
               required
-              value={form.fee}
-              onChange={(e) => setForm({ ...form, fee: Number(e.target.value) })}
+              value={feeInput}
+              onChange={(e) => {
+                setFeeInput(e.target.value);
+                setForm({ ...form, fee: e.target.value === '' ? 0 : Number(e.target.value) });
+              }}
             />
           </div>
         </div>
@@ -139,8 +153,8 @@ export function CourseEditModal({ course, open, onSave, onClose }: CourseEditMod
           <label className={styles.checkboxRow}>
             <input
               type="checkbox"
-              checked={form.active}
-              onChange={(e) => setForm({ ...form, active: e.target.checked })}
+              checked={form.isActive}
+              onChange={(e) => setForm({ ...form, isActive: e.target.checked })}
             />
             Course is active and visible
           </label>

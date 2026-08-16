@@ -13,3 +13,23 @@
 .cancel {
   composes: cancel from '../ui/modal.module.css';
 }
+
+.gradeFieldset {
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-sm);
+  padding: var(--space-16);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-16);
+}
+
+.gradeOption {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-weight: 400;
+}
+
+.gradeOption input {
+  width: auto;
+}

@@ -73,7 +73,7 @@ export function CourseManagementTable({ courses, onEdit, onToggleActive, onDupli
               <td>{course.duration}</td>
               <td className="mono">R{course.fee.toLocaleString('en-ZA')}</td>
               <td>
-                <span className={course.active ? styles.pillYes : styles.pillNo}>{course.active ? 'Yes' : 'No'}</span>
+                <span className={course.isActive ? styles.pillYes : styles.pillNo}>{course.isActive ? 'Yes' : 'No'}</span>
               </td>
               <td>
                 <RowActions
@@ -106,7 +106,7 @@ export function CourseManagementTable({ courses, onEdit, onToggleActive, onDupli
               <span aria-hidden="true">&middot;</span>
               <span className="mono">R{course.fee.toLocaleString('en-ZA')}</span>
               <span aria-hidden="true">&middot;</span>
-              <span className={course.active ? styles.pillYes : styles.pillNo}>{course.active ? 'Active' : 'Inactive'}</span>
+              <span className={course.isActive ? styles.pillYes : styles.pillNo}>{course.isActive ? 'Active' : 'Inactive'}</span>
             </div>
           </li>
         ))}
@@ -230,7 +230,7 @@ function RowActions({ course, onEdit, onToggleActive, onDuplicate }: RowActionsP
                 onToggleActive();
               }}
             >
-              {course.active ? 'Mark inactive' : 'Mark active'}
+              {course.isActive ? 'Mark inactive' : 'Mark active'}
             </button>
             <button
               type="button"

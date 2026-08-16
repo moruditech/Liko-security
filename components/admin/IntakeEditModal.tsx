@@ -1,37 +1,63 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import type { Course, Intake } from '@/types/api';
+import type { Intake } from '@/types/api';
 import styles from './IntakeEditModal.module.css';
 
 interface IntakeEditModalProps {
   intake: Intake | null;
-  courses: Course[];
   open: boolean;
   onSave: (input: Omit<Intake, 'id'>, id?: string) => Promise<void>;
   onClose: () => void;
 }
 
-const EMPTY: Omit<Intake, 'id'> = { courseId: '', startDate: '', capacity: 20, active: true };
+// Same PSIRA grade set used by CourseEditModal — intakes reference grades
+// directly (applicableGrades: string[] on intake.model.js), there is no
+// course reference on an intake at all.
+const GRADE_OPTIONS = ['E', 'D', 'C', 'B', 'A'];
 
-export function IntakeEditModal({ intake, courses, open, onSave, onClose }: IntakeEditModalProps) {
+const EMPTY: Omit<Intake, 'id'> = { title: '', applicableGrades: [], startDate: '', capacity: null, isActive: true };
+
+export function IntakeEditModal({ intake, open, onSave, onClose }: IntakeEditModalProps) {
   const [form, setForm] = useState<Omit<Intake, 'id'>>(EMPTY);
+  const [capacityInput, setCapacityInput] = useState('');
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    setForm(
-      intake
-        ? { courseId: intake.courseId, startDate: intake.startDate.slice(0, 10), capacity: intake.capacity, active: intake.active }
-        : EMPTY
-    );
+    if (intake) {
+      setForm({
+        title: intake.title,
+        applicableGrades: intake.applicableGrades,
+        startDate: intake.startDate.slice(0, 10),
+        capacity: intake.capacity,
+        isActive: intake.isActive,
+      });
+      setCapacityInput(intake.capacity === null ? '' : String(intake.capacity));
+    } else {
+      setForm(EMPTY);
+      setCapacityInput('');
+    }
   }, [intake, open]);
 
   if (!open) return null;
+
+  function toggleGrade(grade: string) {
+    setForm((f) => ({
+      ...f,
+      applicableGrades: f.applicableGrades.includes(grade)
+        ? f.applicableGrades.filter((g) => g !== grade)
+        : [...f.applicableGrades, grade],
+    }));
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
     try {
+      // createIntake's Joi schema (course.validation.js) has no `capacity`
+      // key at all, so it's silently stripped on create — only settable via
+      // a follow-up edit. Sent here regardless since it's harmless on create
+      // and correct on edit.
       await onSave(form, intake?.id);
       onClose();
     } finally {
@@ -44,22 +70,27 @@ export function IntakeEditModal({ intake, courses, open, onSave, onClose }: Inta
       <form className={styles.dialog} onClick={(e) => e.stopPropagation()} onSubmit={handleSubmit}>
         <h2>{intake ? 'Edit intake' : 'New intake'}</h2>
 
-        <label htmlFor="courseId">Course</label>
-        <select
-          id="courseId"
+        <label htmlFor="intakeTitle">Title</label>
+        <input
+          id="intakeTitle"
           required
-          value={form.courseId}
-          onChange={(e) => setForm({ ...form, courseId: e.target.value })}
-        >
-          <option value="" disabled>
-            Choose a course
-          </option>
-          {courses.map((course) => (
-            <option key={course.id} value={course.id}>
-              Grade {course.grade}: {course.title}
-            </option>
+          value={form.title}
+          onChange={(e) => setForm({ ...form, title: e.target.value })}
+        />
+
+        <fieldset className={styles.gradeFieldset}>
+          <legend>Applicable grades</legend>
+          {GRADE_OPTIONS.map((grade) => (
+            <label key={grade} className={styles.gradeOption}>
+              <input
+                type="checkbox"
+                checked={form.applicableGrades.includes(grade)}
+                onChange={() => toggleGrade(grade)}
+              />
+              Grade {grade}
+            </label>
           ))}
-        </select>
+        </fieldset>
 
         <label htmlFor="startDate">Start date</label>
         <input
@@ -70,21 +101,23 @@ export function IntakeEditModal({ intake, courses, open, onSave, onClose }: Inta
           onChange={(e) => setForm({ ...form, startDate: e.target.value })}
         />
 
-        <label htmlFor="capacity">Capacity</label>
+        <label htmlFor="capacity">Capacity (optional)</label>
         <input
           id="capacity"
           type="number"
           min={1}
-          required
-          value={form.capacity}
-          onChange={(e) => setForm({ ...form, capacity: Number(e.target.value) })}
+          value={capacityInput}
+          onChange={(e) => {
+            setCapacityInput(e.target.value);
+            setForm({ ...form, capacity: e.target.value === '' ? null : Number(e.target.value) });
+          }}
         />
 
         <label>
           <input
             type="checkbox"
-            checked={form.active}
-            onChange={(e) => setForm({ ...form, active: e.target.checked })}
+            checked={form.isActive}
+            onChange={(e) => setForm({ ...form, isActive: e.target.checked })}
           />
           Active
         </label>
@@ -93,7 +126,7 @@ export function IntakeEditModal({ intake, courses, open, onSave, onClose }: Inta
           <button type="button" onClick={onClose} className={styles.cancel}>
             Cancel
           </button>
-          <button type="submit" disabled={saving}>
+          <button type="submit" disabled={saving || form.applicableGrades.length === 0}>
             {saving ? 'Saving...' : 'Save'}
           </button>
         </div>

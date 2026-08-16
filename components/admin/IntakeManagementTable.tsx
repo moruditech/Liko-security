@@ -1,24 +1,23 @@
-import type { Course, Intake } from '@/types/api';
+import type { Intake } from '@/types/api';
 import styles from './IntakeManagementTable.module.css';
 
 interface IntakeManagementTableProps {
   intakes: Intake[];
-  courses: Course[];
   onEdit: (intake: Intake) => void;
   onDelete: (intake: Intake) => void;
 }
 
-export function IntakeManagementTable({ intakes, courses, onEdit, onDelete }: IntakeManagementTableProps) {
-  function courseTitle(courseId: string) {
-    const course = courses.find((c) => c.id === courseId);
-    return course ? `Grade ${course.grade}: ${course.title}` : 'Unknown course';
-  }
-
+// Intakes reference grades (applicableGrades: string[]), not a specific
+// course (intake.model.js has no course field at all) — there was never a
+// "course" to look up here, which is why this column always rendered
+// "Unknown course" regardless of what was picked in the edit form.
+export function IntakeManagementTable({ intakes, onEdit, onDelete }: IntakeManagementTableProps) {
   return (
     <table className={styles.table}>
       <thead>
         <tr>
-          <th>Course</th>
+          <th>Title</th>
+          <th>Applicable grades</th>
           <th>Start date</th>
           <th>Capacity</th>
           <th>Active</th>
@@ -28,10 +27,11 @@ export function IntakeManagementTable({ intakes, courses, onEdit, onDelete }: In
       <tbody>
         {intakes.map((intake) => (
           <tr key={intake.id}>
-            <td>{courseTitle(intake.courseId)}</td>
+            <td>{intake.title}</td>
+            <td>{intake.applicableGrades.join(', ')}</td>
             <td>{new Date(intake.startDate).toLocaleDateString('en-ZA')}</td>
-            <td>{intake.capacity}</td>
-            <td>{intake.active ? 'Yes' : 'No'}</td>
+            <td>{intake.capacity ?? '—'}</td>
+            <td>{intake.isActive ? 'Yes' : 'No'}</td>
             <td>
               <button type="button" onClick={() => onEdit(intake)}>
                 Edit
