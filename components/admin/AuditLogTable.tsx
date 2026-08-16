@@ -19,9 +19,9 @@ export function AuditLogTable({ entries }: { entries: AuditLogEntry[] }) {
       <tbody>
         {entries.map((entry, i) => (
           <tr key={entry.id} className={i % 2 === 1 ? styles.altRow : undefined}>
-            <td>{entry.actor}</td>
+            <td>{entry.actor ? entry.actor.name : 'System'}</td>
             <td>{entry.action}</td>
-            <td>{entry.target ?? '-'}</td>
+            <td>{entry.targetType ? `${entry.targetType} (${entry.targetId})` : '-'}</td>
             <td>{new Date(entry.createdAt).toLocaleString('en-ZA')}</td>
           </tr>
         ))}
