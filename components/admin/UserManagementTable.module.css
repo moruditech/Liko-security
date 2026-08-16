@@ -1,3 +1,18 @@
+.card {
+  background: var(--liko-paper);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.empty {
+  padding: var(--space-32);
+  text-align: center;
+  color: var(--liko-ink);
+  opacity: 0.6;
+  margin: 0;
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -9,17 +24,102 @@
   padding: var(--space-16);
   background: var(--liko-navy);
   color: var(--liko-paper);
+  font-size: var(--step-caption);
+  font-weight: 600;
+}
+
+.actionsHeader {
+  text-align: right;
 }
 
 .table td {
   padding: var(--space-16);
   border-bottom: 1px solid var(--liko-panel);
+  font-size: var(--step-0);
+  color: var(--liko-ink);
 }
 
-.table button {
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background: color-mix(in srgb, var(--liko-panel) 60%, var(--liko-paper));
+}
+
+.nameCell {
+  font-weight: 700;
+  color: var(--liko-navy);
+}
+
+.roleTag {
+  display: inline-block;
+  padding: 0.1875rem var(--space-8);
+  border-radius: var(--radius-sm);
+  font-size: 0.6875rem;
+  background: var(--liko-panel);
+  color: var(--liko-ink);
+}
+
+.statusPill {
+  display: inline-block;
+  padding: 0.25rem var(--space-16);
+  border-radius: var(--radius-sm);
+  font-size: var(--step-caption);
+  font-weight: 700;
+}
+
+.statusPill.active {
+  background: var(--liko-navy);
+  color: var(--liko-paper);
+}
+
+.statusPill.inactive {
+  background: var(--liko-panel);
+  color: var(--liko-ink);
+}
+
+.actionsCell {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-8);
+}
+
+.textButton {
   background: none;
   border: 1px solid var(--liko-panel);
   border-radius: var(--radius-sm);
   padding: var(--space-8) var(--space-16);
   cursor: pointer;
+  font-weight: 600;
+  font-size: var(--step-caption);
+  color: var(--liko-navy);
+}
+
+.textButton:hover,
+.textButton:focus-visible {
+  background: var(--liko-panel);
+}
+
+.deactivateButton {
+  background: none;
+  border: 1px solid color-mix(in srgb, var(--liko-error) 40%, var(--liko-panel));
+  color: var(--liko-error);
+  border-radius: var(--radius-sm);
+  padding: var(--space-8) var(--space-16);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: var(--step-caption);
+}
+
+.deactivateButton:hover,
+.deactivateButton:focus-visible {
+  background: color-mix(in srgb, var(--liko-error) 8%, var(--liko-paper));
+}
+
+@media (max-width: 48rem) {
+  .table {
+    display: block;
+    overflow-x: auto;
+  }
 }

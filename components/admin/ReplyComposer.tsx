@@ -20,11 +20,22 @@ export function ReplyComposer({ onSubmit }: { onSubmit: (body: string) => Promis
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <label htmlFor="replyBody">Reply</label>
-      <textarea id="replyBody" required rows={4} value={body} onChange={(e) => setBody(e.target.value)} />
-      <button type="submit" disabled={sending}>
+      <div className={styles.field}>
+        <label htmlFor="replyBody">Reply</label>
+        <textarea id="replyBody" required rows={4} value={body} onChange={(e) => setBody(e.target.value)} />
+      </div>
+      <button type="submit" disabled={sending} className={styles.submit}>
+        <SendIcon />
         {sending ? 'Sending...' : 'Send reply'}
       </button>
     </form>
+  );
+}
+
+function SendIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+    </svg>
   );
 }

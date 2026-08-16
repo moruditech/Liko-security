@@ -4,19 +4,58 @@
   gap: var(--space-16);
 }
 
-.form textarea {
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.field label {
+  font-size: var(--step-caption);
+  font-weight: 600;
+  color: var(--liko-ink);
+  opacity: 0.65;
+}
+
+.field textarea {
   padding: var(--space-8) var(--space-16);
   border: 1px solid var(--liko-panel);
   border-radius: var(--radius-sm);
   font-family: var(--font-body);
+  font-size: var(--step-0);
+  color: var(--liko-ink);
 }
 
-.form button {
+.field textarea:focus-visible {
+  outline: 2px solid var(--liko-gold);
+  outline-offset: 1px;
+}
+
+.submit {
   align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
   background: var(--liko-navy);
   color: var(--liko-paper);
   border: none;
   padding: var(--space-8) var(--space-24);
   border-radius: var(--radius-sm);
   cursor: pointer;
+  font-weight: 600;
+}
+
+.submit svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.submit:hover:not(:disabled),
+.submit:focus-visible {
+  background: var(--liko-navy-deep);
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

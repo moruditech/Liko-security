@@ -1,0 +1,122 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+}
+
+.filterBar {
+  background: var(--liko-paper);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-md);
+  padding: var(--space-16);
+  display: flex;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.field label {
+  font-size: var(--step-caption);
+  font-weight: 600;
+  color: var(--liko-ink);
+  opacity: 0.65;
+}
+
+.field select {
+  padding: var(--space-8) var(--space-32) var(--space-8) var(--space-16);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--step-caption);
+  color: var(--liko-ink);
+  background: var(--liko-paper);
+  appearance: none;
+  cursor: pointer;
+}
+
+.selectWrap {
+  position: relative;
+}
+
+.selectWrap svg {
+  position: absolute;
+  top: 50%;
+  right: var(--space-8);
+  transform: translateY(-50%);
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--liko-ink);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.field select:focus-visible {
+  outline: 2px solid var(--liko-gold);
+  outline-offset: 1px;
+}
+
+.card {
+  background: var(--liko-paper);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.empty {
+  padding: var(--space-32);
+  text-align: center;
+  color: var(--liko-ink);
+  opacity: 0.6;
+  margin: 0;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--liko-paper);
+}
+
+.table th {
+  text-align: left;
+  padding: var(--space-16);
+  background: var(--liko-navy);
+  color: var(--liko-paper);
+  font-size: var(--step-caption);
+  font-weight: 600;
+}
+
+.table td {
+  padding: var(--space-16);
+  border-bottom: 1px solid var(--liko-panel);
+  font-size: var(--step-0);
+  color: var(--liko-ink);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background: color-mix(in srgb, var(--liko-panel) 60%, var(--liko-paper));
+}
+
+.nameLink {
+  color: var(--liko-navy);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.nameLink:hover,
+.nameLink:focus-visible {
+  text-decoration: underline;
+}
+
+@media (max-width: 48rem) {
+  .table {
+    display: block;
+    overflow-x: auto;
+  }
+}

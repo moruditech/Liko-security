@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import type { Role, StaffUser } from '@/types/api';
+import modalStyles from '../ui/modal.module.css';
 import styles from './UserEditForm.module.css';
 
 interface UserEditFormProps {
@@ -40,25 +41,35 @@ export function UserEditForm({ user, roles, open, onSave, onClose }: UserEditFor
   return (
     <div className={styles.overlay} role="dialog" aria-modal="true" onClick={onClose}>
       <form className={styles.dialog} onClick={(e) => e.stopPropagation()} onSubmit={handleSubmit}>
+        <button type="button" className={modalStyles.closeButton} onClick={onClose} aria-label="Close">
+          <CloseIcon />
+        </button>
+
         <h2>{user ? 'Edit staff member' : 'New staff member'}</h2>
 
-        <label htmlFor="userName">Name</label>
-        <input id="userName" required value={name} onChange={(e) => setName(e.target.value)} />
+        <div className={modalStyles.fieldGroup}>
+          <label htmlFor="userName">Name</label>
+          <input id="userName" required value={name} onChange={(e) => setName(e.target.value)} />
+        </div>
 
-        <label htmlFor="userEmail">Email</label>
-        <input id="userEmail" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+        <div className={modalStyles.fieldGroup}>
+          <label htmlFor="userEmail">Email</label>
+          <input id="userEmail" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+        </div>
 
-        <label htmlFor="userRole">Role</label>
-        <select id="userRole" required value={role} onChange={(e) => setRole(e.target.value)}>
-          {roles.map((r) => (
-            <option key={r.id} value={r.id}>
-              {r.name}
-            </option>
-          ))}
-        </select>
+        <div className={modalStyles.fieldGroup}>
+          <label htmlFor="userRole">Role</label>
+          <select id="userRole" required value={role} onChange={(e) => setRole(e.target.value)}>
+            {roles.map((r) => (
+              <option key={r.id} value={r.id}>
+                {r.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <div className={styles.actions}>
-          <button type="button" onClick={onClose} className={styles.cancel}>
+        <div className={modalStyles.actions}>
+          <button type="button" onClick={onClose} className={modalStyles.cancel}>
             Cancel
           </button>
           <button type="submit" disabled={saving}>
@@ -67,5 +78,13 @@ export function UserEditForm({ user, roles, open, onSave, onClose }: UserEditFor
         </div>
       </form>
     </div>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
   );
 }
