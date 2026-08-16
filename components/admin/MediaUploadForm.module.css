@@ -32,6 +32,39 @@
   color: var(--liko-ink);
 }
 
+.field select {
+  padding: var(--space-8) var(--space-32) var(--space-8) var(--space-16);
+  border: 1px solid var(--liko-panel);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--step-caption);
+  color: var(--liko-ink);
+  background: var(--liko-paper);
+  appearance: none;
+  cursor: pointer;
+}
+
+.selectWrap {
+  position: relative;
+}
+
+.selectWrap svg {
+  position: absolute;
+  top: 50%;
+  right: var(--space-8);
+  transform: translateY(-50%);
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--liko-ink);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.field select:focus-visible {
+  outline: 2px solid var(--liko-gold);
+  outline-offset: 1px;
+}
+
 .field input:focus-visible {
   outline: 2px solid var(--liko-gold);
   outline-offset: 1px;

@@ -3,7 +3,7 @@ import styles from './GalleryStatsRow.module.css';
 
 export function GalleryStatsRow({ items }: { items: GalleryItem[] }) {
   const categoryCount = new Set(items.map((i) => i.category)).size;
-  const activeCount = items.filter((i) => i.active).length;
+  const activeCount = items.filter((i) => i.isActive).length;
   const inactiveCount = items.length - activeCount;
 
   const stats = [

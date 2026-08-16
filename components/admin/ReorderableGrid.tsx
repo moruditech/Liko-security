@@ -26,17 +26,21 @@ export function ReorderableGrid({ items, onMove, onEdit, onDelete }: Reorderable
   return (
     <div className={styles.grid}>
       {sorted.map((item, i) => (
-        <div key={item.id} className={styles.tile}>
+        <div key={item._id} className={styles.tile}>
           <div className={styles.imageWrap}>
-            <Image src={item.imageUrl} alt={item.caption ?? ''} fill sizes="(max-width: 768px) 50vw, 220px" style={{ objectFit: 'cover' }} />
-            <span className={`${styles.statusPill} ${item.active ? styles.active : styles.inactive}`}>
-              {item.active ? 'Active' : 'Inactive'}
+            {item.mediaType === 'video' ? (
+              <video src={item.mediaUrl} className={styles.media} muted playsInline />
+            ) : (
+              <Image src={item.mediaUrl} alt={item.title} fill sizes="(max-width: 768px) 50vw, 220px" style={{ objectFit: 'cover' }} />
+            )}
+            <span className={`${styles.statusPill} ${item.isActive ? styles.active : styles.inactive}`}>
+              {item.isActive ? 'Active' : 'Inactive'}
             </span>
           </div>
 
           <div className={styles.meta}>
             <span className={styles.category}>{item.category}</span>
-            {item.caption && <span className={styles.caption}>{item.caption}</span>}
+            {item.title && <span className={styles.caption}>{item.title}</span>}
           </div>
 
           <div className={styles.controls}>

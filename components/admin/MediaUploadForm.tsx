@@ -1,15 +1,19 @@
 'use client';
 
 import { useState } from 'react';
+import type { GalleryCategory } from '@/types/api';
 import styles from './MediaUploadForm.module.css';
+
+const CATEGORIES: GalleryCategory[] = ['Practical Drills', 'Graduations', 'Campus Life'];
 
 interface MediaUploadFormProps {
   onUpload: (form: FormData) => Promise<void>;
 }
 
 export function MediaUploadForm({ onUpload }: MediaUploadFormProps) {
-  const [category, setCategory] = useState('');
-  const [caption, setCaption] = useState('');
+  const [category, setCategory] = useState<GalleryCategory>('Practical Drills');
+  const [mediaType, setMediaType] = useState<'image' | 'video'>('image');
+  const [title, setTitle] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
 
@@ -20,11 +24,11 @@ export function MediaUploadForm({ onUpload }: MediaUploadFormProps) {
     try {
       const form = new FormData();
       form.append('category', category);
-      if (caption) form.append('caption', caption);
+      form.append('mediaType', mediaType); // required by gallery.validation.js on create
+      if (title) form.append('title', title);
       form.append('media', file);
       await onUpload(form);
-      setCategory('');
-      setCaption('');
+      setTitle('');
       setFile(null);
     } finally {
       setUploading(false);
@@ -35,34 +39,48 @@ export function MediaUploadForm({ onUpload }: MediaUploadFormProps) {
     <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.field}>
         <label htmlFor="mediaCategory">Category</label>
-        <input
-          id="mediaCategory"
-          placeholder="e.g. Training, Facilities"
-          required
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        />
+        <div className={styles.selectWrap}>
+          <select id="mediaCategory" required value={category} onChange={(e) => setCategory(e.target.value as GalleryCategory)}>
+            {CATEGORIES.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+          <ChevronIcon />
+        </div>
       </div>
 
       <div className={styles.field}>
-        <label htmlFor="mediaCaption">Caption (optional)</label>
-        <input id="mediaCaption" placeholder="e.g. Grade C intake, August 2026" value={caption} onChange={(e) => setCaption(e.target.value)} />
+        <label htmlFor="mediaType">Type</label>
+        <div className={styles.selectWrap}>
+          <select id="mediaType" required value={mediaType} onChange={(e) => setMediaType(e.target.value as 'image' | 'video')}>
+            <option value="image">Image</option>
+            <option value="video">Video</option>
+          </select>
+          <ChevronIcon />
+        </div>
+      </div>
+
+      <div className={styles.field}>
+        <label htmlFor="mediaTitle">Title (optional)</label>
+        <input id="mediaTitle" placeholder="e.g. Grade C intake, August 2026" value={title} onChange={(e) => setTitle(e.target.value)} />
       </div>
 
       <div className={styles.fieldFile}>
-        <label htmlFor="mediaFile">Image</label>
+        <label htmlFor="mediaFile">File</label>
         {/*
-          FLAG: unlike FileUploadDropzone's ID-document pre-check (verified
-          against upload.middleware.js's exact 10MB/jpeg/png/pdf constants),
-          the gallery upload route's actual size/type limits weren't
-          separately confirmed here, it may use a different multer config.
-          Verify against the real gallery upload middleware before relying on
-          this accept attribute as authoritative.
+          GALLERY_ALLOWED_MIME_TYPES (upload.middleware.js): jpeg/png for
+          images, mp4/quicktime/webm for video — confirmed against the actual
+          middleware, unlike the ID-document upload's accept attribute
+          (still separately unverified, per the earlier flag on that form).
+          Narrowed by the selected media type so people aren't offered a
+          video picker while "Image" is selected.
         */}
         <input
           id="mediaFile"
           type="file"
-          accept="image/jpeg,image/png"
+          accept={mediaType === 'video' ? 'video/mp4,video/quicktime,video/webm' : 'image/jpeg,image/png'}
           required
           onChange={(e) => setFile(e.target.files?.[0] ?? null)}
         />
@@ -74,6 +92,14 @@ export function MediaUploadForm({ onUpload }: MediaUploadFormProps) {
         {uploading ? 'Uploading...' : 'Upload'}
       </button>
     </form>
+  );
+}
+
+function ChevronIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <path d="M6 9l6 6 6-6" />
+    </svg>
   );
 }
 

@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import type { GalleryItem } from '@/types/api';
+import type { GalleryCategory, GalleryItem } from '@/types/api';
 import modalStyles from '../ui/modal.module.css';
 import styles from './GalleryEditModal.module.css';
+
+const CATEGORIES: GalleryCategory[] = ['Practical Drills', 'Graduations', 'Campus Life'];
 
 interface GalleryEditModalProps {
   item: GalleryItem | null;
@@ -13,17 +15,19 @@ interface GalleryEditModalProps {
 }
 
 export function GalleryEditModal({ item, open, onSave, onClose }: GalleryEditModalProps) {
-  const [category, setCategory] = useState('');
-  const [caption, setCaption] = useState('');
-  const [active, setActive] = useState(true);
+  const [category, setCategory] = useState<GalleryCategory>('Practical Drills');
+  const [mediaType, setMediaType] = useState<'image' | 'video'>('image');
+  const [title, setTitle] = useState('');
+  const [isActive, setIsActive] = useState(true);
   const [replacementFile, setReplacementFile] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (item) {
       setCategory(item.category);
-      setCaption(item.caption ?? '');
-      setActive(item.active);
+      setMediaType(item.mediaType);
+      setTitle(item.title);
+      setIsActive(item.isActive);
       setReplacementFile(null);
     }
   }, [item, open]);
@@ -35,11 +39,12 @@ export function GalleryEditModal({ item, open, onSave, onClose }: GalleryEditMod
     setSaving(true);
     try {
       const form = new FormData();
-      form.append('category', category);
-      form.append('caption', caption);
-      form.append('active', String(active));
+      form.append('category', category); // required on every PUT — full-replace semantics
+      form.append('mediaType', mediaType); // required on every PUT — full-replace semantics
+      form.append('title', title);
+      form.append('isActive', String(isActive));
       if (replacementFile) form.append('media', replacementFile);
-      await onSave(item!.id, form);
+      await onSave(item!._id, form);
       onClose();
     } finally {
       setSaving(false);
@@ -57,25 +62,39 @@ export function GalleryEditModal({ item, open, onSave, onClose }: GalleryEditMod
 
         <div className={modalStyles.fieldGroup}>
           <label htmlFor="galleryCategory">Category</label>
-          <input id="galleryCategory" required value={category} onChange={(e) => setCategory(e.target.value)} />
+          <select id="galleryCategory" required value={category} onChange={(e) => setCategory(e.target.value as GalleryCategory)}>
+            {CATEGORIES.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className={modalStyles.fieldGroup}>
-          <label htmlFor="galleryCaption">Caption</label>
-          <input id="galleryCaption" value={caption} onChange={(e) => setCaption(e.target.value)} />
+          <label htmlFor="galleryMediaType">Type</label>
+          <select id="galleryMediaType" required value={mediaType} onChange={(e) => setMediaType(e.target.value as 'image' | 'video')}>
+            <option value="image">Image</option>
+            <option value="video">Video</option>
+          </select>
+        </div>
+
+        <div className={modalStyles.fieldGroup}>
+          <label htmlFor="galleryTitle">Title</label>
+          <input id="galleryTitle" value={title} onChange={(e) => setTitle(e.target.value)} />
         </div>
 
         <label className={styles.checkboxRow}>
-          <input type="checkbox" checked={active} onChange={(e) => setActive(e.target.checked)} />
+          <input type="checkbox" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} />
           Active on the public site
         </label>
 
         <div className={modalStyles.fieldGroup}>
-          <label htmlFor="galleryMedia">Replace image (optional)</label>
+          <label htmlFor="galleryMedia">Replace file (optional)</label>
           <input
             id="galleryMedia"
             type="file"
-            accept="image/jpeg,image/png"
+            accept={mediaType === 'video' ? 'video/mp4,video/quicktime,video/webm' : 'image/jpeg,image/png'}
             onChange={(e) => setReplacementFile(e.target.files?.[0] ?? null)}
           />
         </div>
