@@ -238,11 +238,18 @@ export interface Role {
 }
 
 // ---- Audit Logs ----
+// listAuditLogs in auditLog.service.js shapes its own output (like
+// application.service.js's toDecryptedJSON), so this does NOT mirror
+// auditLog.model.js field-for-field: `timestamp` is renamed to `createdAt`,
+// and `actor` — null for system-generated entries (auditLog.model.js:
+// `default: null`), otherwise populated via .populate('actor', 'name') — is
+// normalized to {id, name} either way rather than a bare ObjectId.
 export interface AuditLogEntry {
   id: string;
-  actor: string;
+  actor: { id: string; name: string } | null;
   action: string;
-  target?: string;
+  targetType?: string;
+  targetId?: string;
   createdAt: string;
 }
 
