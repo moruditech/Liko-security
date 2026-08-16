@@ -169,13 +169,19 @@ export interface Settings {
 }
 
 // ---- Gallery / Testimonials / FAQs / Announcements ----
+// gallery.model.js has no id-transform, so responses carry Mongo's raw `_id`.
+// GALLERY_CATEGORIES (shared/constants/enums.js) is a fixed 3-value enum,
+// validated server-side by gallery.validation.js — not free text.
+export type GalleryCategory = 'Practical Drills' | 'Graduations' | 'Campus Life';
+
 export interface GalleryItem {
-  id: string;
-  category: string;
-  imageUrl: string;
-  caption?: string;
+  _id: string;
+  category: GalleryCategory;
+  mediaUrl: string;
+  mediaType: 'image' | 'video';
+  title: string; // always a string, default '' on the model — never undefined
   order: number;
-  active: boolean;
+  isActive: boolean;
 }
 
 export interface Testimonial {
