@@ -77,7 +77,7 @@ export default function AdminDashboardPage() {
       .then(([latestApplications, latestInquiries]) => {
         if (cancelled) return;
         setRecentApplications(latestApplications.items);
-        setRecentInquiries(latestInquiries.slice(0, 5));
+        setRecentInquiries(latestInquiries.items.slice(0, 5));
       })
       .catch((err) => {
         if (cancelled) return;
