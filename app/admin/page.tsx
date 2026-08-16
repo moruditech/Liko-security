@@ -1,83 +1,176 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { analyticsApi } from '@/lib/api/analytics';
 import { applicationsApi } from '@/lib/api/applications';
 import { inquiriesApi } from '@/lib/api/inquiries';
-import { StatCard } from '@/components/admin/StatCard';
+import { DashboardMetricsRow } from '@/components/admin/DashboardMetricsRow';
+import { CapacityAlertsPanel } from '@/components/admin/CapacityAlertsPanel';
+import { ApplicationsTrendChart } from '@/components/admin/ApplicationsTrendChart';
+import { RevenueTrendChart } from '@/components/admin/RevenueTrendChart';
+import { ApplicationsByStatusChart } from '@/components/admin/ApplicationsByStatusChart';
+import { ApplicationsByGradeChart } from '@/components/admin/ApplicationsByGradeChart';
+import { GradeStatusMatrixChart } from '@/components/admin/GradeStatusMatrixChart';
+import { HorizontalBarChartPanel } from '@/components/admin/HorizontalBarChartPanel';
+import { TrendLineChartPanel } from '@/components/admin/TrendLineChartPanel';
 import { RecentApplicationsList } from '@/components/admin/RecentApplicationsList';
 import { RecentInquiriesList } from '@/components/admin/RecentInquiriesList';
 import { PermissionGate } from '@/components/admin/PermissionGate';
 import { useToast } from '@/lib/context/ToastContext';
 import { ApiClientError, ApiNetworkError } from '@/lib/fetcher';
-import type { Application, ApplicationStatus, Inquiry } from '@/types/api';
+import type { AnalyticsDashboard, AnalyticsPeriod, Application, CapacityAlert, Inquiry } from '@/types/api';
 import styles from './page.module.css';
 
-const STATUS_VALUES: ApplicationStatus[] = ['new', 'under_review', 'payment_verified', 'enrolled'];
+const PERIODS: { value: AnalyticsPeriod; label: string }[] = [
+  { value: 'daily', label: 'Daily' },
+  { value: 'weekly', label: 'Weekly' },
+  { value: 'monthly', label: 'Monthly' },
+];
 
 export default function AdminDashboardPage() {
   const { showToast } = useToast();
-  const [statCounts, setStatCounts] = useState<Record<string, number | null>>({});
-  const [openInquiryCount, setOpenInquiryCount] = useState<number | null>(null);
+  const [period, setPeriod] = useState<AnalyticsPeriod>('monthly');
+  const [dashboard, setDashboard] = useState<AnalyticsDashboard | null>(null);
+  const [dashboardLoading, setDashboardLoading] = useState(true);
+  const [alerts, setAlerts] = useState<CapacityAlert[]>([]);
+  const [alertsLoading, setAlertsLoading] = useState(true);
   const [recentApplications, setRecentApplications] = useState<Application[]>([]);
   const [recentInquiries, setRecentInquiries] = useState<Inquiry[]>([]);
 
   useEffect(() => {
     let cancelled = false;
-
-    async function load() {
-      try {
-        // TAD §12.1: no dedicated stats endpoint. Counts are derived from
-        // `total` on paginated list endpoints, one call per status value
-        // with limit=1, confirmed against application.controller.js's list
-        // response shape.
-        const statResults = await Promise.all(
-          STATUS_VALUES.map((status) => applicationsApi.list({ status, page: 1, limit: 1 }))
-        );
+    setDashboardLoading(true);
+    analyticsApi
+      .getDashboard(period)
+      .then((data) => {
+        if (!cancelled) setDashboard(data);
+      })
+      .catch((err) => {
         if (cancelled) return;
-        const counts: Record<string, number> = {};
-        STATUS_VALUES.forEach((status, i) => {
-          counts[status] = statResults[i]?.total ?? 0;
-        });
-        setStatCounts(counts);
-
-        const openInquiries = await inquiriesApi.list('open');
-        if (cancelled) return;
-        setOpenInquiryCount(openInquiries.length);
-
-        const [latestApplications, latestInquiries] = await Promise.all([
-          applicationsApi.list({ page: 1, limit: 5 }),
-          inquiriesApi.list(),
-        ]);
-        if (cancelled) return;
-        setRecentApplications(latestApplications.items);
-        setRecentInquiries(latestInquiries.slice(0, 5));
-      } catch (err) {
-        if (err instanceof ApiClientError || err instanceof ApiNetworkError) {
-          showToast(err.message, 'error');
-        }
-      }
-    }
-
-    load();
+        if (err instanceof ApiClientError || err instanceof ApiNetworkError) showToast(err.message, 'error');
+      })
+      .finally(() => {
+        if (!cancelled) setDashboardLoading(false);
+      });
     return () => {
       cancelled = true;
     };
-  }, [showToast]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [period]);
+
+  useEffect(() => {
+    let cancelled = false;
+    analyticsApi
+      .getCapacityAlerts()
+      .then((data) => {
+        if (!cancelled) setAlerts(data);
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        if (err instanceof ApiClientError || err instanceof ApiNetworkError) showToast(err.message, 'error');
+      })
+      .finally(() => {
+        if (!cancelled) setAlertsLoading(false);
+      });
+
+    Promise.all([applicationsApi.list({ page: 1, limit: 5 }), inquiriesApi.list()])
+      .then(([latestApplications, latestInquiries]) => {
+        if (cancelled) return;
+        setRecentApplications(latestApplications.items);
+        setRecentInquiries(latestInquiries.slice(0, 5));
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        if (err instanceof ApiClientError || err instanceof ApiNetworkError) showToast(err.message, 'error');
+      });
+
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const applicationsByProvince = (dashboard?.pies.applicationsByProvince ?? []).map((p) => ({ name: p.province, count: p.count }));
+  const auditByCategory = (dashboard?.pies.auditByCategory ?? []).map((c) => ({ name: c.category, count: c.count }));
+  const inquiryResponseData = (dashboard?.lines.inquiryResponseTimeTrend ?? []).map((p) => ({ date: p.date, avgHours: p.avgHours }));
+  const failedLoginsData = (dashboard?.lines.failedLogins ?? []).map((p) => ({ date: p.date, count: p.count }));
 
   return (
-    <div className={styles.page}>
-      <h1>Dashboard</h1>
+    <div>
+      <div className={styles.header}>
+        <div className={styles.headerRow}>
+          <div>
+            <h1>Dashboard</h1>
+            <p className={styles.subtitle}>Overview of applications, enrollments and system activity.</p>
+          </div>
+          <div className={styles.periodSwitch} role="tablist" aria-label="Chart time period">
+            {PERIODS.map((p) => (
+              <button
+                key={p.value}
+                type="button"
+                className={p.value === period ? styles.active : undefined}
+                onClick={() => setPeriod(p.value)}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
 
-      <div className={styles.stats}>
-        <StatCard label="New" value={statCounts.new ?? null} />
-        <StatCard label="Under Review" value={statCounts.under_review ?? null} />
-        <PermissionGate permission="invoices:issue">
-          <StatCard label="Payment Verified" value={statCounts.payment_verified ?? null} />
-        </PermissionGate>
-        <StatCard label="Enrolled" value={statCounts.enrolled ?? null} />
-        <PermissionGate permission="inquiries:manage">
-          <StatCard label="Open Inquiries" value={openInquiryCount} />
-        </PermissionGate>
+      <DashboardMetricsRow metrics={dashboard?.metrics ?? null} />
+
+      <CapacityAlertsPanel alerts={alerts} loading={alertsLoading} />
+
+      <div className={styles.row2}>
+        <ApplicationsTrendChart
+          applications={dashboard?.lines.applications ?? []}
+          enrollments={dashboard?.lines.enrollments ?? []}
+          loading={dashboardLoading}
+        />
+        <RevenueTrendChart revenue={dashboard?.lines.revenue ?? []} loading={dashboardLoading} />
+      </div>
+
+      <div className={styles.row2}>
+        <ApplicationsByStatusChart data={dashboard?.pies.applicationsByStatus ?? []} loading={dashboardLoading} />
+        <ApplicationsByGradeChart data={dashboard?.pies.applicationsByGrade ?? []} loading={dashboardLoading} />
+      </div>
+
+      <GradeStatusMatrixChart matrix={dashboard?.gradeStatusMatrix ?? {}} loading={dashboardLoading} />
+
+      <div className={styles.row2}>
+        <HorizontalBarChartPanel
+          title="Applications by province"
+          subtitle="Applicant address province, where captured"
+          data={applicationsByProvince}
+          loading={dashboardLoading}
+        />
+        <HorizontalBarChartPanel
+          title="Audit activity by category"
+          subtitle="System actions logged, grouped by area"
+          data={auditByCategory}
+          loading={dashboardLoading}
+        />
+      </div>
+
+      <div className={styles.row2}>
+        <TrendLineChartPanel
+          title="Inquiry response time"
+          subtitle="Average hours to first reply"
+          data={inquiryResponseData}
+          dataKey="avgHours"
+          color="var(--liko-gold)"
+          valueFormatter={(v) => `${v}h`}
+          loading={dashboardLoading}
+        />
+        <TrendLineChartPanel
+          title="Failed logins"
+          subtitle="Failed authentication attempts, over time"
+          data={failedLoginsData}
+          dataKey="count"
+          color="var(--liko-error)"
+          loading={dashboardLoading}
+        />
       </div>
 
       <div className={styles.recent}>
