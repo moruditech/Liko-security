@@ -7,11 +7,11 @@ interface CourseTableProps {
 }
 
 export function CourseTable({ courses, intakes }: CourseTableProps) {
-  function nextIntakeFor(courseId: string) {
-    const forCourse = intakes
-      .filter((i) => i.courseId === courseId)
+  function nextIntakeFor(grade: string) {
+    const forGrade = intakes
+      .filter((i) => i.applicableGrades.includes(grade))
       .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
-    return forCourse[0];
+    return forGrade[0];
   }
 
   return (
@@ -28,7 +28,7 @@ export function CourseTable({ courses, intakes }: CourseTableProps) {
         </thead>
         <tbody>
           {courses.map((course, i) => {
-            const next = nextIntakeFor(course.id);
+            const next = nextIntakeFor(course.grade);
             return (
               <tr key={course.id} className={i % 2 === 1 ? styles.altRow : undefined}>
                 <td>
@@ -46,7 +46,7 @@ export function CourseTable({ courses, intakes }: CourseTableProps) {
       {/* Mobile cards */}
       <div className={styles.cardList}>
         {courses.map((course) => {
-          const next = nextIntakeFor(course.id);
+          const next = nextIntakeFor(course.grade);
           return (
             <div key={course.id} className={styles.card}>
               <div className={styles.cardHeader}>

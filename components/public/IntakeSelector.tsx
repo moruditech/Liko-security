@@ -1,18 +1,15 @@
-import type { Course, Intake } from '@/types/api';
+import type { Intake } from '@/types/api';
 import styles from './IntakeSelector.module.css';
 
 interface IntakeSelectorProps {
   intakes: Intake[];
-  courses: Course[];
   value: string;
   onChange: (intakeId: string) => void;
 }
 
-export function IntakeSelector({ intakes, courses, value, onChange }: IntakeSelectorProps) {
-  function courseTitle(courseId: string) {
-    return courses.find((c) => c.id === courseId)?.title ?? 'Unknown course';
-  }
-
+// Intakes reference grades directly (applicableGrades), not a specific
+// course — there was never a "course" to look up here.
+export function IntakeSelector({ intakes, value, onChange }: IntakeSelectorProps) {
   return (
     <div className={styles.field}>
       <label htmlFor="intake">Preferred intake</label>
@@ -22,7 +19,8 @@ export function IntakeSelector({ intakes, courses, value, onChange }: IntakeSele
         </option>
         {intakes.map((intake) => (
           <option key={intake.id} value={intake.id}>
-            {courseTitle(intake.courseId)}: starts {new Date(intake.startDate).toLocaleDateString('en-ZA')}
+            {intake.title} (Grade{intake.applicableGrades.length > 1 ? 's' : ''} {intake.applicableGrades.join(', ')}) —
+            starts {new Date(intake.startDate).toLocaleDateString('en-ZA')}
           </option>
         ))}
       </select>
