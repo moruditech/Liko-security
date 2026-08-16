@@ -74,15 +74,15 @@ export default function CoursesAdminPage() {
   const filteredCourses = useMemo(() => {
     const q = search.trim().toLowerCase();
     return courses.filter((course) => {
-      if (statusFilter === 'active' && !course.active) return false;
-      if (statusFilter === 'inactive' && course.active) return false;
+      if (statusFilter === 'active' && !course.isActive) return false;
+      if (statusFilter === 'inactive' && course.isActive) return false;
       if (gradeFilter !== 'all' && course.grade !== gradeFilter) return false;
       if (q && !course.title.toLowerCase().includes(q) && !course.grade.toLowerCase().includes(q)) return false;
       return true;
     });
   }, [courses, search, statusFilter, gradeFilter]);
 
-  const activeCoursesCount = useMemo(() => courses.filter((c) => c.active).length, [courses]);
+  const activeCoursesCount = useMemo(() => courses.filter((c) => c.isActive).length, [courses]);
 
   const upcomingIntakesCount = useMemo(() => {
     const now = Date.now();
@@ -117,8 +117,8 @@ export default function CoursesAdminPage() {
 
   async function handleToggleCourseActive(course: Course) {
     try {
-      await coursesApi.update(course.id, { active: !course.active });
-      showToast(course.active ? 'Course marked inactive.' : 'Course marked active.', 'success');
+      await coursesApi.update(course.id, { isActive: !course.isActive });
+      showToast(course.isActive ? 'Course marked inactive.' : 'Course marked active.', 'success');
       load();
     } catch (err) {
       if (err instanceof ApiClientError || err instanceof ApiNetworkError) showToast(err.message, 'error');
@@ -132,7 +132,7 @@ export default function CoursesAdminPage() {
         title: `${course.title} (Copy)`,
         duration: course.duration,
         fee: course.fee,
-        active: false,
+        isActive: false,
       });
       showToast('Course duplicated.', 'success');
       load();
@@ -250,7 +250,6 @@ export default function CoursesAdminPage() {
       {tab === 'intakes' && (
         <IntakeManagementTable
           intakes={intakes}
-          courses={courses}
           onEdit={(intake) => {
             setEditingIntake(intake);
             setIntakeModalOpen(true);
@@ -268,7 +267,6 @@ export default function CoursesAdminPage() {
 
       <IntakeEditModal
         intake={editingIntake}
-        courses={courses}
         open={intakeModalOpen}
         onSave={handleSaveIntake}
         onClose={() => setIntakeModalOpen(false)}
