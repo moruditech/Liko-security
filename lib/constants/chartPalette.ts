@@ -27,7 +27,11 @@ export function chartPalette(count: number): string[] {
   const colors: string[] = [];
   let pass = 0;
   while (colors.length < count) {
-    const source = BASE_COLORS[colors.length % BASE_COLORS.length];
+    // noUncheckedIndexedAccess means this index read is typed
+    // `string | undefined` even though the modulo guarantees it's always
+    // in bounds; the fallbacks are unreachable in practice, just satisfying
+    // the type.
+    const source = BASE_COLORS[colors.length % BASE_COLORS.length] ?? BASE_COLORS[0] ?? 'var(--liko-navy)';
     colors.push(pass === 0 ? source : tint(source, pass * 30));
     if (colors.length % BASE_COLORS.length === 0) pass += 1;
   }
