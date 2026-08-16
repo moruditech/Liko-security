@@ -216,11 +216,18 @@ export interface Inquiry {
 }
 
 // ---- Users / Roles ----
+// GET /users populates `role` (a real object, not the bare ID), and unlike
+// coursesSelected/preferredIntake on Application (which bypass toJSON via a
+// manual .toObject() in application.service.js's toDecryptedJSON and so come
+// back with a raw `_id`), staff users go through the normal res.json() path,
+// so Role's own toJSON id-transform applies and this comes back as `id`.
+// UserEditForm.tsx and UserManagementTable.tsx both already read it this way
+// (role.id, role.name); this was the only place still calling it a string.
 export interface StaffUser {
   id: string;
   name: string;
   email: string;
-  role: string;
+  role: { id: string; name: string };
   active: boolean;
 }
 
