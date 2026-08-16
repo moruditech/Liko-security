@@ -9,6 +9,7 @@ import { Pagination } from '@/components/admin/Pagination';
 import { useToast } from '@/lib/context/ToastContext';
 import { ApiClientError, ApiNetworkError } from '@/lib/fetcher';
 import type { AuditLogEntry, StaffUser } from '@/types/api';
+import styles from './page.module.css';
 
 const PAGE_SIZE = 20;
 
@@ -50,8 +51,15 @@ export default function AuditLogsPage() {
 
   return (
     <div>
-      <h1>Audit Logs</h1>
-      <AuditLogFilterBar filters={filters} onChange={handleFiltersChange} actors={actors} />
+      <div className={styles.header}>
+        <h1>Audit Logs</h1>
+        <p className={styles.subtitle}>Track staff actions across the admin panel.</p>
+      </div>
+
+      <div className={styles.filterRow}>
+        <AuditLogFilterBar filters={filters} onChange={handleFiltersChange} actors={actors} />
+      </div>
+
       <AuditLogTable entries={entries} />
       <Pagination page={page} totalPages={Math.max(1, Math.ceil(total / PAGE_SIZE))} onChange={setPage} />
     </div>
