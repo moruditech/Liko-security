@@ -12,7 +12,8 @@ interface ApplicationsByGradeChartProps {
 
 export function ApplicationsByGradeChart({ data, loading }: ApplicationsByGradeChartProps) {
   const colors = chartPalette(data.length);
-  const chartData = data.map((d, i) => ({ name: `Grade ${d.grade}`, value: d.count, color: colors[i] }));
+  // Same noUncheckedIndexedAccess note as chartPalette.ts: chartPalette(data.length) guarantees enough colors, this fallback is unreachable.
+  const chartData = data.map((d, i) => ({ name: `Grade ${d.grade}`, value: d.count, color: colors[i] ?? 'var(--liko-navy)' }));
 
   return (
     <ChartPanel title="Applications by grade" loading={loading} empty={!loading && chartData.length === 0}>

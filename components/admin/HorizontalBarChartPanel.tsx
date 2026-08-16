@@ -30,7 +30,8 @@ export function HorizontalBarChartPanel({ title, subtitle, data, loading }: Hori
           <Tooltip {...CHART_TOOLTIP_STYLE} cursor={{ fill: 'var(--liko-panel)' }} />
           <Bar dataKey="count" radius={4} barSize={16}>
             {sorted.map((entry, i) => (
-              <Cell key={entry.name} fill={colors[i]} />
+              // chartPalette(sorted.length) guarantees enough colors, this fallback is unreachable (see chartPalette.ts).
+              <Cell key={entry.name} fill={colors[i] ?? 'var(--liko-navy)'} />
             ))}
           </Bar>
         </BarChart>
