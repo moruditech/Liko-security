@@ -220,7 +220,7 @@ export interface StaffUser {
   id: string;
   name: string;
   email: string;
-  role: { id: string; name: string };
+  role: string;
   active: boolean;
 }
 
@@ -237,4 +237,122 @@ export interface AuditLogEntry {
   action: string;
   target?: string;
   createdAt: string;
+}
+
+// ---- Analytics (analytics.service.js's getDashboard/getCapacityAlerts) ----
+export type AnalyticsPeriod = 'daily' | 'weekly' | 'monthly';
+
+export interface AnalyticsCountPoint {
+  date: string;
+  count: number;
+}
+
+export interface AnalyticsRevenuePoint {
+  date: string;
+  proforma: number;
+  official: number;
+}
+
+export interface AnalyticsAvgHoursPoint {
+  date: string;
+  avgHours: number;
+}
+
+export interface AnalyticsStatusCount {
+  status: ApplicationStatus;
+  count: number;
+}
+
+export interface AnalyticsGradeCount {
+  grade: string;
+  count: number;
+}
+
+export interface AnalyticsProvinceCount {
+  province: string;
+  count: number;
+}
+
+export interface AnalyticsInquiryStatusCount {
+  status: Inquiry['status'];
+  count: number;
+}
+
+export interface AnalyticsCategoryCount {
+  category: string;
+  count: number;
+}
+
+export interface AnalyticsConversionRate {
+  enrolled: number;
+  rejected: number;
+  total: number;
+  rate: number | null;
+}
+
+export interface AnalyticsAvgTimeToEnrollment {
+  avgDays: number | null;
+  count: number;
+}
+
+export interface AnalyticsAvgInquiryResponseTime {
+  avgHours: number | null;
+  count: number;
+}
+
+export interface AnalyticsMonthlyRevenue {
+  thisMonth: number;
+  lastMonth: number;
+  change: number | null;
+}
+
+export interface AnalyticsMfaAdoption {
+  enabled: number;
+  disabled: number;
+  total: number;
+  rate: number | null;
+}
+
+// Keyed by grade, then by ApplicationStatus, e.g. matrix.B.enrolled
+export type AnalyticsGradeStatusMatrix = Record<string, Record<ApplicationStatus, number>>;
+
+export interface AnalyticsDashboard {
+  period: AnalyticsPeriod;
+  lines: {
+    applications: AnalyticsCountPoint[];
+    revenue: AnalyticsRevenuePoint[];
+    enrollments: AnalyticsCountPoint[];
+    inquiryResponseTimeTrend: AnalyticsAvgHoursPoint[];
+    failedLogins: AnalyticsCountPoint[];
+  };
+  pies: {
+    applicationsByStatus: AnalyticsStatusCount[];
+    applicationsByGrade: AnalyticsGradeCount[];
+    applicationsByProvince: AnalyticsProvinceCount[];
+    inquiriesByStatus: AnalyticsInquiryStatusCount[];
+    auditByCategory: AnalyticsCategoryCount[];
+  };
+  metrics: {
+    conversionRate: AnalyticsConversionRate;
+    avgTimeToEnrollment: AnalyticsAvgTimeToEnrollment;
+    avgInquiryResponseTime: AnalyticsAvgInquiryResponseTime;
+    monthlyRevenue: AnalyticsMonthlyRevenue;
+    mfaAdoption: AnalyticsMfaAdoption;
+  };
+  gradeStatusMatrix: AnalyticsGradeStatusMatrix;
+}
+
+export type CapacityAlertLevel = 'full' | 'approaching' | 'low' | null;
+
+export interface CapacityAlert {
+  id: string;
+  title: string;
+  startDate: string;
+  applicableGrades: string[];
+  capacity: number | null;
+  enrolled: number;
+  totalApplications: number;
+  fillRate: number | null;
+  alertLevel: CapacityAlertLevel;
+  daysUntilStart: number;
 }
