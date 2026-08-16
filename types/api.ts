@@ -142,15 +142,16 @@ export interface Course {
   title: string;
   duration: string;
   fee: number;
-  active: boolean;
+  isActive: boolean;
 }
 
 export interface Intake {
   id: string;
-  courseId: string;
+  title: string;
+  applicableGrades: string[]; // intakes reference grades, not a specific course
   startDate: string;
-  capacity: number;
-  active: boolean;
+  capacity: number | null; // createIntake's Joi schema doesn't even accept capacity — only settable via update
+  isActive: boolean;
 }
 
 // ---- Settings ----
