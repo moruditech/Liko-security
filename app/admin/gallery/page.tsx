@@ -42,13 +42,13 @@ export default function GalleryAdminPage() {
 
   async function handleMove(item: GalleryItem, direction: 'up' | 'down') {
     const sorted = [...items].sort((a, b) => a.order - b.order);
-    const index = sorted.findIndex((i) => i.id === item.id);
+    const index = sorted.findIndex((i) => i._id === item._id);
     const swapIndex = direction === 'up' ? index - 1 : index + 1;
     const swapItem = sorted[swapIndex];
     if (!swapItem) return;
 
     try {
-      await Promise.all([galleryApi.reorder(item.id, swapItem.order), galleryApi.reorder(swapItem.id, item.order)]);
+      await Promise.all([galleryApi.reorder(item._id, swapItem.order), galleryApi.reorder(swapItem._id, item.order)]);
       load();
     } catch (err) {
       if (err instanceof ApiClientError || err instanceof ApiNetworkError) showToast(err.message, 'error');
@@ -68,7 +68,7 @@ export default function GalleryAdminPage() {
   async function handleDelete() {
     if (!deletingItem) return;
     try {
-      await galleryApi.remove(deletingItem.id);
+      await galleryApi.remove(deletingItem._id);
       showToast('Deleted.', 'success');
       load();
     } catch (err) {
