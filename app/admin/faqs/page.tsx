@@ -35,7 +35,9 @@ export default function FaqsAdminPage() {
       if (id) {
         await faqsApi.update(id, input);
       } else {
-        await faqsApi.create({ ...input, order: faqs.length, active: true });
+        // createFaq's Joi schema (faq.validation.js) only accepts
+        // question/answer — no order/isActive field exists on create at all.
+        await faqsApi.create(input);
       }
       showToast('FAQ saved.', 'success');
       load();
@@ -47,7 +49,7 @@ export default function FaqsAdminPage() {
 
   async function handleToggleActive(faq: Faq) {
     try {
-      await faqsApi.update(faq.id, { active: !faq.active });
+      await faqsApi.update(faq._id, { isActive: !faq.isActive });
       load();
     } catch (err) {
       if (err instanceof ApiClientError || err instanceof ApiNetworkError) showToast(err.message, 'error');
@@ -56,13 +58,13 @@ export default function FaqsAdminPage() {
 
   async function handleMove(faq: Faq, direction: 'up' | 'down') {
     const sorted = [...faqs].sort((a, b) => a.order - b.order);
-    const index = sorted.findIndex((f) => f.id === faq.id);
+    const index = sorted.findIndex((f) => f._id === faq._id);
     const swapIndex = direction === 'up' ? index - 1 : index + 1;
     const swapFaq = sorted[swapIndex];
     if (!swapFaq) return;
 
     try {
-      await Promise.all([faqsApi.reorder(faq.id, swapFaq.order), faqsApi.reorder(swapFaq.id, faq.order)]);
+      await Promise.all([faqsApi.reorder(faq._id, swapFaq.order), faqsApi.reorder(swapFaq._id, faq.order)]);
       load();
     } catch (err) {
       if (err instanceof ApiClientError || err instanceof ApiNetworkError) showToast(err.message, 'error');
@@ -72,7 +74,7 @@ export default function FaqsAdminPage() {
   async function handleDelete() {
     if (!deleting) return;
     try {
-      await faqsApi.remove(deleting.id);
+      await faqsApi.remove(deleting._id);
       showToast('FAQ deleted.', 'success');
       load();
     } catch (err) {
