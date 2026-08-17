@@ -28,7 +28,7 @@ export function FaqEditForm({ faq, open, onSave, onClose }: FaqEditFormProps) {
     e.preventDefault();
     setSaving(true);
     try {
-      await onSave({ question, answer }, faq?.id);
+      await onSave({ question, answer }, faq?._id);
       onClose();
     } finally {
       setSaving(false);

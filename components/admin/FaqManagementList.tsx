@@ -32,15 +32,15 @@ export function FaqManagementList({ faqs, onMove, onEdit, onToggleActive, onDele
         </thead>
         <tbody>
           {sorted.map((faq, i) => (
-            <tr key={faq.id}>
+            <tr key={faq._id}>
               <td className={styles.questionCell}>{faq.question}</td>
               <td>
                 <button
                   type="button"
-                  className={`${styles.statusPill} ${faq.active ? styles.active : styles.inactive}`}
+                  className={`${styles.statusPill} ${faq.isActive ? styles.active : styles.inactive}`}
                   onClick={() => onToggleActive(faq)}
                 >
-                  {faq.active ? 'Active' : 'Inactive'}
+                  {faq.isActive ? 'Active' : 'Inactive'}
                 </button>
               </td>
               <td className={styles.actionsCell}>

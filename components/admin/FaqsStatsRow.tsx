@@ -2,7 +2,7 @@ import type { Faq } from '@/types/api';
 import styles from './FaqsStatsRow.module.css';
 
 export function FaqsStatsRow({ faqs }: { faqs: Faq[] }) {
-  const activeCount = faqs.filter((f) => f.active).length;
+  const activeCount = faqs.filter((f) => f.isActive).length;
 
   const stats = [
     { key: 'total', icon: <QuestionIcon />, accent: styles.icon_navy, label: 'Total FAQs', value: faqs.length },
