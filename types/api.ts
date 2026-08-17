@@ -185,13 +185,16 @@ export interface GalleryItem {
   isActive: boolean;
 }
 
+// No toJSON/virtuals transform on testimonial.model.js, so responses carry
+// raw `_id`. COURSE_GRADE (shared/constants/enums.js) is only {E, D, C, B} —
+// no A — same enum courses use.
 export interface Testimonial {
-  id: string;
-  name: string;
-  grade: string;
+  _id: string;
+  studentName: string;
+  courseGrade: 'E' | 'D' | 'C' | 'B';
   quote: string;
-  photoUrl?: string;
-  featured: boolean;
+  photoUrl: string | null; // set server-side from an uploaded file, never sent by the client as text
+  isFeatured: boolean;
 }
 
 export interface Faq {
