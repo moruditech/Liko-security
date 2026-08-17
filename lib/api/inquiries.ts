@@ -10,5 +10,5 @@ export const inquiriesApi = {
     fetcher.get<Paginated<Inquiry>>(`/admin/inquiries?${new URLSearchParams(params as Record<string, string>)}`),
   get: (id: string) => fetcher.get<Inquiry>(`/admin/inquiries/${id}`),
   // Status auto-flips to 'replied' server-side on reply, per TAD §12.8.
-  reply: (id: string, body: string) => fetcher.post<Inquiry>(`/admin/inquiries/${id}/reply`, { body }),
+  reply: (id: string, message: string) => fetcher.post<Inquiry>(`/admin/inquiries/${id}/reply`, { message }),
 };
