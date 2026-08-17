@@ -9,7 +9,7 @@ interface UserEditFormProps {
   user: StaffUser | null;
   roles: Role[];
   open: boolean;
-  onSave: (input: { name: string; email: string; role: string }, id?: string) => Promise<void>;
+  onSave: (input: { name: string; email: string; role: string; password?: string }, id?: string) => Promise<void>;
   onClose: () => void;
 }
 
@@ -17,12 +17,14 @@ export function UserEditForm({ user, roles, open, onSave, onClose }: UserEditFor
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
+  const [password, setPassword] = useState('');
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     setName(user?.name ?? '');
     setEmail(user?.email ?? '');
     setRole(user?.role.id ?? roles[0]?.id ?? '');
+    setPassword('');
   }, [user, open, roles]);
 
   if (!open) return null;
@@ -31,7 +33,9 @@ export function UserEditForm({ user, roles, open, onSave, onClose }: UserEditFor
     e.preventDefault();
     setSaving(true);
     try {
-      await onSave({ name, email, role }, user?.id);
+      // updateUser's Joi schema (user.validation.js) has no password field at
+      // all — only sent on create, never on edit.
+      await onSave(user ? { name, email, role } : { name, email, role, password }, user?.id);
       onClose();
     } finally {
       setSaving(false);
@@ -67,6 +71,21 @@ export function UserEditForm({ user, roles, open, onSave, onClose }: UserEditFor
             ))}
           </select>
         </div>
+
+        {!user && (
+          <div className={modalStyles.fieldGroup}>
+            <label htmlFor="userPassword">Password</label>
+            <input
+              id="userPassword"
+              type="password"
+              required
+              minLength={10}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <p className={modalStyles.hint}>At least 10 characters. They can change it after signing in.</p>
+          </div>
+        )}
 
         <div className={modalStyles.actions}>
           <button type="button" onClick={onClose} className={modalStyles.cancel}>

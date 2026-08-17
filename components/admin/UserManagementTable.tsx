@@ -5,9 +5,10 @@ interface UserManagementTableProps {
   users: StaffUser[];
   onEdit: (user: StaffUser) => void;
   onDeactivate: (user: StaffUser) => void;
+  onReactivate: (user: StaffUser) => void;
 }
 
-export function UserManagementTable({ users, onEdit, onDeactivate }: UserManagementTableProps) {
+export function UserManagementTable({ users, onEdit, onDeactivate, onReactivate }: UserManagementTableProps) {
   if (users.length === 0) {
     return (
       <div className={styles.card}>
@@ -45,9 +46,13 @@ export function UserManagementTable({ users, onEdit, onDeactivate }: UserManagem
                 <button type="button" className={styles.textButton} onClick={() => onEdit(user)}>
                   Edit
                 </button>
-                {user.active && (
+                {user.active ? (
                   <button type="button" className={styles.deactivateButton} onClick={() => onDeactivate(user)}>
                     Deactivate
+                  </button>
+                ) : (
+                  <button type="button" className={styles.textButton} onClick={() => onReactivate(user)}>
+                    Reactivate
                   </button>
                 )}
               </td>
