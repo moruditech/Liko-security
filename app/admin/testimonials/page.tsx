@@ -30,15 +30,15 @@ export default function TestimonialsAdminPage() {
 
   useEffect(load, []);
 
-  async function handleSave(input: Omit<Testimonial, 'id'>, id?: string) {
+  async function handleSave(form: FormData, id?: string) {
     try {
       // Full-field form maps cleanly to a full replace (PUT) for edits.
       // PATCH remains available in testimonialsApi.update for partial edits
       // elsewhere (e.g. a quick featured-toggle action), not used by this form.
       if (id) {
-        await testimonialsApi.replace(id, input);
+        await testimonialsApi.replace(id, form);
       } else {
-        await testimonialsApi.create(input);
+        await testimonialsApi.create(form);
       }
       showToast('Testimonial saved.', 'success');
       load();
@@ -51,7 +51,7 @@ export default function TestimonialsAdminPage() {
   async function handleDelete() {
     if (!deleting) return;
     try {
-      await testimonialsApi.remove(deleting.id);
+      await testimonialsApi.remove(deleting._id);
       showToast('Testimonial deleted.', 'success');
       load();
     } catch (err) {
