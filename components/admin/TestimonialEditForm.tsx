@@ -8,28 +8,27 @@ import styles from './TestimonialEditForm.module.css';
 interface TestimonialEditFormProps {
   testimonial: Testimonial | null;
   open: boolean;
-  onSave: (input: Omit<Testimonial, 'id'>, id?: string) => Promise<void>;
+  onSave: (form: FormData, id?: string) => Promise<void>;
   onClose: () => void;
 }
 
-const EMPTY: Omit<Testimonial, 'id'> = { name: '', grade: '', quote: '', photoUrl: '', featured: false };
+// COURSE_GRADE (shared/constants/enums.js) — only these four, no 'A'.
+const GRADE_OPTIONS = ['E', 'D', 'C', 'B'] as const;
 
 export function TestimonialEditForm({ testimonial, open, onSave, onClose }: TestimonialEditFormProps) {
-  const [form, setForm] = useState<Omit<Testimonial, 'id'>>(EMPTY);
+  const [studentName, setStudentName] = useState('');
+  const [courseGrade, setCourseGrade] = useState<(typeof GRADE_OPTIONS)[number]>('E');
+  const [quote, setQuote] = useState('');
+  const [isFeatured, setIsFeatured] = useState(false);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    setForm(
-      testimonial
-        ? {
-            name: testimonial.name,
-            grade: testimonial.grade,
-            quote: testimonial.quote,
-            photoUrl: testimonial.photoUrl ?? '',
-            featured: testimonial.featured,
-          }
-        : EMPTY
-    );
+    setStudentName(testimonial?.studentName ?? '');
+    setCourseGrade((testimonial?.courseGrade as (typeof GRADE_OPTIONS)[number]) ?? 'E');
+    setQuote(testimonial?.quote ?? '');
+    setIsFeatured(testimonial?.isFeatured ?? false);
+    setPhotoFile(null);
   }, [testimonial, open]);
 
   if (!open) return null;
@@ -38,7 +37,13 @@ export function TestimonialEditForm({ testimonial, open, onSave, onClose }: Test
     e.preventDefault();
     setSaving(true);
     try {
-      await onSave(form, testimonial?.id);
+      const form = new FormData();
+      form.append('studentName', studentName);
+      form.append('courseGrade', courseGrade);
+      form.append('quote', quote);
+      form.append('isFeatured', String(isFeatured));
+      if (photoFile) form.append('photo', photoFile); // multer field name, testimonial.routes.js
+      await onSave(form, testimonial?._id);
       onClose();
     } finally {
       setSaving(false);
@@ -55,43 +60,39 @@ export function TestimonialEditForm({ testimonial, open, onSave, onClose }: Test
         <h2>{testimonial ? 'Edit testimonial' : 'New testimonial'}</h2>
 
         <div className={modalStyles.fieldGroup}>
-          <label htmlFor="tName">Name</label>
-          <input id="tName" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+          <label htmlFor="tStudentName">Name</label>
+          <input id="tStudentName" required value={studentName} onChange={(e) => setStudentName(e.target.value)} />
         </div>
 
         <div className={modalStyles.fieldGroup}>
-          <label htmlFor="tGrade">Grade</label>
-          <input id="tGrade" required value={form.grade} onChange={(e) => setForm({ ...form, grade: e.target.value })} />
+          <label htmlFor="tCourseGrade">Grade</label>
+          <select
+            id="tCourseGrade"
+            required
+            value={courseGrade}
+            onChange={(e) => setCourseGrade(e.target.value as (typeof GRADE_OPTIONS)[number])}
+          >
+            {GRADE_OPTIONS.map((g) => (
+              <option key={g} value={g}>
+                Grade {g}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className={modalStyles.fieldGroup}>
           <label htmlFor="tQuote">Quote</label>
-          <textarea
-            id="tQuote"
-            required
-            rows={4}
-            value={form.quote}
-            onChange={(e) => setForm({ ...form, quote: e.target.value })}
-          />
+          <textarea id="tQuote" required rows={4} value={quote} onChange={(e) => setQuote(e.target.value)} />
         </div>
 
         <div className={modalStyles.fieldGroup}>
-          <label htmlFor="tPhotoUrl">Photo URL (optional)</label>
-          <input
-            id="tPhotoUrl"
-            type="url"
-            placeholder="https://..."
-            value={form.photoUrl}
-            onChange={(e) => setForm({ ...form, photoUrl: e.target.value })}
-          />
+          <label htmlFor="tPhoto">Photo (optional)</label>
+          <input id="tPhoto" type="file" accept="image/jpeg,image/png" onChange={(e) => setPhotoFile(e.target.files?.[0] ?? null)} />
+          {testimonial?.photoUrl && !photoFile && <p className={modalStyles.hint}>Leave blank to keep the current photo.</p>}
         </div>
 
         <label className={styles.checkboxRow}>
-          <input
-            type="checkbox"
-            checked={form.featured}
-            onChange={(e) => setForm({ ...form, featured: e.target.checked })}
-          />
+          <input type="checkbox" checked={isFeatured} onChange={(e) => setIsFeatured(e.target.checked)} />
           Featured
         </label>
 

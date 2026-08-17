@@ -30,15 +30,15 @@ export function TestimonialManagementList({ testimonials, onEdit, onDelete }: Te
         </thead>
         <tbody>
           {testimonials.map((t) => (
-            <tr key={t.id}>
-              <td className={styles.nameCell}>{t.name}</td>
-              <td>{t.grade}</td>
+            <tr key={t._id}>
+              <td className={styles.nameCell}>{t.studentName}</td>
+              <td>{t.courseGrade}</td>
               <td className={styles.quoteCell}>
                 {t.quote.slice(0, 60)}
                 {t.quote.length > 60 ? '...' : ''}
               </td>
               <td>
-                {t.featured ? (
+                {t.isFeatured ? (
                   <span className={`${styles.pill} ${styles.featured}`}>Featured</span>
                 ) : (
                   <span className={styles.pill}>Not featured</span>

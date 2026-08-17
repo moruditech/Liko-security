@@ -2,8 +2,8 @@ import type { Testimonial } from '@/types/api';
 import styles from './TestimonialsStatsRow.module.css';
 
 export function TestimonialsStatsRow({ testimonials }: { testimonials: Testimonial[] }) {
-  const featuredCount = testimonials.filter((t) => t.featured).length;
-  const gradeCount = new Set(testimonials.map((t) => t.grade)).size;
+  const featuredCount = testimonials.filter((t) => t.isFeatured).length;
+  const gradeCount = new Set(testimonials.map((t) => t.courseGrade)).size;
 
   const stats = [
     { key: 'total', icon: <QuoteIcon />, accent: styles.icon_navy, label: 'Total testimonials', value: testimonials.length },

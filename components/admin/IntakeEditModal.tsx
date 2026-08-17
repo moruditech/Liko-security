@@ -14,7 +14,8 @@ interface IntakeEditModalProps {
 // Same PSIRA grade set used by CourseEditModal — intakes reference grades
 // directly (applicableGrades: string[] on intake.model.js), there is no
 // course reference on an intake at all.
-const GRADE_OPTIONS = ['E', 'D', 'C', 'B', 'A'];
+// COURSE_GRADE (shared/constants/enums.js) — confirmed only {E, D, C, B}, no 'A'.
+const GRADE_OPTIONS = ['E', 'D', 'C', 'B'];
 
 const EMPTY: Omit<Intake, 'id'> = { title: '', applicableGrades: [], startDate: '', capacity: null, isActive: true };
 
