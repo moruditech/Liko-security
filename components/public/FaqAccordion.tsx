@@ -9,7 +9,7 @@ export function FaqAccordion({ faqs }: { faqs: Faq[] }) {
       <h2>Frequently asked questions</h2>
       <div className={styles.list}>
         {faqs.map((faq) => (
-          <details key={faq.id} className={styles.item}>
+          <details key={faq._id} className={styles.item}>
             <summary>{faq.question}</summary>
             <p>{faq.answer}</p>
           </details>
