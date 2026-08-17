@@ -242,6 +242,7 @@ export interface Inquiry {
 export interface StaffUser {
   id: string;
   name: string;
+  phone: string | null;
   email: string;
   role: { id: string; name: string };
   active: boolean;
