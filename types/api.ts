@@ -197,12 +197,13 @@ export interface Testimonial {
   isFeatured: boolean;
 }
 
+// No toJSON/virtuals transform on faq.model.js, so responses carry raw `_id`.
 export interface Faq {
-  id: string;
+  _id: string;
   question: string;
   answer: string;
   order: number;
-  active: boolean;
+  isActive: boolean;
 }
 
 export interface Announcement {
