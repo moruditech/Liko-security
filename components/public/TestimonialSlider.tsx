@@ -35,8 +35,8 @@ export function TestimonialSlider({ testimonials }: { testimonials: Testimonial[
               )}
             </div>
             <div>
-              <strong>{current.name}</strong>
-              <span>Grade {current.grade} Graduate</span>
+              <strong>{current.studentName}</strong>
+              <span>Grade {current.courseGrade} Graduate</span>
             </div>
           </div>
 
@@ -44,7 +44,7 @@ export function TestimonialSlider({ testimonials }: { testimonials: Testimonial[
             <div className={styles.dots} role="tablist" aria-label="Choose testimonial">
               {testimonials.map((t, i) => (
                 <button
-                  key={t.id}
+                  key={t._id}
                   type="button"
                   role="tab"
                   aria-selected={i === index}
