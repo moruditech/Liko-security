@@ -202,6 +202,16 @@
   align-items: center;
   gap: var(--space-8);
   min-width: 0;
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--radius-sm);
+  padding: var(--space-8);
+  margin: calc(var(--space-8) * -1);
+}
+
+.userBlock:hover,
+.userBlock:focus-visible {
+  background: color-mix(in srgb, var(--liko-paper) 12%, transparent);
 }
 
 .sidebar[data-collapsed='true'] .userBlock {

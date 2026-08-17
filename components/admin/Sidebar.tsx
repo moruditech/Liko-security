@@ -165,7 +165,7 @@ export function Sidebar() {
         </nav>
 
         <div className={styles.footer}>
-          <div className={styles.userBlock}>
+          <Link href="/admin/profile" className={styles.userBlock}>
             <span className={styles.avatar} aria-hidden="true">
               {user ? getInitials(user.name) : ''}
             </span>
@@ -174,7 +174,7 @@ export function Sidebar() {
               <span className={styles.userRole}>{user?.role}</span>
             </span>
             <ChevronDownIcon className={styles.userChevron} />
-          </div>
+          </Link>
           <button type="button" className={styles.signOutBtn} onClick={() => logout()}>
             <LogOutIcon />
             <span className={styles.signOutLabel}>Sign out</span>
