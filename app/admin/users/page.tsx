@@ -36,12 +36,12 @@ export default function UsersAdminPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function handleSave(input: { name: string; email: string; role: string }, id?: string) {
+  async function handleSave(input: { name: string; email: string; role: string; password?: string }, id?: string) {
     try {
       if (id) {
         await usersApi.update(id, input);
       } else {
-        await usersApi.create(input);
+        await usersApi.create(input as { name: string; email: string; role: string; password: string });
       }
       showToast('Staff member saved.', 'success');
       load();
@@ -63,6 +63,16 @@ export default function UsersAdminPage() {
       if (err instanceof ApiClientError || err instanceof ApiNetworkError) showToast(err.message, 'error');
     } finally {
       setDeactivating(null);
+    }
+  }
+
+  async function handleReactivate(user: StaffUser) {
+    try {
+      await usersApi.reactivate(user.id);
+      showToast('Staff member reactivated.', 'success');
+      load();
+    } catch (err) {
+      if (err instanceof ApiClientError || err instanceof ApiNetworkError) showToast(err.message, 'error');
     }
   }
 
@@ -88,7 +98,12 @@ export default function UsersAdminPage() {
       <UsersStatsRow users={users} />
 
       <div className={styles.listRow}>
-        <UserManagementTable users={users} onEdit={(u) => { setEditing(u); setModalOpen(true); }} onDeactivate={setDeactivating} />
+        <UserManagementTable
+          users={users}
+          onEdit={(u) => { setEditing(u); setModalOpen(true); }}
+          onDeactivate={setDeactivating}
+          onReactivate={handleReactivate}
+        />
       </div>
 
       <UserEditForm user={editing} roles={roles} open={modalOpen} onSave={handleSave} onClose={() => setModalOpen(false)} />
